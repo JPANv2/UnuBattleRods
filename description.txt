@@ -1,0 +1,18 @@
+This mod adds a new class of Weapons, the Battle Rods, which are fishing rods that can attach to enemies (NPCs or Players with PVP enabled) and deliver damage over time. You can also fish with them.
+Some rods only apply the damage over time, while others have secondary effects when stuck to the enemy and may have effects when simply lying in liquid.
+
+This mod adds Battle Rods for each of the main tiers, from the weak Wooden Battle Rod to the really powerful Solar, Nebula, Stardust and Vortex Battle Rods. 
+It also includes several accessories that enhance the fishing class, from multi-lures to cast more than a bobber at once, hooks and metronomes that change your damage over time and fishing wires.
+
+*Details on the Fishing Class*
+To start using Battle rods, cast them as you would a normal fishing rod towards the target enemy. When the bob hits, you can wait for the bob to kill the enemy, or you can try and reel in the enemy by clicking and holding the left mouse button. This will either pull the enemy towards you (or you get pulled towards the enemy) or break the line. 
+Pressing the right mouse button will release the target from your hold, allowing you to recast towards any other enemy.
+
+When choosing a Battle Rod, there are some things to consider:
+- Damage is divided equaly between bobbers, so having more bobbers reduces the damage each bobber deals, but you can stick more than one bobber on the same enemy, so the difference is only visible if you manage to attach to multiple enemies.
+- The bob time, or the time that passes between each damage being applied. Most early game Rods have 2 second bob times, but late game rods can go as low as 15 in game ticks in the default bob time.
+- Tensile strength dictates how fast you and the enemy can be moving apart before reeling in breaks the line.
+- Reel speed increase tells you how fast the enemy will go towards you (or you towards the enemy) when reeling in continuously.
+- The hidden size multiplier (that usually increases slighty with improving rods) controls how big the enemy you try to reel in will actually come towards you. Enemies bigger than that will drag you towards them.
+
+Fishing damage is calculated based on the biggest stat increase from the vanilla game, so if you are equipped with a 20% ranged increase, and no other damage increases, the rod will be receiving 20% increased damage, and still add all fishing damage buffs you might have.
