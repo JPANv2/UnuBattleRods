@@ -42,6 +42,7 @@ namespace UnuBattleRods.Items.Accessories.Knives
             recipe.AddIngredient(mod, "EnergyAmalgamate", 3);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
     }
 }

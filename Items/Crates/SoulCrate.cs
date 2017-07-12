@@ -57,7 +57,7 @@ namespace UnuBattleRods.Items.Crates
         {
            for(int i = 0; i< 50; i++)
             {
-                if(player.inventory[i].type == mod.ItemType("SpectreBattlerod"))
+                if(player.inventory[i].type == mod.ItemType("SpectreBattlerod") || player.inventory[i].type == mod.ItemType("LifeforceBattlerod"))
                 {
                     return true;
                 }

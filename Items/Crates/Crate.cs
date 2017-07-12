@@ -41,6 +41,11 @@ namespace UnuBattleRods.Items.Crates
                 spawnHardmodeOres(ref id, ref stack);
                 player.QuickSpawnItem(id, stack);
             }
+            if(Main.rand.Next(16) == 0)
+            {
+                spawnGems(ref id, ref stack);
+                player.QuickSpawnItem(id, stack);
+            }
             spawnHealthPotion(ref id, ref stack);
             if (id == ItemID.LesserHealingPotion && LesserReplacement > 0)
                 id = LesserReplacement;
@@ -244,6 +249,41 @@ namespace UnuBattleRods.Items.Crates
                 stack = Main.rand.Next(3, 12);
             }
         }
+
+        public static void spawnGems(ref int id, ref int stack)
+        {
+            if (Main.rand.Next(16) == 0)
+            {
+                id = ItemID.Amber;
+            }
+            else
+            {
+
+                switch (Main.rand.Next(6))
+                {
+                    case 0:
+                        id = ItemID.Amethyst;
+                        break;
+                    case 1:
+                        id = ItemID.Topaz;
+                        break;
+                    case 2:
+                        id = ItemID.Emerald;
+                        break;
+                    case 3:
+                        id = ItemID.Sapphire;
+                        break;
+                    case 4:
+                        id = ItemID.Ruby;
+                        break;
+                    default:
+                        id = ItemID.Diamond;
+                        break;
+                }
+            }
+            stack = Main.rand.Next(5, 25);
+        }
+
 
         public static void spawnOres(ref int id, ref int stack)
         {

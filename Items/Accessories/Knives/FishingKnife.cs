@@ -41,6 +41,7 @@ namespace UnuBattleRods.Items.Accessories.Knives
             recipe.AddIngredient(mod, "StarMix", 6);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
     }
 }

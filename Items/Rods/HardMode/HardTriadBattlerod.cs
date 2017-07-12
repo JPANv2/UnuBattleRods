@@ -9,7 +9,7 @@ namespace UnuBattleRods.Items.Rods.HardMode
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hard Triad Battle Rod");
-            Tooltip.SetDefault("Good against Bosses, but best against regular en enemies.\nGenerates tornadoes when wet and inflicts Frost Fire.");
+            Tooltip.SetDefault("Good against Bosses, but best against regular enemies.\nGenerates tornadoes when wet and inflicts Frost Fire.");
         }
 
         public override void SetDefaults()
