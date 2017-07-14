@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace UnuBattleRods.Items.Accessories.Other
@@ -29,7 +30,11 @@ namespace UnuBattleRods.Items.Accessories.Other
 
         public override void AddRecipes()
         {
-            base.AddRecipes();
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Cobweb, 8);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
 
         public override void UpdateEquip(Player player)
