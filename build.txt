@@ -6,5 +6,5 @@ displayName = Unusacies' Battle Rods
 hideCode = false
 hideResources = false
 includeSource = true
-buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, .git\*
 includePDB = false

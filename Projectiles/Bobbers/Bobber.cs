@@ -33,12 +33,12 @@ namespace UnuBattleRods.Projectiles.Bobbers
         public override void SetDefaults()
         {
             base.projectile.CloneDefaults(361);
-            timeSinceLastBob = -1;
+            timeSinceLastBob = -9999;
         }
 
         public override void AI()
         {
-            if(timeSinceLastBob < 0)
+            if(timeSinceLastBob < -9998)
             {
                 timeSinceLastBob = (short)Main.rand.Next(1, bobTime() + 1);
             }
@@ -92,6 +92,11 @@ namespace UnuBattleRods.Projectiles.Bobbers
                                     Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod).beingReeled = true;
                                     tryMoveTarget(Main.npc[npc]);
                                 }
+
+                                if (Main.netMode != 0)
+                                {
+                                    NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                                }
                                 applyDamageAndDebuffs(Main.npc[npc], Main.player[projectile.owner]);
                             }
                             else
@@ -103,12 +108,14 @@ namespace UnuBattleRods.Projectiles.Bobbers
                                 breakFree();
                                 if (Main.netMode != 0)
                                 {
+                                    /*
                                     ModPacket pk = mod.GetPacket();
                                     pk.Write((byte)2);
                                     pk.Write((ushort)(projectile.whoAmI));
                                     pk.Write(npcIndex);
                                     pk.Write(projectile.ai[0]);
-                                    pk.Send();
+                                    pk.Send();*/
+                                    NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                                 }
                             }
                             
@@ -118,16 +125,21 @@ namespace UnuBattleRods.Projectiles.Bobbers
                                 projectile.ai[0] = 0;
                                 if (Main.netMode != 0)
                                 {
+                                    /*
                                     ModPacket pk = mod.GetPacket();
                                     pk.Write((byte)2);
                                     pk.Write((ushort)(projectile.whoAmI));
                                     pk.Write(npcIndex);
                                     pk.Write(projectile.ai[0]);
-                                    pk.Send();
+                                    pk.Send();*/
+                                    NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                                 }
                                 checkEntityForMove(Main.player[projectile.owner], Main.npc[npc]);
                             }
 
+                        }else
+                        {
+                            applyDamageAndDebuffs(Main.npc[npc], Main.player[projectile.owner]);
                         }
                         /*
                         else
@@ -162,49 +174,63 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     }
                     if (projectile.ai[0] == 1) //retracting line
                     {
-                        if (Main.mouseLeft && reelTime() > 0)
+                        if (Main.netMode != 2 && Main.myPlayer == projectile.owner)
                         {
-                            if (timeSinceLastBob > 0)
-                                timeSinceLastBob--;
+                            if (Main.mouseLeft && reelTime() > 0)
+                            {
+                                if (timeSinceLastBob > 0)
+                                    timeSinceLastBob--;
 
-                            if (!Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod).beingReeled)
-                            {
-                                Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod).beingReeled = true;
-                                tryMoveTarget(Main.player[player]);
+                                if (!Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod).beingReeled)
+                                {
+                                    Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod).beingReeled = true;
+                                    tryMoveTarget(Main.player[player]);
+                                }
+                                if (Main.netMode != 0)
+                                {
+                                    NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                                }
+                                applyDamageAndDebuffs(Main.player[player], Main.player[projectile.owner]);
                             }
+                            else
+                            {
+                                cummulativeSpeed = 0.0f;
+                            }
+                            if (Main.mouseRight)
+                            {
+                                breakFree();
+                                if (Main.netMode != 0)
+                                {
+                                    /*
+                                    ModPacket pk = mod.GetPacket();
+                                    pk.Write((byte)2);
+                                    pk.Write((ushort)(projectile.whoAmI));
+                                    pk.Write(npcIndex);
+                                    pk.Write(projectile.ai[0]);
+                                    pk.Send();*/
+                                    NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                                }
+                            }
+                            if (!Main.mouseLeft && !Main.mouseRight)
+                            {
+                                //Main.NewText("Reset to 0, no mouseLeft;");
+                                projectile.ai[0] = 0;
+                                //ModPacket pk = mod.GetPacket();
+                                if (Main.netMode != 0)
+                                {
+                                    /*  pk.Write((byte)2);
+                                      pk.Write((ushort)(projectile.whoAmI));
+                                      pk.Write(npcIndex);
+                                      pk.Write(projectile.ai[0]);
+                                      pk.Send();*/
+
+                                    NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                                }
+                                checkEntityForMove(Main.player[projectile.owner], Main.player[player]);
+                            }
+                        }else
+                        {
                             applyDamageAndDebuffs(Main.player[player], Main.player[projectile.owner]);
-                        }
-                        else
-                        {
-                            cummulativeSpeed = 0.0f;
-                        }
-                        if (Main.mouseRight)
-                        {
-                            breakFree();
-                            if (Main.netMode != 0)
-                            {
-                                ModPacket pk = mod.GetPacket();
-                                pk.Write((byte)2);
-                                pk.Write((ushort)(projectile.whoAmI));
-                                pk.Write(npcIndex);
-                                pk.Write(projectile.ai[0]);
-                                pk.Send();
-                            }
-                        }
-                        if (!Main.mouseLeft && !Main.mouseRight)
-                        {
-                            //Main.NewText("Reset to 0, no mouseLeft;");
-                            projectile.ai[0] = 0;
-                            ModPacket pk = mod.GetPacket();
-                            if (Main.netMode != 0)
-                            {
-                                pk.Write((byte)2);
-                                pk.Write((ushort)(projectile.whoAmI));
-                                pk.Write(npcIndex);
-                                pk.Write(projectile.ai[0]);
-                                pk.Send();
-                            }
-                            checkEntityForMove(Main.player[projectile.owner], Main.player[player]);
                         }
                     }
                     else
@@ -304,12 +330,14 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
             if (Main.netMode != 0)
             {
+                /*
                 ModPacket pk = mod.GetPacket();
                 pk.Write((byte)2);
                 pk.Write((ushort)(projectile.whoAmI));
                 pk.Write(npcIndex);
                 pk.Write(projectile.ai[0]);
-                pk.Send();
+                pk.Send();*/
+                NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
             /*  if(projectile.damage > 0)
               {
@@ -378,15 +406,8 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 }
 
                 if (Main.netMode != 0)
-                {
-                    if (crit)
-                    {
-                        NetMessage.SendData(28, -1, -1, null, npc.whoAmI, (float)dmg, knockback, (float)dir, 1, 0, 0);
-                    }
-                    else
-                    {
-                        NetMessage.SendData(28, -1, -1, null, npc.whoAmI, (float)dmg, knockback, (float)dir, 0, 0, 0);
-                    }
+                {                    
+                    NetMessage.SendData(28, -1, -1, null, npc.whoAmI, (float)dmg, knockback, (float)dir, crit? 1:0, 0, 0);
                 }
 
                 ProjectileLoader.OnHitNPC(projectile, npc, num25, knockback, crit);
@@ -418,12 +439,14 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
             if (Main.netMode != 0)
             {
+                /*
                 ModPacket pk = mod.GetPacket();
                 pk.Write((byte)2);
                 pk.Write((ushort)(projectile.whoAmI));
                 pk.Write(npcIndex);
                 pk.Write(projectile.ai[0]);
-                pk.Send();
+                pk.Send();*/
+                NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
             /* if(projectile.damage > 0)
              {
@@ -649,13 +672,15 @@ namespace UnuBattleRods.Projectiles.Bobbers
             projectile.Center = target.Center;
             if (Main.netMode != 0)
             {
+                /*
                 ModPacket p = mod.GetPacket();
                 p.Write((byte)0);
                 p.Write(npcIndex);
                 p.Write((ushort)(projectile.whoAmI));
                 p.Write((int)(projectile.Center.X));
                 p.Write((int)(projectile.Center.Y));
-                p.Send();
+                p.Send();*/
+                NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 

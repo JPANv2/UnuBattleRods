@@ -88,6 +88,16 @@ namespace UnuBattleRods.Projectiles.Bobbers.PostMoonLord
 
         private void shootBullets(Player player, Entity npc)
         {
+            int bulletCounter = 0;
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].type == ProjectileID.ChlorophyteBullet && Main.projectile[i].owner == projectile.owner)
+                {
+                    bulletCounter++;
+                }
+            }
+            if (bulletCounter >= 12)
+                return;
             int max = Main.rand.Next(1, 3);
             int proj = ProjectileID.ChlorophyteBullet;
             float kb = 0;

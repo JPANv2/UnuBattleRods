@@ -817,7 +817,7 @@ namespace UnuBattleRods
                 caughtType = mod.ItemType("ObsidianCrate");
                 return;
             }
-            if (fishingRod.type == mod.ItemType("VortexBattlerod")|| fishingRod.type == mod.ItemType("SolarBattlerod") || fishingRod.type == mod.ItemType("NebulaBattlerod") || fishingRod.type == mod.ItemType("StardustBattlerod"))
+            if (fishingRod.type == mod.ItemType("VortexBattlerod")|| fishingRod.type == mod.ItemType("SolarBattlerod") || fishingRod.type == mod.ItemType("NebulaBattlerod") || fishingRod.type == mod.ItemType("StardustBattlerod") || fishingRod.type == mod.ItemType("FractaliteBattlerod"))
             {
                 caughtType = mod.ItemType("LuminiteCrate");
                 return;
