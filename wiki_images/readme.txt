@@ -1,0 +1,1 @@
+This folder (and subfolders) are only for providing images to the Wiki hosted at github. It is not necessary to compile the mod.
