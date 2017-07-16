@@ -61,28 +61,28 @@ namespace UnuBattleRods.Items.Crates
         {
             if (!Main.hardMode)
             {
-                id = ItemID.LesserHealingPotion; stack = Main.rand.Next(3, 20);
+                id = ItemID.LesserHealingPotion; stack = Main.rand.Next(3, 21);
             }
             else if (!NPC.downedPlantBoss)
             {
                 if (Main.rand.Next(4) == 0)
                 {
-                    id = ItemID.GreaterHealingPotion; stack = Main.rand.Next(1, 8);
+                    id = ItemID.GreaterHealingPotion; stack = Main.rand.Next(1, 9);
                 }
                 else
                 {
-                    id = ItemID.HealingPotion; stack = Main.rand.Next(3, 20);
+                    id = ItemID.HealingPotion; stack = Main.rand.Next(3, 21);
                 }
             }
             else
             {
                 if (Main.rand.Next(4) == 0)
                 {
-                    id = ItemID.SuperHealingPotion; stack = Main.rand.Next(1, 8);
+                    id = ItemID.SuperHealingPotion; stack = Main.rand.Next(1, 9);
                 }
                 else
                 {
-                    id = ItemID.GreaterHealingPotion; stack = Main.rand.Next(3, 20);
+                    id = ItemID.GreaterHealingPotion; stack = Main.rand.Next(3, 21);
                 }
             }
         }
@@ -101,11 +101,11 @@ namespace UnuBattleRods.Items.Crates
             }
             else if (!NPC.downedPlantBoss)
             {
-                id = ItemID.GoldCoin; stack = Main.rand.Next(3, 12);
+                id = ItemID.GoldCoin; stack = Main.rand.Next(3, 13);
             }
             else
             {
-                id = ItemID.GoldCoin; stack = Main.rand.Next(5, 25);
+                id = ItemID.GoldCoin; stack = Main.rand.Next(5, 26);
             }
         }
 
@@ -142,7 +142,7 @@ namespace UnuBattleRods.Items.Crates
         {
             if (!Main.hardMode)
             {
-                switch (Main.rand.Next(6))
+                switch (Main.rand.Next(8))
                 {
                     case 0:
                         id = ItemID.MiningPotion;
@@ -158,6 +158,12 @@ namespace UnuBattleRods.Items.Crates
                         break;
                     case 4:
                         id = ItemID.SpelunkerPotion;
+                        break;
+                    case 5:
+                        id = ItemID.GillsPotion;
+                        break;
+                    case 6:
+                        id = ItemID.SwiftnessPotion;
                         break;
                     default:
                         id = ItemID.CalmingPotion;
@@ -209,10 +215,10 @@ namespace UnuBattleRods.Items.Crates
             }
             else
             {
-                switch (Main.rand.Next(11))
+                switch (Main.rand.Next(13))
                 {
                     case 0:
-                        id = ItemID.InfernoPotion;
+                        id = ItemID.MiningPotion;
                         break;
                     case 1:
                         id = ItemID.EndurancePotion;
@@ -236,17 +242,23 @@ namespace UnuBattleRods.Items.Crates
                         id = ItemID.GillsPotion;
                         break;
                     case 8:
-                        id = ItemID.BattlePotion;
+                        id = ItemID.SwiftnessPotion;
                         break;
                     case 9:
                         id = ItemID.HeartreachPotion;
+                        break;
+                    case 10:
+                        id = ItemID.InfernoPotion;
+                        break;
+                    case 11:
+                        id = ItemID.BattlePotion;
                         break;
                     default:
                         id = ItemID.CalmingPotion;
                         break;
 
                 }
-                stack = Main.rand.Next(3, 12);
+                stack = Main.rand.Next(3, 13);
             }
         }
 
@@ -281,7 +293,7 @@ namespace UnuBattleRods.Items.Crates
                         break;
                 }
             }
-            stack = Main.rand.Next(5, 25);
+            stack = Main.rand.Next(5, 26);
         }
 
 

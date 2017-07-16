@@ -31,6 +31,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod, "StarMix",3);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.Hook, 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

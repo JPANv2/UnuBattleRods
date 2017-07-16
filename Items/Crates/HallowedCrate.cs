@@ -51,7 +51,7 @@ namespace UnuBattleRods.Items.Crates
                 }
             }
 
-            player.QuickSpawnItem(ItemID.HallowedBar, Main.rand.Next(2, 11));
+            player.QuickSpawnItem(ItemID.HallowedBar, Main.rand.Next(2, 13));
             
             base.RightClick(player);
         }

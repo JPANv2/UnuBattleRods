@@ -24,12 +24,12 @@ namespace UnuBattleRods.Items.Crates
 
         public override void RightClick(Player player)
         {
-            player.QuickSpawnItem(ItemID.SoulofLight, Main.rand.Next(3, 15));
-            player.QuickSpawnItem(ItemID.SoulofNight, Main.rand.Next(3, 15));
+            player.QuickSpawnItem(ItemID.SoulofLight, Main.rand.Next(3, 16));
+            player.QuickSpawnItem(ItemID.SoulofNight, Main.rand.Next(3, 16));
 
             if(Main.rand.Next(3) == 0)
             {
-                player.QuickSpawnItem(ItemID.SoulofFlight, Main.rand.Next(3, 15));
+                player.QuickSpawnItem(ItemID.SoulofFlight, Main.rand.Next(3, 16));
             }
             if (Main.rand.Next(3) == 0 && NPC.downedMechBoss1)
             {

@@ -31,7 +31,6 @@ namespace UnuBattleRods.Items.Accessories.Wires
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Wire, 25);
             recipe.AddRecipeGroup("UnuBattleRods:Tier3Bars", 10);
-            recipe.AddIngredient(ItemID.GoldBar, 10);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

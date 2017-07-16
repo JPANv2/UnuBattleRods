@@ -24,7 +24,7 @@ namespace UnuBattleRods.Items.Crates
         public override void RightClick(Player player)
         {
 
-            player.QuickSpawnItem(ItemID.ShroomiteBar, Main.rand.Next(3, 16));
+            player.QuickSpawnItem(ItemID.ShroomiteBar, Main.rand.Next(3, 10));
             
             base.RightClick(player);
         }

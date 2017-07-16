@@ -70,7 +70,7 @@ namespace UnuBattleRods.Items.Crates
                 }
             }
 
-                player.QuickSpawnItem(ItemID.LunarOre, Main.rand.Next(8, 33));
+                player.QuickSpawnItem(ItemID.LunarOre, Main.rand.Next(4, 25));
 
             switch (Main.rand.Next(4))
             {

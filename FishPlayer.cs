@@ -812,7 +812,7 @@ namespace UnuBattleRods
                 caughtType = mod.ItemType("BeeCrate");
                 return;
             }
-            if ((liquid == 1 || liquid == -1)&& fishingRod.type == mod.ItemType("HellstoneBattlerod"))
+            if ((liquid != 2)&& fishingRod.type == mod.ItemType("HellstoneBattlerod"))
             {
                 caughtType = mod.ItemType("ObsidianCrate");
                 return;
