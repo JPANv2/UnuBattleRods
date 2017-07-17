@@ -29,7 +29,7 @@ namespace UnuBattleRods.Items.Crates
             }
             
 
-            if (Main.rand.Next(8) == 0)
+            if (Main.rand.Next(5) == 0)
             {
                 switch (Main.rand.Next(3))
                 {

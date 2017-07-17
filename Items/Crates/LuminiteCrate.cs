@@ -75,16 +75,16 @@ namespace UnuBattleRods.Items.Crates
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    player.QuickSpawnItem(ItemID.FragmentSolar, Main.rand.Next(2, 22));
+                    player.QuickSpawnItem(ItemID.FragmentSolar, Main.rand.Next(2, 21));
                     break;
                 case 1:
-                    player.QuickSpawnItem(ItemID.FragmentNebula, Main.rand.Next(2, 22));
+                    player.QuickSpawnItem(ItemID.FragmentNebula, Main.rand.Next(2, 21));
                     break;
                 case 2:
-                    player.QuickSpawnItem(ItemID.FragmentStardust, Main.rand.Next(2, 22));
+                    player.QuickSpawnItem(ItemID.FragmentStardust, Main.rand.Next(2, 21));
                     break;
                 default:
-                    player.QuickSpawnItem(ItemID.FragmentVortex, Main.rand.Next(2, 22));
+                    player.QuickSpawnItem(ItemID.FragmentVortex, Main.rand.Next(2, 21));
                     break;
             }
 
