@@ -29,6 +29,7 @@ namespace UnuBattleRods.Items.Rods.NormalMode
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Wood, 10);
+            recipe.anyWood = true;
             recipe.AddIngredient(ItemID.Cobweb, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 1);
