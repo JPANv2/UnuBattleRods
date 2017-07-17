@@ -7,6 +7,7 @@ Gold ~= Platinum
 Corrupt ~= Crimson
 Jungle
 Meteor
+Dungeon
 Hellstone
 Star Mix
 Edge
@@ -21,6 +22,7 @@ Frost
 Evil Rod of Darkness
 Evil Rod of Blood
 Hallowed
+Spooky
 Chlorophyte
 Turtle
 shroomite ~= Spectre
