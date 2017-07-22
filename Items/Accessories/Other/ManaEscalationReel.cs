@@ -34,7 +34,7 @@ namespace UnuBattleRods.Items.Accessories.Other
             recipe.AddIngredient(mod,"BobEscalationPotion", 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
-            base.AddRecipes();
+            recipe.AddRecipe();
         }
 
         public override void UpdateEquip(Player player)
