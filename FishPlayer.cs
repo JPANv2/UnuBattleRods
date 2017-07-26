@@ -230,7 +230,11 @@ namespace UnuBattleRods
                     manaShieldPercentageActual = manaShieldPercentage;
                 }
                 player.endurance += manaShieldPercentageActual;
-                player.statMana -= redirectDamageMax;
+                if(redirectDamageMax > 1)
+                {
+                    player.statMana -= redirectDamageMax;
+                    player.manaRegenDelay = (int)player.maxRegenDelay;
+                }
             }
         }
 
@@ -350,27 +354,49 @@ namespace UnuBattleRods
             return false;
         }
 
-        public override void PostUpdate()
+        public override void PostUpdateEquips()
         {
             updateLinkDamage();
             if (escalationFromMana && hasEscalationBobber())
             {
                 escalationTimer++;
-                if (player.statMana >= escalationManaCost)
+                if (player.statMana >= (int)((float)escalationManaCost * player.manaCost))
                 {
                     escalationBonus += escalationFromManaBonus;
                     escalationMax = Math.Max(escalationMax, escalationFromManaMax);
+                    if (escalationTimer % 60 == 0)
+                    {
+                        player.manaRegenDelay = (int)player.maxRegenDelay;
+                        player.statMana -= (int)((float)escalationManaCost * player.manaCost);
+                    }
                 }
-                if (escalationTimer % 60 == 0)
+                else
                 {
-                    player.statMana = Math.Max(player.statMana - escalationManaCost, 0);
+                    escalationTimer = 0;
                 }
             }
             else
             {
                 escalationTimer = 0;
             }
+        }
+
+        public Vector2 newSpeed = Vector2.Zero;
+        public Vector2 newCenter = new Vector2(-10000, -10000);
+
+        public override void PostUpdate()
+        {   
             int slot = getLargestDamageBonus();
+
+            if (newCenter.X > -10000 && newCenter.Y > -10000)
+            {
+                //Main.NewText("Position: " + newCenter.X +" : " + newCenter.Y + " ;");
+                if (WorldGen.InWorld((int)(newCenter.X / 16.0f), (int)(newCenter.Y / 16.0f))){
+                    player.Center = new Vector2(newCenter.X, newCenter.Y);
+                }
+               // player.velocity = new Vector2(newSpeed.X, newSpeed.Y);
+                newCenter = new Vector2(-10000, -10000);
+            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

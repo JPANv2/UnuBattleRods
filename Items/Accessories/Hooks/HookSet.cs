@@ -40,7 +40,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             recipe.AddRecipe();
 
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
             if (player.ZoneUnderworldHeight || player.ZoneSkyHeight) {
                 player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.3f;                

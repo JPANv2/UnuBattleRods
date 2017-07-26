@@ -37,7 +37,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             recipe.AddRecipe();
 
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<FishPlayer>(mod).bobberCrit += 10;   
         }

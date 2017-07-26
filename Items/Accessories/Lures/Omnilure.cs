@@ -26,7 +26,7 @@ namespace UnuBattleRods.Items.Accessories.Lures
             base.SetDefaults();
             item.value = Item.sellPrice(0, 0, 1, 0);
             item.rare = 4;
-            lures = -99999;
+            lures = -9999;
         }
 
         public override void AddRecipes()
@@ -39,9 +39,9 @@ namespace UnuBattleRods.Items.Accessories.Lures
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
-            base.UpdateAccessory(player, hideVisual);
+            base.UpdateEquip(player);
             player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.15f;
         }
     }

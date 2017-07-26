@@ -14,9 +14,6 @@ namespace UnuBattleRods.NPCs
    public class FishGlobalNPC : GlobalNPC
     {
 
-        public int isHooked = 0;
-        public int isSealed = 0;
-
         public override bool InstancePerEntity
         {
             get
@@ -24,6 +21,29 @@ namespace UnuBattleRods.NPCs
                 return true;
             }
         }
+
+        public int isHooked = 0;
+        public int isSealed = 0;
+
+        public Vector2 newSpeed = Vector2.Zero;
+        public Vector2 newCenter = new Vector2(-10000,-10000);
+
+        
+
+        public override void PostAI(NPC npc)
+        {
+            if(newCenter.X > -10000 && newCenter.Y > -10000)
+            {
+                if (WorldGen.InWorld((int)(newCenter.X / 16.0f), (int)(newCenter.Y / 16.0f)))
+                { 
+                    npc.Center = new Vector2(newCenter.X, newCenter.Y);
+                }
+                // npc.velocity = new Vector2(newSpeed.X, newSpeed.Y);
+                newCenter = new Vector2(-10000, -10000);
+            }
+        }
+
+       
 
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

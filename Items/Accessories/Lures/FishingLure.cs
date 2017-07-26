@@ -23,15 +23,26 @@ namespace UnuBattleRods.Items.Accessories.Lures
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
-			player.GetModPlayer<FishPlayer>(mod).multilineFishing += lures;
+            if ((lures < -128) || (player.GetModPlayer<FishPlayer>(mod).multilineFishing <= -128))
+            {
+                player.GetModPlayer<FishPlayer>(mod).multilineFishing = lures;
+            }else
+            {
+                player.GetModPlayer<FishPlayer>(mod).multilineFishing += lures;
+            }
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
             if (!base.CanEquipAccessory(player, slot))
                 return false;
+
+            if (player.armor[slot].modItem != null && player.armor[slot].modItem is FishingLure)
+            {
+                return true;
+            }
 
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {

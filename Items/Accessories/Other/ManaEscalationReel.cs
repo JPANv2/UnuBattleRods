@@ -53,6 +53,11 @@ namespace UnuBattleRods.Items.Accessories.Other
             if (!base.CanEquipAccessory(player, slot))
                 return false;
 
+            if (player.armor[slot].modItem != null && player.armor[slot].modItem is ManaEscalationReel)
+            {
+                return true;
+            }
+
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 if (player.armor[i].modItem != null && player.armor[i].modItem is ManaEscalationReel)

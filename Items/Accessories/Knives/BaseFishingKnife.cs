@@ -42,6 +42,11 @@ namespace UnuBattleRods.Items.Accessories.Knives
             if (!base.CanEquipAccessory(player, slot))
                 return false;
 
+            if (player.armor[slot].modItem != null && player.armor[slot].modItem is BaseFishingKnife)
+            {
+                return true;
+            }
+
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 if (player.armor[i].modItem != null && player.armor[i].modItem is BaseFishingKnife)

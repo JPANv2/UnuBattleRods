@@ -35,7 +35,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
             float ans = 0;
             int bobberCount = 0;

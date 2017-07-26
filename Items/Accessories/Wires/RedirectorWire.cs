@@ -35,7 +35,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<FishPlayer>(mod).linkDamage = true;
             player.GetModPlayer<FishPlayer>(mod).redirectThorns = true;   

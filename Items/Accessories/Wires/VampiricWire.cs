@@ -37,9 +37,9 @@ namespace UnuBattleRods.Items.Accessories.Wires
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).vampiricLinePercent = 0.10f;  
+            player.GetModPlayer<FishPlayer>(mod).vampiricLinePercent += 0.10f;  
         }
     }
 }

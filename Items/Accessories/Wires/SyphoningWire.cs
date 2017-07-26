@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<FishPlayer>(mod).syphonLinePercent = 0.10f;  
+            player.GetModPlayer<FishPlayer>(mod).syphonLinePercent += 0.10f;  
         }
     }
 }

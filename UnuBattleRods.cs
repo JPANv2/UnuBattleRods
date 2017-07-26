@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using UnuBattleRods.Items.Rods.HardMode;
 using UnuBattleRods.Items.Rods.NormalMode;
+using UnuBattleRods.NPCs;
 using UnuBattleRods.Projectiles.Bobbers;
 
 namespace UnuBattleRods
@@ -226,7 +228,73 @@ namespace UnuBattleRods
                         player.ManaEffect(syphon);
                     }
                 }
-            }catch (Exception ex)
+                if(i == 6)
+                {
+                    int who = reader.ReadInt16();
+                    float x = reader.ReadSingle();
+                    float y = reader.ReadSingle();
+                    //float xSpeed = reader.ReadSingle();
+                    //float ySpeed = reader.ReadSingle();
+
+                    if(who >= 0 && who < Main.npc.Length)
+                    {
+                        FishGlobalNPC npcGlobal = Main.npc[who].GetGlobalNPC<FishGlobalNPC>();
+                        //npcGlobal.newSpeed = new Vector2(xSpeed, ySpeed);
+                        npcGlobal.newCenter = new Vector2(x, y);
+                    }else if (who >= Main.npc.Length && who < Main.npc.Length + Main.player.Length)
+                    {
+                        FishPlayer p = Main.player[who - Main.npc.Length].GetModPlayer<FishPlayer>();
+                        //p.newSpeed = new Vector2(xSpeed, ySpeed);
+                        p.newCenter = new Vector2(x, y);
+                    }else
+                    {
+                        return;
+                    }
+                    if(Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket pk = GetPacket();
+                        pk.Write((byte)6);
+                        pk.Write((short)who);
+                        pk.Write(x);
+                        pk.Write(y);
+                       // pk.Write(xSpeed);
+                       // pk.Write(ySpeed);
+                        pk.Send();
+                    }
+                }
+                if (i == 7)
+                {
+                    int who = reader.ReadInt16();
+                    float x = reader.ReadSingle();
+                    float y = reader.ReadSingle();
+                    //float xSpeed = reader.ReadSingle();
+                    //float ySpeed = reader.ReadSingle();
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && who != Main.myPlayer)
+                    {
+                        FishPlayer p = Main.player[who].GetModPlayer<FishPlayer>();
+                        //p.newSpeed = new Vector2(xSpeed, ySpeed);
+                        p.newCenter = new Vector2(x, y);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket pk = GetPacket();
+                        pk.Write((byte)7);
+                        pk.Write((short)who);
+                        pk.Write(x);
+                        pk.Write(y);
+                        // pk.Write(xSpeed);
+                        // pk.Write(ySpeed);
+                        pk.Send();
+                    }
+                }
+
+            }
+            catch (Exception ex)
             {
                 if(Main.netMode != 2)
                 {

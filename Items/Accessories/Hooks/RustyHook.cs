@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             recipe.AddRecipe();
 
         }*/
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
 
             for (int i = 0; i < Main.projectile.Length; i++)

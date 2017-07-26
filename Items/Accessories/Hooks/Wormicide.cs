@@ -38,7 +38,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
 			player.GetModPlayer<FishPlayer>(mod).wormicide = true;
         }

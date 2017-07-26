@@ -35,7 +35,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
             recipe.AddRecipe();
             
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<FishPlayer>(mod).sizeMultiplierMultiplier = 9999f;
             player.accFishingLine = true;

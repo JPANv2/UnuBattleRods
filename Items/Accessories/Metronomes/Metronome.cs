@@ -20,7 +20,7 @@ namespace UnuBattleRods.Items.Accessories.Metronomes
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<FishPlayer>(mod).bobberDamage += bobberDamage;
             player.GetModPlayer<FishPlayer>(mod).bobberSpeed += bobberSpeed;
@@ -30,6 +30,11 @@ namespace UnuBattleRods.Items.Accessories.Metronomes
         {
             if (!base.CanEquipAccessory(player, slot))
                 return false;
+
+            if (player.armor[slot].modItem != null && player.armor[slot].modItem is Metronome)
+            {
+                return true;
+            }
 
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {

@@ -504,10 +504,13 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         private float escalationBonus(FishPlayer owner)
         {
-            if (owner.escalation)
+            if (owner.escalationBonus != 0)
             {
                 float seconds = (timeBobMax * bobsSinceAttatched) / 60f;
                 return Math.Min(owner.escalationBonus * seconds, owner.escalationMax);
+            }else
+            {
+                bobsSinceAttatched = 0;
             }
             return 0f;
         }
@@ -658,6 +661,17 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 {
                     Main.player[projectile.owner].position += Main.player[projectile.owner].velocity +vel;
                 }
+                if (Main.netMode != 0)
+                {
+                    ModPacket pk = mod.GetPacket();
+                    pk.Write((byte)7);
+                    pk.Write(projectile.owner);
+                    pk.Write(Main.player[projectile.owner].Center.X);
+                    pk.Write(Main.player[projectile.owner].Center.Y);
+                 //   pk.Write((float)Main.player[projectile.owner].velocity.X);
+                 //   pk.Write((float)Main.player[projectile.owner].velocity.Y);
+                    pk.Send();
+                }
             }
             else
             {
@@ -667,19 +681,22 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 {
                     target.position -= (vel - target.velocity);
                 }
+                if(Main.netMode != 0)
+                {
+                    ModPacket pk = mod.GetPacket();
+                    pk.Write((byte)6);
+                    pk.Write(npcIndex);
+                    pk.Write((float)target.Center.X);
+                    pk.Write((float)target.Center.Y);
+                   // pk.Write((float)target.velocity.X);
+                   // pk.Write((float)target.velocity.Y);
+                    pk.Send();
+                }
             }
             updatePos = false;
             projectile.Center = target.Center;
             if (Main.netMode != 0)
             {
-                /*
-                ModPacket p = mod.GetPacket();
-                p.Write((byte)0);
-                p.Write(npcIndex);
-                p.Write((ushort)(projectile.whoAmI));
-                p.Write((int)(projectile.Center.X));
-                p.Write((int)(projectile.Center.Y));
-                p.Send();*/
                 NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
