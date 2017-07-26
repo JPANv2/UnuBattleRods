@@ -990,5 +990,14 @@ namespace UnuBattleRods.Projectiles.Bobbers
             }
             return timeReelMax;
         }
+
+        public override void Kill(int timeLeft)
+        {
+            if(npcIndex >= 0 && Main.netMode != 0)
+            {
+                breakFree();
+                NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+            }
+        }
     }
 }
