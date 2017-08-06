@@ -32,6 +32,24 @@ namespace UnuBattleRods.NPCs
 
         public override void PostAI(NPC npc)
         {
+            if(npc.type == NPCID.TruffleWorm && Main.netMode != 1)
+            {
+                bool allLifeforced = true;
+                for (int num963 = 0; num963 < 255; num963 = num963 + 1)
+                {
+                    Player player = Main.player[num963];
+                    if (player.active && !player.dead && Vector2.Distance(player.Center, npc.Center) <= 160f)
+                    {
+                        allLifeforced &= player.GetModPlayer<FishPlayer>().lifeforceArmorEffect;
+                    }
+                }
+                if (allLifeforced)
+                {
+                    npc.ai[1] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
             if(newCenter.X > -10000 && newCenter.Y > -10000)
             {
                 if (WorldGen.InWorld((int)(newCenter.X / 16.0f), (int)(newCenter.Y / 16.0f)))

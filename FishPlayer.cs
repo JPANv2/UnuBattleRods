@@ -74,6 +74,10 @@ namespace UnuBattleRods
         public int knifeCooldownCounter = 0;
         public int knifeDebuff = 0;
 
+        public bool lifeforceArmorEffect = false;
+        public bool fractaliteArmorEffect = false;
+        public bool wormSpawner = false;
+
         public override void ResetEffects()
         {
             bobberDamage = 1.0f;
@@ -120,6 +124,10 @@ namespace UnuBattleRods
             knifeKnockback = 0f;
             knifeCooldown = 0;
             knifeDebuff = 0;
+
+            lifeforceArmorEffect = false;
+            fractaliteArmorEffect = false;
+            wormSpawner = false;
             base.ResetEffects();
         }
 
@@ -379,13 +387,28 @@ namespace UnuBattleRods
             {
                 escalationTimer = 0;
             }
+
+            if (fractaliteArmorEffect)
+            {
+                if (player.wings == 0)
+                {
+                    player.wings = 29;
+                    player.wingsLogic = 29;
+                    player.wingTimeMax += 180;
+                }else
+                {
+                    player.wingTimeMax *= 2;
+                }
+            }
         }
 
         public Vector2 newSpeed = Vector2.Zero;
         public Vector2 newCenter = new Vector2(-10000, -10000);
 
+
         public override void PostUpdate()
-        {   
+        {
+
             int slot = getLargestDamageBonus();
 
             if (newCenter.X > -10000 && newCenter.Y > -10000)

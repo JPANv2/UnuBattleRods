@@ -16,6 +16,32 @@ namespace UnuBattleRods
         public static int marbleTiles = 0;
         public static int graniteTiles = 0;
 
+        public override void PostUpdate()
+        {
+            if(Main.netMode != 1 && Main.time % 60 == 0)
+            {
+                for(int i = 0; i< Main.player.Length; i++)
+                {
+                    if(Main.player[i].active && Main.player[i].GetModPlayer<FishPlayer>().wormSpawner && Main.rand.Next(30) == 1)
+                    {
+                        bool doneWorm = false;
+                        if (Main.player[i].ZoneGlowshroom)
+                        {
+                            if(Main.rand.Next(16) == 0)
+                            {
+                                NPC.NewNPC((int)(Main.player[i].position.X), (int)(Main.player[i].position.Y), NPCID.TruffleWorm);
+                                doneWorm = true;
+                            }
+                        }
+                        if (!doneWorm) {
+                            NPC.NewNPC((int)(Main.player[i].position.X), (int)(Main.player[i].position.Y), Main.rand.Next(100)== 0 ? NPCID.GoldWorm : NPCID.Worm);
+                        }
+                    }
+                }
+            }
+        }
+
+
         public override void TileCountsAvailable(int[] tileCounts)
         {
             marbleTiles = tileCounts[TileID.Marble];

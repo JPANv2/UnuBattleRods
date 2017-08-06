@@ -33,7 +33,7 @@ namespace UnuBattleRods.Items.Rods.HardMode
             recipe.AddIngredient(mod, "HallowedBattlerod", 1);
             recipe.AddIngredient(ItemID.FrostCore, 2);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddIngredient(mod, "EnergyAmalgamate", 1);
+            recipe.AddIngredient(mod, "LesserEnergyAmalgamate", 5);
             recipe.AddIngredient(ItemID.Cobweb, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

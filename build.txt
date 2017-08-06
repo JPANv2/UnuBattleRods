@@ -1,6 +1,6 @@
 author = Unusacies, JPAN
 
-version = 1.0.2
+version = 1.1
 
 displayName = Unusacies' Battle Rods
 hideCode = false

@@ -11,12 +11,12 @@ using Terraria.ModLoader;
 
 namespace UnuBattleRods.Items.Materials
 {
-    class EnergyAmalgamate : ModItem
+    class LesserEnergyAmalgamate : ModItem
     {
 
          public override void SetStaticDefaults()
          {
-             DisplayName.SetDefault("Energy Amalgamate");
+             DisplayName.SetDefault("Lesser Energy Amalgamate");
              Tooltip.SetDefault("Concentrated Souls");
          }
 
@@ -28,7 +28,7 @@ namespace UnuBattleRods.Items.Materials
             item.width = refItem.width;
             item.height = refItem.height;
             item.maxStack = refItem.maxStack;
-            item.value = Item.sellPrice(0,1,0,0);
+            item.value = Item.sellPrice(0,0,25,0);
             item.rare = 10;
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
             ItemID.Sets.AnimatesAsSoul[item.type] = true;
@@ -45,20 +45,12 @@ namespace UnuBattleRods.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofLight, 25);
-            recipe.AddIngredient(ItemID.SoulofNight, 25);
-            recipe.AddIngredient(ItemID.SoulofFlight, 15);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
-            recipe.AddIngredient(ItemID.Ectoplasm, 2);
-            recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod, "LesserEnergyAmalgamate", 5);
-            recipe.AddIngredient(ItemID.Ectoplasm, 2);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ItemID.SoulofFlight, 3);
+            recipe.AddIngredient(ItemID.SoulofMight, 1);
+            recipe.AddIngredient(ItemID.SoulofSight, 1);
+            recipe.AddIngredient(ItemID.SoulofFright, 1);
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
