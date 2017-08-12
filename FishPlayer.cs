@@ -390,9 +390,9 @@ namespace UnuBattleRods
 
             if (fractaliteArmorEffect)
             {
-                if (player.wings == 0)
+                if (player.wingsLogic == 0)
                 {
-                    player.wings = 29;
+                    //player.wings = 29;
                     player.wingsLogic = 29;
                     player.wingTimeMax += 180;
                 }else

@@ -70,12 +70,14 @@ namespace UnuBattleRods.Items.Armors.PostMoonLord
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Adds 200 Max Health and Max Mana.\n10% chance to nullify a projectile.\nIf you have no Wings, provides free Solar Wings. Otherwise, doubles max flight time.";
+            player.setBonus = "Adds 200 Max Health and Max Mana.\n10% chance to nullify a projectile.\nDoubles max flight time if you have wings. Otherwise, provides invisible wings.\nProduces a strong glow and night vision.";
             player.statManaMax2 += 200;
             player.statLifeMax2 += 200;
             FishPlayer pl = player.GetModPlayer<FishPlayer>();
             pl.fractaliteArmorEffect = true;
             pl.projectileDestroyPercentage += 1000;
+            Lighting.AddLight(player.Center, 1f, 1f, 1.0f);
+            player.nightVision = true;
         }
     }
 }

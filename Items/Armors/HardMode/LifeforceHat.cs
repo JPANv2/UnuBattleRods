@@ -66,13 +66,14 @@ namespace UnuBattleRods.Items.Armors.HardMode
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Adds 50 Max Health and Max Mana.\nNinja Dodge effect.\n5% chance to nullify a projectile.\nTruffle Worms won't flee from you.";
+            player.setBonus = "Adds 50 Max Health and Max Mana.\nNinja Dodge effect.\n5% chance to nullify a projectile.\nProduces a glowing light.\nTruffle Worms won't flee from you.";
             player.blackBelt = true;
             player.statManaMax2 += 50;
             player.statLifeMax2 += 50;
             FishPlayer pl = player.GetModPlayer<FishPlayer>();
             pl.lifeforceArmorEffect = true;
             pl.projectileDestroyPercentage += 500;
+            Lighting.AddLight(player.Center, 0.4f, 0.6f, 1.0f);
         }
     }
 }
