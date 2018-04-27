@@ -22,13 +22,23 @@ namespace UnuBattleRods.NPCs
             }
         }
 
+        public bool frostFire = false;
+        public bool solarFire = false;
+
         public int isHooked = 0;
         public int isSealed = 0;
 
         public Vector2 newSpeed = Vector2.Zero;
         public Vector2 newCenter = new Vector2(-10000,-10000);
 
-        
+        public List<int> debuffsPresent = new List<int>();
+
+        public override void ResetEffects(NPC npc)
+        {
+            base.ResetEffects(npc);
+            frostFire = false;
+            solarFire = false;
+        }
 
         public override void PostAI(NPC npc)
         {
@@ -90,27 +100,28 @@ namespace UnuBattleRods.NPCs
 
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
-            if (npc.FindBuffIndex(mod.BuffType("Frostfire")) >= 0)
+            if (frostFire)//npc.FindBuffIndex(mod.BuffType("Frostfire")) >= 0)
             {
                 if (npc.lifeRegen > 0)
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 20;
-                if (damage < 5)
+                npc.lifeRegen -= (20 +(npc.oiled?48:0));
+                if (damage < 5 + (npc.oiled ? 3 : 0))
                 {
-                    damage = 5;
+                    damage = 5 + (npc.oiled ? 3 : 0);
                 }
-            }else if (npc.FindBuffIndex(mod.BuffType("Solarfire")) >= 0)
+            }
+            if (solarFire)//npc.FindBuffIndex(mod.BuffType("Solarfire")) >= 0)
             {
                 if (npc.lifeRegen > 0)
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 64;
-                if (damage < 6)
+                npc.lifeRegen -= (64 + (npc.oiled ? 128 : 0));
+                if (damage < (6 + (npc.oiled ? 6:0)))
                 {
-                    damage = 6;
+                    damage = (6 + (npc.oiled ? 6 : 0));
                 }
             }
         }
@@ -144,7 +155,7 @@ namespace UnuBattleRods.NPCs
 
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
-            if (npc.FindBuffIndex(mod.BuffType("Frostfire")) >= 0) {
+            if (frostFire) {
                 if (Main.rand.Next(4) < 3)
                 {
                     int num52 = Dust.NewDust(new Vector2(npc.position.X - 2f, npc.position.Y - 2f), npc.width + 4, npc.height + 4, 135, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default(Microsoft.Xna.Framework.Color), 3.5f);
@@ -161,7 +172,8 @@ namespace UnuBattleRods.NPCs
                     }
                 }
                 Lighting.AddLight((int)(npc.position.X / 16f), (int)(npc.position.Y / 16f + 1f), 0.3f, 0.6f, 1f);
-            }else if (npc.FindBuffIndex(mod.BuffType("Solarfire")) >= 0)
+            }
+            if (solarFire)
             {
                 if (Main.rand.Next(4) < 3)
                 {
@@ -185,6 +197,14 @@ namespace UnuBattleRods.NPCs
 
         public override void NPCLoot(NPC npc)
         {
+            if(npc.type == NPCID.DD2Betsy)
+            {
+                Item.NewItem(npc.Center, Vector2.Zero, mod.ItemType("BetsyScales"), Main.rand.Next(3,7));
+            }
+            if(npc.type == NPCID.GoblinSummoner)
+            {
+                Item.NewItem(npc.Center, Vector2.Zero, mod.ItemType("Shadowflame"), Main.rand.Next(1, 4));
+            }
             if(npc.type == NPCID.QueenBee && Main.rand.Next(3) == 0)
             {
                 Item.NewItem(npc.Center, Vector2.Zero, mod.ItemType("BeeBattlerod"));
@@ -193,6 +213,16 @@ namespace UnuBattleRods.NPCs
             if (npc.type == NPCID.DukeFishron && Main.rand.Next(5) == 0)
             {
                 Item.NewItem(npc.Center, Vector2.Zero, mod.ItemType("FishronBattlerod"));
+            }
+
+            if(npc.type == NPCID.SnowFlinx && (!Main.hardMode || Main.rand.Next(8) == 0))
+            {
+                Item.NewItem(npc.Center, Vector2.Zero, mod.ItemType("FlinxFur"));
+            }
+
+            if(Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].ZoneGlowshroom && ((!Main.hardMode && Main.rand.Next(3) == 0) || Main.rand.Next(15) == 0))
+            {
+                Item.NewItem(npc.Center, Vector2.Zero, mod.ItemType("FungalSpores"), Main.rand.Next(1,6));
             }
 
             if (npc.wet && !npc.lavaWet && !npc.honeyWet && isHooked != 0 && Main.rand.Next(50) == 0)
@@ -228,6 +258,135 @@ namespace UnuBattleRods.NPCs
                 }
             }
             base.NPCLoot(npc);
+        }
+
+        public void UpdateDebuffsByID(NPC npc, ref int id, int time, int buffSlot = -1)
+        {
+            if (npc.buffImmune[id])
+                return;
+            ModBuff bf = BuffLoader.GetBuff(id);
+            if(bf != null)
+            {
+                if(buffSlot == -1)
+                {
+                    for(buffSlot = 0; buffSlot < 5; buffSlot++)
+                    {
+                        if(npc.buffType[buffSlot] <= 0)
+                        {
+                            npc.buffTime[buffSlot] = time;
+                            break;
+                        }
+                    }
+                    if(buffSlot >= 5)
+                    {
+                        return;
+                    }
+                }
+                bf.Update(npc, ref buffSlot);
+                //npc.buffTime[buffSlot] = 0;
+                return;
+            }
+
+            if (id == 20)
+            {
+                npc.poisoned = true;
+            }
+            if (id == 70)
+            {
+                npc.venom = true;
+            }
+            if (id == 24)
+            {
+                npc.onFire = true;
+            }
+            if (id == 72)
+            {
+                npc.midas = true;
+            }
+            if (id == 69)
+            {
+                npc.ichor = true;
+            }
+            if (id == 31)
+            {
+                npc.confused = true;
+            }
+            if (id == 39)
+            {
+                npc.onFire2 = true;
+            }
+            if (id == 44)
+            {
+                npc.onFrostBurn = true;
+            }
+            if (id == 103)
+            {
+                npc.dripping = true;
+            }
+            if (id == 137)
+            {
+                npc.drippingSlime = true;
+            }
+            if (id == 119)
+            {
+                npc.loveStruck = true;
+            }
+            if (id == 120)
+            {
+                npc.stinky = true;
+            }
+            if (id == 151)
+            {
+                npc.soulDrain = true;
+            }
+            if (id == 153)
+            {
+                npc.shadowFlame = true;
+            }
+            if (id == 165)
+            {
+                npc.dryadWard = true;
+            }
+            if (id == 169)
+            {
+                npc.javelined = true;
+            }
+            if (id == 183)
+            {
+                npc.celled = true;
+            }
+            if (id == 186)
+            {
+                npc.dryadBane = true;
+            }
+            if (id == 189)
+            {
+                npc.daybreak = true;
+            }
+            if (id == 203)
+            {
+                npc.betsysCurse = true;
+            }
+            if (id == 204)
+            {
+                npc.oiled = true;
+            }
+        }
+
+        public void updateCurrentInflictedBaitDebuffs(NPC npc)
+        {
+            if (Main.netMode != NetmodeID.SinglePlayer)
+            {
+                ModPacket pk = mod.GetPacket();
+                pk.Write((byte)UnuBattleRods.Message.DebuffUpdate);
+                pk.Write(npc.whoAmI);
+                pk.Write(debuffsPresent.Count);
+                for (int i = 0; i < debuffsPresent.Count; i++)
+                {
+                    pk.Write(debuffsPresent[i]);
+                }
+                pk.Send();
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace UnuBattleRods.Items.Accessories.Shafts
             recipe.AddIngredient(mod, "FractaliteBar", 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 1);
-            base.AddRecipes();
+            recipe.AddRecipe();
         }
 
         public override void UpdateEquip(Player player)

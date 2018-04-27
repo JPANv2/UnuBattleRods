@@ -30,12 +30,13 @@ namespace UnuBattleRods.Items.Accessories.Lures
         }
         public override void AddRecipes()
         {
+            /*
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Cobweb, 25);
             recipe.AddIngredient(ItemID.Hook, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.AddRecipe();*/
         }
     }
 }

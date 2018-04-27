@@ -21,6 +21,7 @@ namespace UnuBattleRods.Buffs.Pets
         public override void Update(Player player, ref int buffIndex)
         {
             player.buffTime[buffIndex] = 18000;
+            player.GetModPlayer<FishPlayer>(mod).maxCrate = true;
             bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("CratePetProjectile")] <= 0;
             if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {

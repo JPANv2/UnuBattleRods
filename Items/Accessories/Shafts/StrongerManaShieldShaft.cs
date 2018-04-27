@@ -32,7 +32,7 @@ namespace UnuBattleRods.Items.Accessories.Shafts
             recipe.AddIngredient(mod, "EnergyAmalgamate", 2);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
-            base.AddRecipes();
+            recipe.AddRecipe();
         }
 
         public override void UpdateEquip(Player player)

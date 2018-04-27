@@ -27,8 +27,7 @@ namespace UnuBattleRods.Items.Crates
 
             if(Main.rand.Next(20) == 0)
             {
-                Mod thorium = ModLoader.GetMod("ThoriumMod");
-                if ( thorium != null)
+                if (UnuBattleRods.thoriumPresent)
                 {
                     switch (Main.rand.Next(4))
                     {
@@ -36,13 +35,13 @@ namespace UnuBattleRods.Items.Crates
                             player.QuickSpawnItem(ItemID.BrokenHeroSword, 1);
                             break;
                         case 1:
-                            player.QuickSpawnItem(thorium.ItemType("BrokenHeroScythe"), 1);
+                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroScythe"), 1);
                             break;
                         case 2:
-                            player.QuickSpawnItem(thorium.ItemType("BrokenHeroStaff"), 1);
+                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroStaff"), 1);
                             break;
                         default:
-                            player.QuickSpawnItem(thorium.ItemType("BrokenHeroBow"), 1);
+                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroBow"), 1);
                             break;
                     }
 

@@ -34,7 +34,7 @@ namespace UnuBattleRods.Items.Accessories.Shafts
             recipe.AddIngredient(ItemID.ManaCrystal, 3);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
-            base.AddRecipes();
+            recipe.AddRecipe();
         }
 
         public override void UpdateEquip(Player player)

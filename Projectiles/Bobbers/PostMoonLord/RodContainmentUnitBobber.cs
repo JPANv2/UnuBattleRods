@@ -60,7 +60,8 @@ namespace UnuBattleRods.Projectiles.Bobbers.PostMoonLord
                     if (Vector2.Distance(npc.Center, projectile.Center) < size)
                     {
                         if (npc.active && !npc.immortal && !npc.dontTakeDamage &&
-                         !(npc.friendly && !(npc.type == NPCID.Guide && Main.player[projectile.owner].killGuide) && !(npc.type == NPCID.Clothier && Main.player[projectile.owner].killClothier) && npc.catchItem <= 0)
+                         !(npc.friendly && !(npc.type == NPCID.Guide && Main.player[projectile.owner].killGuide) && !(npc.type == NPCID.Clothier && Main.player[projectile.owner].killClothier)) 
+                         && npc.catchItem <= 0
                          )
                         {
                             npc.StrikeNPC(npc.boss ? projectile.damage : projectile.damage / 2, 10, npc.Center.X < projectile.Center.X ? -1 : 1);

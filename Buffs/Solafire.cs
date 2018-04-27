@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
+using UnuBattleRods.NPCs;
 
 namespace UnuBattleRods.Buffs
 {
@@ -18,6 +19,18 @@ namespace UnuBattleRods.Buffs
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
             longerExpertDebuff = true;
+        }
+
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            FishGlobalNPC gnpc = npc.GetGlobalNPC<FishGlobalNPC>();
+            gnpc.solarFire = true;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            FishPlayer pl = player.GetModPlayer<FishPlayer>();
+            pl.solarFire = true;
         }
 
     }

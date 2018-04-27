@@ -51,7 +51,36 @@ namespace UnuBattleRods.Items.Crates
                 }
             }
 
-            player.QuickSpawnItem(ItemID.HallowedBar, Main.rand.Next(2, 13));
+            switch (Main.rand.Next(5))
+            {
+                case 0:
+                case 1:
+                    player.QuickSpawnItem(ItemID.CrystalShard, Main.rand.Next(4,13));
+                    break;
+                case 2:
+                case 3:
+                    player.QuickSpawnItem(ItemID.PixieDust, Main.rand.Next(4, 13));
+                    break;
+                default:
+                    player.QuickSpawnItem(ItemID.UnicornHorn, Main.rand.Next(2, 6));
+                    break;
+            }
+
+            if (NPC.downedMechBossAny)
+            {
+                player.QuickSpawnItem(ItemID.HallowedBar, Main.rand.Next(2, 13));
+                if (UnuBattleRods.thoriumPresent && Main.rand.Next(10) == 1)
+                {
+                    if(Main.rand.Next(2) == 1)
+                    {
+                        player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:StrangePlating"), Main.rand.Next(2, 7));
+                    }
+                    else
+                    {
+                        player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:LifeCell"), Main.rand.Next(1, 4));
+                    }
+                }
+            }
             
             base.RightClick(player);
         }

@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using UnuBattleRods.Buffs;
+using UnuBattleRods.Items.Baits;
 using UnuBattleRods.Projectiles.Bobbers;
 
 namespace UnuBattleRods.Items.Rods
@@ -19,6 +21,7 @@ namespace UnuBattleRods.Items.Rods
         }
 
         public int noOfBobs = 1;
+        public int noOfBaits = 1;
 		public override void SetDefaults()
 		{
             base.item.CloneDefaults(2291);
@@ -32,6 +35,11 @@ namespace UnuBattleRods.Items.Rods
             
         }
 
+
+        public override void GetWeaponDamage(Player player, ref int damage)
+        {
+            damage = (int)Math.Round((double)damage * (player.GetModPlayer<FishPlayer>().bobberDamage)/ player.rangedDamage);
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -83,7 +91,69 @@ namespace UnuBattleRods.Items.Rods
                     damage = damage - (trueDamage * (lures - 1));
                 }
             }
+            int baitTotal = getNoOfBaits(p);
+            int totalBuffs = getNoOfBuffs(p.player);
+            int usedBaitCount = p.getNumberOfBaitDebuffs() + p.getNumberOfBaitBuffs();
+            int useableBaits = p.getNumberOfUseableBaits();
+            //if rod can use powered bait && less than ten seconds in bait timer && the total number of bait the rod can use is bigger than the current applied bait count
+            if (baitTotal > 0 && 
+                (p.baitTimer < 600 || (usedBaitCount != useableBaits && baitTotal != usedBaitCount))
+                && totalBuffs < player.buffType.Length)
+            {
+                int slot = 0;
+                for (int i = 54; i < 58; i++)
+                {
+                    BasePoweredBait b = player.inventory[i].modItem as BasePoweredBait;
+                    if (b != null)
+                    {
+                        b.addBuffToPlayer(player, slot);
+                        player.inventory[i].stack--;
+                        slot++;
+                        if (slot >= baitTotal)
+                        {
+                            for (; slot < p.baitBuff.Length; slot++)
+                            {
+                                p.addBaitBuffs(0, slot, -1);
+                                p.addBaitDebuffs(0, slot, -1);
+                            }
+                            if (Main.netMode != 0)
+                                p.updateBaits(player.whoAmI);
+                           
+                            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+                        }
+                    }
+                }
+                if(slot > 0)
+                {
+                    for (; slot < p.baitBuff.Length; slot++)
+                    {
+                        p.addBaitBuffs(0, slot, -1);
+                        p.addBaitDebuffs(0, slot, -1);
+                    }
+                    if (Main.netMode != 0)
+                        p.updateBaits(player.whoAmI);
+                }
+            }
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+        }
+
+        public int getNoOfBuffs(Player player)
+        {
+            int ans = 0;
+            int baitbufftype = mod.GetBuff<PoweredBaitBuff>().Type;
+            for(int i = 0; i<player.buffType.Length; i++)
+            {
+                if(player.buffType[i] != 0 && player.buffType[i] != baitbufftype)
+                {
+                    ans++;
+                }
+            }
+            return ans;
+        }
+
+        public virtual int getNoOfBaits(FishPlayer p)
+        {
+            return noOfBaits;
         }
 
         private Vector2[] getSpeedsForBobbers(Vector2 speedVector, int lures)

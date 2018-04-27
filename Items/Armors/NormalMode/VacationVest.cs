@@ -32,7 +32,10 @@ namespace UnuBattleRods.Items.Armors.NormalMode
         {
             player.fishingSkill += 5;
         }
-
+        public override void DrawHands(ref bool drawHands, ref bool drawArms)
+        {
+            drawHands = true;
+        }
 
         public override void AddRecipes()
         {

@@ -37,6 +37,12 @@ namespace UnuBattleRods.Items.Armors.PostMoonLord
             pl.bobberDamage += 0.15f;
         }
 
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        {
+            drawHair = true;
+            //drawAltHair = true;
+        }
+
 
         public override void AddRecipes()
         {

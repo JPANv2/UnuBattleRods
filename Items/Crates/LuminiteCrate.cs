@@ -72,7 +72,7 @@ namespace UnuBattleRods.Items.Crates
 
                 player.QuickSpawnItem(ItemID.LunarOre, Main.rand.Next(4, 25));
 
-            switch (Main.rand.Next(4))
+            switch (Main.rand.Next(UnuBattleRods.thoriumPresent? 6: 4))
             {
                 case 0:
                     player.QuickSpawnItem(ItemID.FragmentSolar, Main.rand.Next(2, 21));
@@ -83,9 +83,19 @@ namespace UnuBattleRods.Items.Crates
                 case 2:
                     player.QuickSpawnItem(ItemID.FragmentStardust, Main.rand.Next(2, 21));
                     break;
+                case 4:
+                    player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:CelestialFragment"), Main.rand.Next(2, 21));
+                    break;
+                case 5:
+                    player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:CometFragment"), Main.rand.Next(2, 21));
+                    break;
                 default:
                     player.QuickSpawnItem(ItemID.FragmentVortex, Main.rand.Next(2, 21));
                     break;
+            }
+            if (ModLoader.GetMod("SacredTools") != null && Main.rand.Next(8) == 0)
+            {
+                player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("SacredTools:FragmentNova"), Main.rand.Next(2, 21));
             }
 
             base.RightClick(player);

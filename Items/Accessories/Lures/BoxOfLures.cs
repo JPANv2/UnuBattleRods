@@ -29,14 +29,15 @@ namespace UnuBattleRods.Items.Accessories.Lures
         }
 
         public override void AddRecipes()
-        {
+        {            
+            /*
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Cobweb, 10);
             recipe.AddRecipeGroup("UnuBattleRods:HMTier2Bars", 5);
             recipe.AddIngredient(mod, "OctoLure", 2);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.AddRecipe();*/
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

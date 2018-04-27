@@ -36,7 +36,11 @@ namespace UnuBattleRods.Items.Armors.HardMode
             pl.bobberSpeed += 0.05f;
             pl.bobberDamage += 0.05f;
         }
-
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        {
+            drawHair = true;
+            //drawAltHair = true;
+        }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return head.type == this.item.type && 

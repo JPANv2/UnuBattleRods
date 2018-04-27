@@ -29,6 +29,12 @@ namespace UnuBattleRods.Items.Armors.HardMode
             item.value = Item.sellPrice(0, 2, 25, 0);
         }
 
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        {
+            drawHair = true;
+            //drawAltHair = true;
+        }
+
         public override void UpdateEquip(Player player)
         {
             player.fishingSkill += 12;

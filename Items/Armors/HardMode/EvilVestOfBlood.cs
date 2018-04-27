@@ -36,7 +36,10 @@ namespace UnuBattleRods.Items.Armors.HardMode
             pl.bobberSpeed += 0.08f;
             pl.bobberDamage += 0.08f;
         }
-
+        public override void DrawHands(ref bool drawHands, ref bool drawArms)
+        {
+            drawHands = true;
+        }
 
         public override void AddRecipes()
         {

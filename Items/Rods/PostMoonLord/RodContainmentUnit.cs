@@ -18,6 +18,7 @@ namespace UnuBattleRods.Items.Rods.PostMoonLord
             base.SetDefaults();
             base.item.shootSpeed = 21f;
             base.item.shoot = base.mod.ProjectileType("RodContainmentUnitBobber");
+            ItemID.Sets.CanFishInLava[item.type] = true;
             base.item.damage = 800;
             base.item.rare = 11;
             base.item.fishingPole = 100;
@@ -31,14 +32,14 @@ namespace UnuBattleRods.Items.Rods.PostMoonLord
             recipe.AddIngredient(mod, "WoodenBattlerod");
             recipe.AddIngredient(mod, "CactusBattlerod");
             recipe.AddIngredient(mod, "StarMixBattlerod");
-            recipe.AddIngredient(mod, "MeteorBattlerod");
-            recipe.AddIngredient(mod, "BeeBattlerod");
+            recipe.AddIngredient(mod, "CoolerBattlerod");
             recipe.AddRecipeGroup("UnuBattleRods:EvilRods");
+            recipe.AddIngredient(mod, "BeeteoriteBattlerod");
             recipe.AddIngredient(mod, "HardTriadBattlerod");
             recipe.AddIngredient(mod, "TurtleBattlerod");
             recipe.AddIngredient(mod, "BeetleBattlerod");
             recipe.AddIngredient(mod, "LifeforceBattlerod");
-            recipe.AddIngredient(mod, "FishronBattlerod");
+            recipe.AddIngredient(mod, "DragonMixBattlerod");
             recipe.AddIngredient(mod, "TerraBattlerod");
             recipe.AddIngredient(mod, "FractaliteBattlerod");
             recipe.AddIngredient(ItemID.Cobweb, 5);

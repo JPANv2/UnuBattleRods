@@ -37,7 +37,11 @@ namespace UnuBattleRods.Items.Armors.HardMode
             pl.bobberDamage += 0.12f;
         }
 
-
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        {
+            drawHair = true;
+            //drawAltHair = true;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

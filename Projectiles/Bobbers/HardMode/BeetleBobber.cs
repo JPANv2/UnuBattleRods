@@ -90,12 +90,12 @@ namespace UnuBattleRods.Projectiles.Bobbers.HardMode
 
         private void spawnBeetles(Player player, Entity npc)
         {
-           int max = Main.rand.Next(1, 4);
+           int max = Main.rand.Next(2, 8);
             for (int i = 0; i < max; i++)
             {
                 int proj = mod.ProjectileType("Beetle");
-                float kb = 4.0f;
-                int dmg = (int)(projectile.damage * 1.5f);
+                float kb = 5.0f;
+                int dmg = (int)(projectile.damage);
 
                 double angle = Main.rand.NextDouble() * Math.PI * 2;
                 Vector2 newPos = new Vector2(npc.Center.X, npc.Center.Y);

@@ -7,11 +7,16 @@ using System.IO;
 using Terraria.ID;
 using Terraria.DataStructures;
 using UnuBattleRods.NPCs;
+using System.Collections.Generic;
+using UnuBattleRods.Buffs;
 
 namespace UnuBattleRods.Projectiles.Bobbers
 {
     public abstract class Bobber : ModProjectile
     {
+        public bool attatchesToEnemies = true;
+        public bool attatchesToAllies = false;
+
         public short npcIndex = -1;
         protected short timeSinceLastBob = 0;
 
@@ -69,12 +74,13 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     int npc = npcIndex;
                     if (!Main.npc[npc].active)
                     {
-                        Main.npc[npc].GetGlobalNPC<FishGlobalNPC>(mod).isHooked = 0;
+                        /*Main.npc[npc].GetGlobalNPC<FishGlobalNPC>(mod).isHooked = 0;
                         Main.npc[npc].GetGlobalNPC<FishGlobalNPC>(mod).isSealed = 0;
                         npcIndex = -1;
                         bobsSinceAttatched = 0;
                         projectile.ai[0] = 2f;
-                        updatePos = true;
+                        updatePos = true;*/
+                        breakFree();
                         base.AI();
                         return;
                     }
@@ -106,17 +112,10 @@ namespace UnuBattleRods.Projectiles.Bobbers
                             if (Main.mouseRight)
                             {
                                 breakFree();
-                                if (Main.netMode != 0)
+                               /* if (Main.netMode != 0)
                                 {
-                                    /*
-                                    ModPacket pk = mod.GetPacket();
-                                    pk.Write((byte)2);
-                                    pk.Write((ushort)(projectile.whoAmI));
-                                    pk.Write(npcIndex);
-                                    pk.Write(projectile.ai[0]);
-                                    pk.Send();*/
                                     NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                                }
+                                }*/
                             }
                             
                             if(!Main.mouseLeft && !Main.mouseRight)
@@ -163,12 +162,13 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     int player = npcIndex - Main.npc.Length;
                     if (!Main.player[player].active || Main.player[player].dead)
                     {
-                        Main.player[player].GetModPlayer<FishPlayer>(mod).isHooked = 0;
-                        Main.player[player].GetModPlayer<FishPlayer>(mod).isSealed = 0;
-                        bobsSinceAttatched = 0;
-                        npcIndex = -1;
-                        projectile.ai[0] = 2f;
-                        updatePos = true;
+                        /* Main.player[player].GetModPlayer<FishPlayer>(mod).isHooked = 0;
+                         Main.player[player].GetModPlayer<FishPlayer>(mod).isSealed = 0;
+                         bobsSinceAttatched = 0;
+                         npcIndex = -1;
+                         projectile.ai[0] = 2f;
+                         updatePos = true;*/
+                        breakFree();
                         base.AI();
                         return;
                     }
@@ -199,17 +199,10 @@ namespace UnuBattleRods.Projectiles.Bobbers
                             if (Main.mouseRight)
                             {
                                 breakFree();
-                                if (Main.netMode != 0)
+                                /*if (Main.netMode != 0)
                                 {
-                                    /*
-                                    ModPacket pk = mod.GetPacket();
-                                    pk.Write((byte)2);
-                                    pk.Write((ushort)(projectile.whoAmI));
-                                    pk.Write(npcIndex);
-                                    pk.Write(projectile.ai[0]);
-                                    pk.Send();*/
                                     NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                                }
+                                }*/
                             }
                             if (!Main.mouseLeft && !Main.mouseRight)
                             {
@@ -282,12 +275,10 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     }
                 }
             }
-            if (!Main.player[projectile.owner].hostile)
-                return;
 
             for (int i = 0; i < Main.player.Length; i++)
             {
-                if (i != projectile.owner && Main.player[i].active && Main.player[i].hostile && (Main.player[i].team != Main.player[projectile.owner].team || Main.player[i].team == 0))
+                if (i != projectile.owner && Main.player[i].active && !Main.player[i].dead)
                 {
                     Rectangle value = new Rectangle((int)Main.player[i].position.X, (int)Main.player[i].position.Y, Main.player[i].width, Main.player[i].height);
                     if (rectangle.Intersects(value))
@@ -301,14 +292,20 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         private bool hitAndAttachProjectile(NPC npc)
         {
-            
-            if (!npc.active || npc.immortal || npc.dontTakeDamage || 
-                (npc.friendly && !(npc.type == NPCID.Guide && Main.player[projectile.owner].killGuide) && !(npc.type == NPCID.Clothier && Main.player[projectile.owner].killClothier))
-                )
-            { 
-                if(npc.type != NPCID.TargetDummy)
+
+            if (!npc.active || npc.immortal || npc.dontTakeDamage) {
+                if (npc.type != NPCID.TargetDummy)
                     return false;
             }
+            if (!attatchesToAllies &&
+             (npc.friendly && !(npc.type == NPCID.Guide && Main.player[projectile.owner].killGuide) && !(npc.type == NPCID.Clothier && Main.player[projectile.owner].killClothier))
+             )
+                return false;
+            if(!npc.friendly && !attatchesToEnemies)
+            {
+                return false;
+            }
+
             bool? b = NPCLoader.CanBeHitByProjectile(npc, projectile);
             if (b.HasValue && !b.Value)
                 return false;
@@ -320,13 +317,17 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 return false;
             
             npcIndex = (short)npc.whoAmI;
-            npc.GetGlobalNPC<FishGlobalNPC>(mod).isHooked++;
-            if (Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod).seals)
+            npc.PlayerInteraction(projectile.owner);
+            FishGlobalNPC fnpc = npc.GetGlobalNPC<FishGlobalNPC>(mod);
+            fnpc.isHooked++;
+            FishPlayer fOwner = Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod);
+            if (fOwner.seals)
             {
-                npc.GetGlobalNPC<FishGlobalNPC>(mod).isSealed++;
+                fnpc.isSealed++;
             }
             projectile.Center = npc.Center;
             updatePos = false;
+           
 
             if (Main.netMode != 0)
             {
@@ -352,7 +353,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
             if (Main.netMode != 1 && projectile.damage > 0 && (!((npc.immortal || npc.dontTakeDamage) && npc.type != NPCID.TargetDummy)))
             {
                 FishPlayer owner = Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod);
-                int dmg = (int)Math.Round(projectile.damage * owner.bobberDamage);
+                int dmg = (int)Math.Round(projectile.damage * (1 + escalationBonus(owner)));
                 dmg = Main.DamageVar(dmg);
 
                 if (dmg < 1)
@@ -420,6 +421,12 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         private bool hitAndAttachProjectile(Player p)
         {
+            if (!attatchesToAllies && (!p.hostile || p.team == Main.player[projectile.owner].team))
+                return false;
+
+            if (!attatchesToEnemies && (p.hostile && p.team != Main.player[projectile.owner].team))
+                return false;
+
             bool? b = PlayerHooks.CanHitPvpWithProj(projectile, p);
             if (b.HasValue && !b.Value)
                 return false;
@@ -429,11 +436,13 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 return false;
 
             npcIndex = (short)(p.whoAmI + Main.npc.Length);
+            FishPlayer fOwner = Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod);
             p.GetModPlayer<FishPlayer>(mod).isHooked++;
-            if (Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod).seals)
+            if (fOwner.seals)
             {
                 p.GetModPlayer<FishPlayer>(mod).isSealed++;
             }
+
             projectile.Center = p.Center;
             updatePos = false;
 
@@ -460,7 +469,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
             if (Main.netMode != 1 && projectile.damage > 0)
             {
                 FishPlayer owner = Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod);
-                int dmg = (int)Math.Round(projectile.damage * (owner.bobberDamage + escalationBonus(owner)));
+                int dmg = (int)Math.Round(projectile.damage * (1 + escalationBonus(owner)));
                 dmg = Main.DamageVar(dmg);
 
                 if (dmg < 1)
@@ -620,6 +629,11 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 npcIndex = -1;
                 projectile.ai[0] = 2f;
                 updatePos = true;
+            }
+
+            if (Main.netMode != 0)
+            {
+                NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 
@@ -932,6 +946,15 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         public virtual void applyDamageAndDebuffs(NPC npc, Player player)
         {
+            FishPlayer fOwner = player.GetModPlayer<FishPlayer>();
+            int pbdbf = mod.BuffType<PoweredBaitDebuff>();
+            if (fOwner.hasAnyBaitDebuffs())
+            {
+               // ErrorLogger.Log("Adding Powered Bait Debuff from player " + fOwner.player.whoAmI);
+                npc.AddBuff(pbdbf, 120);
+                //fOwner.updateBaits();
+                //ErrorLogger.Log("Added debuff");
+            }
             if (bobTime() > 0)
             {
                 if (timeSinceLastBob <= 0)
@@ -947,6 +970,16 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         public virtual void applyDamageAndDebuffs(Player target, Player player)
         {
+            FishPlayer fOwner = player.GetModPlayer<FishPlayer>();
+            int pbdbf = mod.BuffType<PoweredBaitDebuff>();
+            if (fOwner.hasAnyBaitDebuffs())
+            {
+                // ErrorLogger.Log("Adding Powered Bait Debuff from player " + fOwner.player.whoAmI);
+                target.AddBuff(pbdbf, 120);
+               // fOwner.updateBaits();
+                //ErrorLogger.Log("Added debuff");
+            }
+
             if (bobTime() > 0)
             {
                 if (timeSinceLastBob <= 0)
@@ -970,7 +1003,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 if (owner != null)
                 {
                     int ans = (int)Math.Round(timeBobMax  - timeBobMax * owner.bobberSpeed);
-                    return (short)(ans <= 1 ? 1 : ans);
+                    return (short)(ans <= 5 ? 5 : ans);
                 }
             }
             return timeBobMax;
@@ -985,7 +1018,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 if (owner != null)
                 {
                     int ans = (int)Math.Round(timeReelMax - timeReelMax * owner.reelSpeed);
-                    return (short)(ans <= 1 ? 1 : ans);
+                    return (short)(ans <= 5 ? 5 : ans);
                 }
             }
             return timeReelMax;
@@ -996,8 +1029,40 @@ namespace UnuBattleRods.Projectiles.Bobbers
             if(npcIndex >= 0 && Main.netMode != 0)
             {
                 breakFree();
-                NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+               // NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
+        }
+
+
+        public static List<Bobber> getBobbersAttatchedTo(Entity stuck)
+        {
+            List<Bobber> ans = new List<Bobber>();
+
+            for(int i = 0; i< Main.projectile.Length; i++)
+            {
+                Bobber b = Main.projectile[i].modProjectile as Bobber;
+                if (b != null && b.getStuckEntity().GetType() == stuck.GetType() && b.getStuckEntity().whoAmI == stuck.whoAmI)
+                    ans.Add(b);
+            }
+            return ans;
+        }
+
+        public static List<Player> getOwnersOfBobbersAttatchedTo(Entity stuck)
+        {
+            List<Bobber> bb = getBobbersAttatchedTo(stuck);
+            bool[] players = new bool[Main.player.Length];
+            List<Player> ans = new List<Player>();
+            foreach(Bobber b in bb)
+            {
+                players[b.projectile.owner] = true;
+            }
+
+            for(int i = 0; i < players.Length; i++)
+            {
+                if(players[i])
+                    ans.Add(Main.player[i]);
+            }
+            return ans;
         }
     }
 }

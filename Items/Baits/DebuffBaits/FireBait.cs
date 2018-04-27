@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria.ID;
+
+namespace UnuBattleRods.Items.Baits.DebuffBaits
+{
+    public class FireApprenticeBait : ApprenticePoweredBait
+    {
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
+            DisplayName.SetDefault("Fire Apprentice Bait");
+            Tooltip.SetDefault("Hot to the touch!");
+        }
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            debuffID = BuffID.OnFire;
+        }
+
+        public override void AddRecipes()
+        {
+            BaitRecipe recipe = new BaitRecipe(mod);
+            recipe.AddIngredient(ItemID.ApprenticeBait, 15);
+            recipe.AddIngredient(ItemID.Meteorite);
+            recipe.AddTile(TileID.Bottles);
+            recipe.SetResult(this, 15);
+            recipe.AddRecipe();
+        }
+
+    }
+
+    public class FireBait : PoweredBait
+    {
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
+            DisplayName.SetDefault("Fire Bait");
+            Tooltip.SetDefault("Hot to the touch!");
+        }
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            debuffID = BuffID.OnFire;
+        }
+
+        public override void AddRecipes()
+        {
+            BaitRecipe recipe = new BaitRecipe(mod);
+            recipe.AddIngredient(ItemID.JourneymanBait, 10);
+            recipe.AddIngredient(ItemID.Meteorite);
+            recipe.AddTile(TileID.Bottles);
+            recipe.SetResult(this, 10);
+            recipe.AddRecipe();
+        }
+    }
+
+    public class FireMasterBait : MasterPoweredBait
+    {
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
+            DisplayName.SetDefault("Fire Master Bait");
+            Tooltip.SetDefault("Hot to the touch!");
+        }
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            debuffID = BuffID.OnFire;
+        }
+
+        public override void AddRecipes()
+        {
+            BaitRecipe recipe = new BaitRecipe(mod);
+            recipe.AddIngredient(ItemID.MasterBait, 5);
+            recipe.AddIngredient(ItemID.Meteorite);
+            recipe.AddTile(TileID.Bottles);
+            recipe.SetResult(this, 5);
+            recipe.AddRecipe();
+        }
+    }
+}

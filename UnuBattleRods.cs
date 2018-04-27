@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
+using UnuBattleRods.Buffs;
 using UnuBattleRods.Items.Rods.HardMode;
 using UnuBattleRods.Items.Rods.NormalMode;
 using UnuBattleRods.NPCs;
@@ -11,26 +14,96 @@ using UnuBattleRods.Projectiles.Bobbers;
 
 namespace UnuBattleRods
 {
-	public class UnuBattleRods : Mod
-	{
-       public enum Message
+    public class UnuBattleRods : Mod
+    {
+        public static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs", "UnuBattlleRods");
+
+        public static bool startWithRod = true;
+        public static bool startWithBait = true;
+
+        public static bool harderLureRecipes = true;
+        public static bool allowFishedItems = true;
+
+        public static List<String> fishToReplace = new List<String>();
+
+        public enum Message
         {
             BobProjectilePosition = 0,
             MimicSpawn = 1,
             BobAIUpdate = 2,
             BobDPS = 3,
             HealEffect = 4,
-            ManaEffect = 5
+            ManaEffect = 5,
+            BaitUpdate = 8,
+            DebuffUpdate = 12,
+            ReceiveConfig = 14
         }
-		public UnuBattleRods()
-		{
-			Properties = new ModProperties()
-			{
-				Autoload = true,
-				AutoloadGores = true,
-				AutoloadSounds = true
-			};
-		}
+        public UnuBattleRods()
+        {
+            Properties = new ModProperties()
+            {
+                Autoload = true,
+                AutoloadGores = true,
+                AutoloadSounds = true
+            };
+        }
+
+        public override void Load()
+        {
+            loadConfig();
+
+            base.Load();
+        }
+
+        public void loadConfig()
+        {
+            if (!System.IO.Directory.Exists(ConfigPath))
+            {
+                System.IO.Directory.CreateDirectory(ConfigPath);
+            }
+            Preferences config = new Preferences(Path.Combine(ConfigPath, "main.json"));
+            if (!config.Load())
+            {
+                config.Put("startWithRod", true);
+                config.Put("startWithBait", true);
+                config.Put("harderLureRecipes", true);
+                config.Put("allowFishedItems", true);
+                makeDefaultFishReplaceList();
+                config.Put("fishToReplace", fishToReplace);
+                config.Save();
+            }
+
+            startWithRod = config.Get<bool>("startWithRod", true);
+            startWithBait = config.Get<bool>("startWithBait", true);
+            harderLureRecipes = config.Get<bool>("harderLureRecipes", true);
+            allowFishedItems = config.Get<bool>("allowFishedItems", true);
+            fishToReplace.Clear();
+            List<string> fr = getStringListFromConfig(config, "fishToReplace");
+            if(fr.Count != 0)
+            {
+                fishToReplace.AddRange(fr);
+            }else
+            {
+                makeDefaultFishReplaceList();
+            }
+            
+        }
+
+        private void makeDefaultFishReplaceList()
+        {
+            fishToReplace.Clear();
+            fishToReplace.Add("" + ItemID.WoodenCrate);
+            fishToReplace.Add("" + ItemID.Bass);
+            fishToReplace.Add("" + ItemID.Salmon);
+            fishToReplace.Add("" + ItemID.Trout);
+            fishToReplace.Add("" + ItemID.Tuna);
+            fishToReplace.Add("" + ItemID.AtlanticCod);
+            fishToReplace.Add("" + ItemID.NeonTetra);
+            fishToReplace.Add("" + ItemID.RedSnapper);
+            fishToReplace.Add("" + ItemID.Honeyfin);
+            fishToReplace.Add("" + ItemID.Obsidifish);
+            return;
+        }
 
         public override void AddRecipeGroups()
         {
@@ -44,14 +117,30 @@ namespace UnuBattleRods
             AddRGBars();
             AddRGArmors();
             AddRGRods();
-           
+
         }
 
-        
+        public static bool thoriumPresent = false;
+
+        public override void PostSetupContent()
+        {
+            Mod bosses = ModLoader.GetMod("BossChecklist");
+            if (bosses != null)
+            {
+                object[] parameters = new object[5];
+                parameters[0] = "AddBossWithInfo";
+                parameters[1] = "Cooler";
+                parameters[2] = 5.39f;
+                parameters[3] = new Func<bool>(() => FishWorld.downedCooler);
+                parameters[4] = "Place a [i:" + this.ItemType("IceyWorm") + "] alone in a chest. Warning: Difficulty increases in hardmode.";
+                bosses.Call(parameters);
+            }
+            thoriumPresent = ModLoader.GetMod("ThoriumMod") != null;
+        }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-           int i = reader.ReadByte();
+            int i = reader.ReadByte();
             try
             {
                 if (i == 0 && Main.netMode == 2)
@@ -142,7 +231,7 @@ namespace UnuBattleRods
                         player.ManaEffect(syphon);
                     }
                 }
-                if(i == 6)
+                if (i == 6)
                 {
                     int who = reader.ReadInt16();
                     float x = reader.ReadSingle();
@@ -150,29 +239,31 @@ namespace UnuBattleRods
                     //float xSpeed = reader.ReadSingle();
                     //float ySpeed = reader.ReadSingle();
 
-                    if(who >= 0 && who < Main.npc.Length)
+                    if (who >= 0 && who < Main.npc.Length)
                     {
                         FishGlobalNPC npcGlobal = Main.npc[who].GetGlobalNPC<FishGlobalNPC>();
                         //npcGlobal.newSpeed = new Vector2(xSpeed, ySpeed);
                         npcGlobal.newCenter = new Vector2(x, y);
-                    }else if (who >= Main.npc.Length && who < Main.npc.Length + Main.player.Length)
+                    }
+                    else if (who >= Main.npc.Length && who < Main.npc.Length + Main.player.Length)
                     {
                         FishPlayer p = Main.player[who - Main.npc.Length].GetModPlayer<FishPlayer>();
                         //p.newSpeed = new Vector2(xSpeed, ySpeed);
                         p.newCenter = new Vector2(x, y);
-                    }else
+                    }
+                    else
                     {
                         return;
                     }
-                    if(Main.netMode == NetmodeID.Server)
+                    if (Main.netMode == NetmodeID.Server)
                     {
                         ModPacket pk = GetPacket();
                         pk.Write((byte)6);
                         pk.Write((short)who);
                         pk.Write(x);
                         pk.Write(y);
-                       // pk.Write(xSpeed);
-                       // pk.Write(ySpeed);
+                        // pk.Write(xSpeed);
+                        // pk.Write(ySpeed);
                         pk.Send();
                     }
                 }
@@ -206,14 +297,143 @@ namespace UnuBattleRods
                         pk.Send();
                     }
                 }
-
+                if (i == 9)
+                {
+                    for (int k = 0; k < Main.player.Length; k++)
+                    {
+                        if (Main.player[k].active && !Main.player[k].dead)
+                        {
+                            FishPlayer pl = Main.player[k].GetModPlayer<FishPlayer>();
+                            if (pl.hasAnyBaitBuffs() || pl.hasAnyBaitDebuffs())
+                            {
+                                pl.updateBaits();
+                            }
+                        }
+                    }
+                }
+                if (i == 10)
+                {
+                    int plr = reader.ReadInt16();
+                    int[] buffs = new int[4];
+                    int[] debuffs = new int[4];
+                    // ErrorLogger.Log("Recieved update package. Player no " + plr);
+                    int buffTime = reader.ReadInt32();
+                    FishPlayer pl = Main.player[plr].GetModPlayer<FishPlayer>();
+                    for (int k = 0; k < pl.baitBuff.Length; k++)
+                    {
+                        buffs[k] = reader.ReadInt32();
+                    }
+                    for (int k = 0; k < pl.baitDebuff.Length; k++)
+                    {
+                        debuffs[k] = reader.ReadInt32();
+                    }
+                    if (Main.netMode == NetmodeID.MultiplayerClient && Main.myPlayer == plr)
+                        return;
+                    int pbtype = BuffType<PoweredBaitBuff>();
+                    for (int j = 0; j < 22; j++)
+                    {
+                        if (pl.player.buffType[j] == pbtype)
+                        {
+                            pl.player.buffTime[j] = buffTime;
+                            pl.baitTimer = buffTime;
+                            for (int k = 0; k < pl.baitBuff.Length; k++)
+                            {
+                                pl.addBaitBuffs(buffTime, k, buffs[k]);
+                            }
+                            for (int k = 0; k < pl.baitDebuff.Length; k++)
+                            {
+                                pl.addBaitDebuffs(buffTime, k, debuffs[k]);
+                            }
+                        }
+                    }
+                    for (int j = 0; j < 22; j++)
+                    {
+                        if (pl.player.buffType[j] <= 0)
+                        {
+                            pl.player.buffType[j] = pbtype;
+                            pl.player.buffTime[j] = buffTime;
+                            pl.baitTimer = buffTime;
+                            for (int k = 0; k < pl.baitBuff.Length; k++)
+                            {
+                                pl.addBaitBuffs(buffTime, k, buffs[k]);
+                            }
+                            for (int k = 0; k < pl.baitDebuff.Length; k++)
+                            {
+                                pl.addBaitDebuffs(buffTime, k, debuffs[k]);
+                            }
+                        }
+                    }
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket pk = GetPacket();
+                        pk.Write((byte)10);
+                        pk.Write((short)plr);
+                        pk.Write(buffTime);
+                        for (int k = 0; k < pl.baitBuff.Length; k++)
+                        {
+                            pk.Write(pl.baitBuff[k]);
+                        }
+                        for (int k = 0; k < pl.baitDebuff.Length; k++)
+                        {
+                            pk.Write(pl.baitDebuff[k]);
+                        }
+                        pk.Send();
+                    }
+                }
+                if(i == 12)
+                {
+                    int updatee = reader.ReadInt32();
+                    int count = reader.ReadInt32();
+                    List<int> debuffs = new List<int>();
+                    for (int k = 0; k< count; k++)
+                    {
+                        debuffs.Add(reader.ReadInt32());
+                    }
+                    if(updatee >= Main.npc.Length)
+                    {
+                        FishPlayer pl = Main.player[updatee - Main.npc.Length].GetModPlayer<FishPlayer>();
+                        pl.debuffsPresent.Clear();
+                        pl.debuffsPresent.AddRange(debuffs);
+                    }else
+                    {
+                        NPC npc = Main.npc[updatee];
+                        FishGlobalNPC fgnpc = npc.GetGlobalNPC<FishGlobalNPC>();
+                        fgnpc.debuffsPresent.Clear();
+                        fgnpc.debuffsPresent.AddRange(debuffs);
+                    }
+                    if(Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket pk = GetPacket();
+                        pk.Write((byte)UnuBattleRods.Message.DebuffUpdate);
+                        pk.Write(updatee);
+                        pk.Write(count);
+                        for (int k = 0; k < count; k++)
+                        {
+                            pk.Write(debuffs[k]);
+                        }
+                        pk.Send();
+                    }
+                }
+                if(i == 14)//Syncronize Config to server options
+                {
+                    byte flags = reader.ReadByte();
+                    harderLureRecipes = ((flags & 1) == 1);
+                    allowFishedItems = ((flags & 2) == 2);
+                    int fishCount = reader.ReadInt32();
+                    fishToReplace.Clear();
+                    for(int k = 0; k < fishCount; k++)
+                    {
+                        fishToReplace.Add(reader.ReadString());
+                    }
+                }
             }
             catch (Exception ex)
             {
-                if(Main.netMode != 2)
+                if (Main.netMode != 2)
                 {
                     Main.NewText("Exception on message " + i + ": " + ex.ToString());
-                }else
+                }
+                else
                 {
                     Console.WriteLine("Exception on message " + i + ": " + ex.ToString());
                 }
@@ -228,6 +448,18 @@ namespace UnuBattleRods
                  ItemID.DemoniteBar, ItemID.CrimtaneBar
             });
             RecipeGroup.RegisterGroup("UnuBattleRods:BossBars", group);
+
+            group = new RecipeGroup(() => Lang.misc[37] + " " + "Rotten Chunk/Vertebrea", new int[]
+            {
+                 ItemID.RottenChunk, ItemID.Vertebrae
+            });
+            RecipeGroup.RegisterGroup("UnuBattleRods:EvilDrop", group);
+
+            group = new RecipeGroup(() => Lang.misc[37] + " " + "Shadow Scales/Tissue Samples", new int[]
+            {
+                 ItemID.ShadowScale, ItemID.TissueSample
+            });
+            RecipeGroup.RegisterGroup("UnuBattleRods:EvilScale", group);
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Copper/Tin Bar", new int[]
             {
@@ -504,6 +736,167 @@ namespace UnuBattleRods
                  this.ItemType<AdamantiteBattlerod>(), this.ItemType<TitaniumBattlerod>()
            });
             RecipeGroup.RegisterGroup("UnuBattleRods:HMTier3Rods", group);
+        }
+
+
+        public static int getTypeFromTag(string tag)
+        {
+            int type = 0;
+            if (!Int32.TryParse(tag, out type))
+            {
+                Mod m = ModLoader.GetMod(tag.Split(':')[0]);
+                if (m != null)
+                    type = m.ItemType(tag.Split(':')[1]);
+            }
+            return type;
+        }
+
+        public static Item getItemFromTag(string tag, bool noMatCheck = false)
+        {
+            Item ret = new Item();
+            int type = getTypeFromTag(tag);
+            if (type != 0)
+                ret.SetDefaults(type, noMatCheck);
+            return ret;
+        }
+
+        public static string ItemToTag(Item itm)
+        {
+            String type = "" + itm.type;
+            if (itm.modItem != null)
+            {
+                type = itm.modItem.mod.Name + ":" + itm.modItem.Name;
+            }
+
+            return type;
+        }
+
+        public static int getItemTypeFromTag(string tag)
+        {
+            int type = 0;
+            if (!Int32.TryParse(tag, out type))
+            {
+                Mod m = ModLoader.GetMod(tag.Split(':')[0]);
+                if (m != null)
+                    type = m.ItemType(tag.Split(':')[1]);
+            }
+            return type;
+        }
+
+        public static List<string> getStringListFromConfig(Preferences configuration, string tokenID)
+        {
+            List<string> ans = new List<string>();
+            Newtonsoft.Json.Linq.JArray o = configuration.Get<Newtonsoft.Json.Linq.JArray>(tokenID, null);
+            if (o != null)
+            {
+                foreach (Newtonsoft.Json.Linq.JToken j in o)
+                {
+                    ans.Add(j.ToString());
+                }
+            }
+            return ans;
+        }
+
+        public override void AddRecipes()
+        {
+            AddLureRecipes();
+        }
+
+        ModRecipe recipe1Lure;
+        ModRecipe recipe2Lure;
+        ModRecipe recipe4Lure;
+        ModRecipe recipe4LureHM;
+        ModRecipe recipe8Lure;
+        ModRecipe recipe8LureHM;
+        ModRecipe recipe16Lure;
+        ModRecipe recipe16LureHM;
+        ModRecipe recipe32Lure;
+        ModRecipe recipe32LureHM;
+
+        public void AddLureRecipes()
+        {
+            recipe1Lure = new ModRecipe(this);
+            recipe1Lure.AddIngredient(ItemID.Cobweb, 25);
+            recipe1Lure.AddIngredient(ItemID.Hook, 1);
+            recipe1Lure.AddTile(TileID.WorkBenches);
+            recipe1Lure.SetResult(this, "ExtraLure");
+            
+            recipe2Lure = new ModRecipe(this);
+            recipe2Lure.AddIngredient(ItemID.Cobweb, 10);
+            recipe2Lure.AddIngredient(this, "ExtraLure", 2);
+            recipe2Lure.AddTile(TileID.WorkBenches);
+            recipe2Lure.SetResult(this, "DoubleLure");
+
+            recipe4Lure = new EasyRecipe(this);
+            recipe4Lure.AddIngredient(ItemID.Cobweb, 10);
+            recipe4Lure.AddIngredient(this, "DoubleLure", 2);
+            recipe4Lure.AddTile(TileID.WorkBenches);
+            recipe4Lure.SetResult(this, "QuadLure");
+
+            recipe4LureHM = new HardRecipe(this);
+            recipe4LureHM.AddIngredient(ItemID.Cobweb, 25);
+            recipe4LureHM.AddIngredient(this, "DoubleLure", 2);
+            recipe4LureHM.AddIngredient(this, "StarMix", 6);
+            recipe4LureHM.AddTile(TileID.TinkerersWorkbench);
+            recipe4LureHM.SetResult(this, "QuadLure");
+         
+            recipe8Lure = new EasyRecipe(this);
+            recipe8Lure.AddIngredient(ItemID.Cobweb, 10);
+            recipe8Lure.AddIngredient(this, "QuadLure", 2);
+            recipe8Lure.AddTile(TileID.TinkerersWorkbench);
+            recipe8Lure.SetResult(this, "OctoLure");
+
+            recipe8LureHM = new HardRecipe(this);
+            recipe8LureHM.AddIngredient(ItemID.Cobweb, 25);
+            recipe8LureHM.AddIngredient(this, "QuadLure", 2);
+            recipe8LureHM.AddIngredient(this, "EnergyAmalgamate", 4);
+            recipe8LureHM.AddTile(TileID.TinkerersWorkbench);
+            recipe8LureHM.SetResult(this, "OctoLure");
+                       
+            recipe16Lure = new EasyRecipe(this);
+            recipe16Lure.AddIngredient(ItemID.Cobweb, 10);
+            recipe16Lure.AddRecipeGroup("UnuBattleRods:HMTier2Bars", 5);
+            recipe16Lure.AddIngredient(this, "OctoLure", 2);
+            recipe16Lure.AddTile(TileID.TinkerersWorkbench);
+            recipe16Lure.SetResult(this, "BoxOfLures");
+
+            recipe16LureHM = new HardRecipe(this);
+            recipe16LureHM.AddIngredient(ItemID.Cobweb, 25);
+            recipe16LureHM.AddIngredient(ItemID.LunarBar, 5);
+            recipe16LureHM.AddIngredient(this, "OctoLure", 2);
+            recipe16LureHM.AddIngredient(this, "EnergyAmalgamate", 8);
+            recipe16LureHM.AddTile(TileID.TinkerersWorkbench);
+            recipe16LureHM.SetResult(this, "BoxOfLures");
+            
+            
+            recipe32Lure = new EasyRecipe(this);
+            recipe32Lure.AddIngredient(ItemID.Cobweb, 10);
+            recipe32Lure.AddIngredient(ItemID.ChlorophyteBar, 5);
+            recipe32Lure.AddIngredient(this, "BoxOfLures", 2);
+            recipe32Lure.AddTile(TileID.TinkerersWorkbench);
+            recipe32Lure.SetResult(this, "BoxOfCountlessLures");
+
+            recipe32LureHM = new HardRecipe(this);
+            recipe32LureHM.AddIngredient(ItemID.Cobweb, 25);
+            recipe32LureHM.AddIngredient(this, "BoxOfLures", 2);
+            recipe32LureHM.AddIngredient(this, "FractaliteBar", 12);
+            recipe32LureHM.AddTile(TileID.TinkerersWorkbench);
+            recipe32LureHM.SetResult(this, "BoxOfCountlessLures");
+           
+
+            recipe1Lure.AddRecipe();
+            recipe2Lure.AddRecipe();
+
+            recipe4LureHM.AddRecipe();
+            recipe8LureHM.AddRecipe();
+            recipe16LureHM.AddRecipe();
+            recipe32LureHM.AddRecipe();
+            
+            recipe4Lure.AddRecipe();
+            recipe8Lure.AddRecipe();
+            recipe16Lure.AddRecipe();
+            recipe32Lure.AddRecipe();
+
         }
     }
 }

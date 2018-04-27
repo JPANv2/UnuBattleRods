@@ -25,6 +25,10 @@ namespace UnuBattleRods.Items.Accessories.Lures
 
         public override void UpdateEquip(Player player)
         {
+            if (lures == 0)
+            {
+                SetDefaults();
+            }
             if ((lures < -128) || (player.GetModPlayer<FishPlayer>(mod).multilineFishing <= -128))
             {
                 player.GetModPlayer<FishPlayer>(mod).multilineFishing = lures;

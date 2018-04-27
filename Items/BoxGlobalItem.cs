@@ -42,6 +42,20 @@ namespace UnuBattleRods.Items
                 {
                     player.QuickSpawnItem(mod.ItemType("DungeonBattlerod"));
                 }
+                if (UnuBattleRods.thoriumPresent)
+                {
+                    if (Main.rand.Next(3) == 0) 
+                    {
+                        if (NPC.downedPlantBoss)
+                        {
+                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:DarkMatter"), Main.rand.Next(1, 4));
+                        }
+                    }
+                    if (Main.rand.Next(6) == 0)
+                    {
+                        player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:DarksteelCore"), Main.rand.Next(1, 4));
+                    }
+                }
             }
 
         }

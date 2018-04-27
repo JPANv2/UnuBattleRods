@@ -40,6 +40,12 @@ namespace UnuBattleRods.Items.Armors.NormalMode
             }
         }
 
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        {
+            drawHair = true;
+            //drawAltHair = true;
+        }
+
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return head.type == this.item.type && body.type == mod.ItemType("StarmixVest") && legs.type == mod.ItemType("StarmixPants");

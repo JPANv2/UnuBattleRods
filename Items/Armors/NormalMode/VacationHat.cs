@@ -38,6 +38,12 @@ namespace UnuBattleRods.Items.Armors.NormalMode
             return head.type == this.item.type && body.type == mod.ItemType("VacationVest") && legs.type == mod.ItemType("VacationPants");
         }
 
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        {
+            drawHair = true;
+            //drawAltHair = true;
+        }
+
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Increases Fishing Damage and Bob Speed by 5%";

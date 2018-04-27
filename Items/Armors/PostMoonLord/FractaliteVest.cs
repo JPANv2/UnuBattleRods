@@ -36,7 +36,10 @@ namespace UnuBattleRods.Items.Armors.PostMoonLord
             pl.bobberSpeed += 0.2f;
             pl.bobberDamage += 0.2f;
         }
-
+        public override void DrawHands(ref bool drawHands, ref bool drawArms)
+        {
+            drawHands = true;
+        }
 
         public override void AddRecipes()
         {

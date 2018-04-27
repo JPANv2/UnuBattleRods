@@ -28,7 +28,10 @@ namespace UnuBattleRods.Items.Armors.NormalMode
             item.defense = 9;
             item.value = Item.sellPrice(0, 1, 0, 0);
         }
-
+        public override void DrawHands(ref bool drawHands, ref bool drawArms)
+        {
+            drawHands = true;
+        }
         public override void UpdateEquip(Player player)
         {
             player.fishingSkill += 8;

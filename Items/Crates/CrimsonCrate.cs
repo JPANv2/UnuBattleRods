@@ -29,6 +29,11 @@ namespace UnuBattleRods.Items.Crates
                 player.QuickSpawnItem(ItemID.VampireKnives);
             }
 
+            if(Main.rand.Next(50)==0)
+            {
+                player.QuickSpawnItem(ItemID.MeatGrinder, 1);
+            }
+
             if (Main.hardMode && Main.rand.Next(25) == 0)
             {
                 switch (Main.rand.Next(5))
@@ -49,6 +54,34 @@ namespace UnuBattleRods.Items.Crates
                         player.QuickSpawnItem(ItemID.TendonHook);
                         break;
                 }
+            }
+
+            if(Main.rand.Next(25) == 0)
+            {
+                switch (Main.rand.Next(5))
+                {
+                    case 0:
+                        player.QuickSpawnItem(ItemID.PanicNecklace);
+                        break;
+                    case 1:
+                        player.QuickSpawnItem(ItemID.TheUndertaker);
+                        player.QuickSpawnItem(ItemID.MusketBall, 100);
+                        break;
+                    case 2:
+                        player.QuickSpawnItem(ItemID.CrimsonRod);
+                        break;
+                    case 3:
+                        player.QuickSpawnItem(ItemID.TheRottedFork);
+                        break;
+                    default:
+                        player.QuickSpawnItem(ItemID.CrimsonHeart);
+                        break;
+                }
+            }
+
+            if(Main.hardMode && Main.rand.Next(3) == 0)
+            {
+                player.QuickSpawnItem(ItemID.Ichor, Main.rand.Next(2, 8));
             }
 
             player.QuickSpawnItem(ItemID.CrimtaneOre, Main.rand.Next(5, 26));
