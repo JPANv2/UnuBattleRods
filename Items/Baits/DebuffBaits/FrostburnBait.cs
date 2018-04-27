@@ -28,7 +28,7 @@ namespace UnuBattleRods.Items.Baits.DebuffBaits
             recipe.AddIngredient(ItemID.ApprenticeBait);
             recipe.AddIngredient(ItemID.IceTorch);
             recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this, 3);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
 

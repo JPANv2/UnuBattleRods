@@ -52,10 +52,10 @@ namespace UnuBattleRods.Items.Baits.DebuffBaits
         public override void AddRecipes()
         {
             BaitRecipe recipe = new BaitRecipe(mod);
-            recipe.AddIngredient(ItemID.JourneymanBait,2);
-            recipe.AddIngredient(ItemID.VialofVenom);
+            recipe.AddIngredient(ItemID.JourneymanBait,5);
+            recipe.AddIngredient(ItemID.VialofVenom,2);
             recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this, 2);
+            recipe.SetResult(this, 5);
             recipe.AddRecipe();
         }
     }
