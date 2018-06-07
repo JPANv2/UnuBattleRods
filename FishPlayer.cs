@@ -561,8 +561,10 @@ namespace UnuBattleRods
                     }
                 }
             }
-
-            checkForMimicLikeSpawns();
+            if(Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                checkForMimicLikeSpawns();
+            }
         }
 
         private void fireFireBees()
