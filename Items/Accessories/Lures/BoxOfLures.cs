@@ -39,7 +39,8 @@ namespace UnuBattleRods.Items.Accessories.Lures
             recipe.SetResult(this);
             recipe.AddRecipe();*/
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+
+        /*public override void UpdateAccessory(Player player, bool hideVisual)
         {
 			player.GetModPlayer<FishPlayer>(mod).multilineFishing += 16;
         }
@@ -47,7 +48,7 @@ namespace UnuBattleRods.Items.Accessories.Lures
         public override bool CanEquipAccessory(Player player, int slot)
         {
             return true;
-        }
+        }*/
 
     }
 }

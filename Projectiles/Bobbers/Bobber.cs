@@ -61,6 +61,10 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 }
                 else
                 {
+                    if(npcIndex != -1)
+                    {
+                        onDiscard(getStuckEntity());
+                    }
                     npcIndex = -1;
                     updatePos = true;
                     base.AI();
@@ -626,6 +630,11 @@ namespace UnuBattleRods.Projectiles.Bobbers
             }
             else
             {
+                if (npcIndex != -1)
+                {
+                    onDiscard(getStuckEntity());
+                }
+
                 npcIndex = -1;
                 projectile.ai[0] = 2f;
                 updatePos = true;
@@ -1063,6 +1072,11 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     ans.Add(Main.player[i]);
             }
             return ans;
+        }
+
+        public virtual void onDiscard(Entity stuck)
+        {
+            Main.player[Main.myPlayer].GetModPlayer<FishPlayer>().onBobKill(this);
         }
     }
 }

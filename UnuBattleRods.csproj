@@ -45,6 +45,7 @@
     <Compile Include="FishPlayer.cs" />
     <Compile Include="FishWorld.cs" />
     <Compile Include="Items\Accessories\Capes\WormCape.cs" />
+    <Compile Include="Items\Accessories\Discarded\Discardable.cs" />
     <Compile Include="Items\Accessories\Hooks\BarbedHook.cs" />
     <Compile Include="Items\Accessories\Hooks\CrateCallingHook.cs" />
     <Compile Include="Items\Accessories\Hooks\CurrencyHook.cs" />

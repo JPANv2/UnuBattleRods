@@ -33,6 +33,7 @@ namespace UnuBattleRods.Items.Rods.HardMode
             recipe.AddIngredient(mod, "FishronBattlerod");
             recipe.AddIngredient(mod ,"BetsyBattlerod");
             recipe.AddIngredient(mod, "EnergyAmalgamate", 2);
+            recipe.AddIngredient(ItemID.Cobweb, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

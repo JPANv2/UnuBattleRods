@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using UnuBattleRods.Buffs;
+using UnuBattleRods.Items.Accessories.Discarded;
 using UnuBattleRods.Items.Armors.NormalMode;
 using UnuBattleRods.Items.Baits;
 using UnuBattleRods.Items.Baits.BuffBaits;
@@ -103,6 +104,7 @@ namespace UnuBattleRods
         public int baitTimer = 0;
         public List<int> debuffsPresent = new List<int>();
 
+        public Discardable currentDiscard = null;
 
         public override void ResetEffects()
         {
@@ -165,6 +167,8 @@ namespace UnuBattleRods
             lifeforceArmorEffect = false;
             fractaliteArmorEffect = false;
             wormSpawner = false;
+
+            currentDiscard = null;
             base.ResetEffects();
         }
 
@@ -2864,6 +2868,14 @@ namespace UnuBattleRods
                     pk.Write(debuffsPresent[i]);
                 }
                 pk.Send();
+            }
+        }
+
+        public void onBobKill(Bobber proj)
+        {
+            if(currentDiscard != null)
+            {
+                currentDiscard.onDiscard(proj.getStuckEntity());
             }
         }
     }

@@ -16,9 +16,17 @@ namespace UnuBattleRods.Items.Baits
         protected int debuffID = -1;
         protected int buffTime = 0;
 
-        
+        public override bool CloneNewInstances
+        {
+            get
+            {
+                return true; 
+            }
+        }
+
         public virtual void addBuffToPlayer(Player player, int slot)
         {
+
             FishPlayer pl = player.GetModPlayer<FishPlayer>();
             int pbtype = mod.BuffType<PoweredBaitBuff>();
 
