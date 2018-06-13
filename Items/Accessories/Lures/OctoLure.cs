@@ -12,7 +12,13 @@ namespace UnuBattleRods.Items.Accessories.Lures
 {
     public class OctoLure : FishingLure
     {
-
+        public override bool CloneNewInstances
+        {
+            get
+            {
+                return true;
+            }
+        }
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

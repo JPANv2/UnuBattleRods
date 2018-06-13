@@ -12,6 +12,15 @@ namespace UnuBattleRods.Items.Accessories.Knives
 {
     class FractaliteFishingKnife : BaseFishingKnife
     {
+
+        public override bool CloneNewInstances
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fractalite Fishing Knife");

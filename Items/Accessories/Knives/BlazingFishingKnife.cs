@@ -12,6 +12,15 @@ namespace UnuBattleRods.Items.Accessories.Knives
 {
     class BlazingFishingKnife : BaseFishingKnife
     {
+
+        public override bool CloneNewInstances
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Fishing Knife");

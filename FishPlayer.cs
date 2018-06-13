@@ -877,9 +877,25 @@ namespace UnuBattleRods
             if (junk)
                 return;
 
-            if(canReplaceFish(caughtType))
+            if (player.position.Y >= Main.maxTilesY*0.91f && liquidType == 1 && Main.rand.Next(6) == 0)
             {
-                if((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(24) == 0 || (caughtType == ItemID.WoodenCrate && Main.rand.Next(12) == 0))
+                caughtType = mod.ItemType("CrustyStar");
+                return;
+            }
+            if (liquidType == 2 && Main.rand.Next(7) == 0)
+            {
+                caughtType = mod.ItemType("HoneyStar");
+                return;
+            }
+
+            if (canReplaceFish(caughtType))
+            {
+                if(player.ZoneBeach && liquidType == 0 && Main.rand.Next(9) == 0)
+                {
+                    caughtType = mod.ItemType("SeaweedStar");
+                    return;
+                }
+                if ((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(24) == 0 || (caughtType == ItemID.WoodenCrate && Main.rand.Next(12) == 0))
                 {
                     replaceWithRodCrate(fishingRod, liquidType, ref caughtType);
                     return;

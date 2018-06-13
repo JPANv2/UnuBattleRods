@@ -167,7 +167,10 @@
     <Compile Include="Items\Materials\FractaliteBar.cs" />
     <Compile Include="Items\Materials\MasterBaiterCertificate.cs" />
     <Compile Include="Items\Materials\BetsyScales.cs" />
+    <Compile Include="Items\Materials\CrustyStar.cs" />
+    <Compile Include="Items\Materials\HoneyStar.cs" />
     <Compile Include="Items\Materials\Shadowflame.cs" />
+    <Compile Include="Items\Materials\SeaweedStar.cs" />
     <Compile Include="Items\Materials\StarMix.cs" />
     <Compile Include="Items\Pets\CratePetItem.cs" />
     <Compile Include="Items\Potions\BobEscalationPotion.cs" />
@@ -333,11 +336,11 @@
       <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Xact\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Xact.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\Visual Studio 2015\Projects\TestGameCSharp\TestGameCSharp\x86\Newtonsoft.Json.dll</HintPath>
+      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Terraria">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Terraria\Terraria.exe</HintPath>
+      <HintPath>D:\Steam\steamapps\common\Terraria\Terraria.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -510,8 +513,10 @@
     <Content Include="Items\Baits\DebuffBaits\IchorMasterBait.png" />
     <Content Include="Items\Baits\SummonBaits\IceyWorm.png" />
     <Content Include="Items\Materials\BetsyScales.png" />
+    <Content Include="Items\Materials\CrustyStar.png" />
     <Content Include="Items\Materials\FlinxFur.png" />
     <Content Include="Items\Materials\FungalSpores.png" />
+    <Content Include="Items\Materials\HoneyStar.png" />
     <Content Include="Items\Materials\MasterBaiterCertificate.png" />
     <Content Include="Items\Baits\DebuffBaits\MidasApprenticeBait.png" />
     <Content Include="Items\Baits\DebuffBaits\MidasBait.png" />
@@ -549,6 +554,7 @@
     <Content Include="Items\Materials\EnergyAmalgamate.png" />
     <Content Include="Items\Materials\FractaliteBar.png" />
     <Content Include="Items\Materials\LesserEnergyAmalgamate.png" />
+    <Content Include="Items\Materials\SeaweedStar.png" />
     <Content Include="Items\Materials\Shadowflame.png" />
     <Content Include="Items\Materials\StarMix.png" />
     <Content Include="Items\Pets\CratePetItem.png" />

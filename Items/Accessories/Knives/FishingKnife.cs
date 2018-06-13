@@ -11,6 +11,7 @@ namespace UnuBattleRods.Items.Accessories.Knives
 {
     class FishingKnife : BaseFishingKnife
     {
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Professional Fishing Knife");

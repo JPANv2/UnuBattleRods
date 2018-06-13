@@ -11,6 +11,15 @@ namespace UnuBattleRods.Items.Accessories.Metronomes
 {
     public class HyperFastMetronome : Metronome
     {
+
+        public override bool CloneNewInstances
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyper Fast Metronome");

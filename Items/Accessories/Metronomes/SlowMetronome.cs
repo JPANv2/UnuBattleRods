@@ -11,6 +11,14 @@ namespace UnuBattleRods.Items.Accessories.Metronomes
 {
     public class SlowMetronome : Metronome
     {
+        public override bool CloneNewInstances
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slow Metronome");
