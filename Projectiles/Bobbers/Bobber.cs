@@ -714,6 +714,17 @@ namespace UnuBattleRods.Projectiles.Bobbers
                    // pk.Write((float)target.velocity.X);
                    // pk.Write((float)target.velocity.Y);
                     pk.Send();
+                }else
+                {
+                    if(target is NPC)
+                    {
+                        ((NPC)target).GetGlobalNPC<FishGlobalNPC>().newCenter.X = target.Center.X;
+                        ((NPC)target).GetGlobalNPC<FishGlobalNPC>().newCenter.Y = target.Center.Y;
+                    }else if (target is Player)
+                    {
+                        ((Player)target).GetModPlayer<FishPlayer>().newCenter.X = target.Center.X;
+                        ((Player)target).GetModPlayer<FishPlayer>().newCenter.Y = target.Center.Y;
+                    }
                 }
             }
             updatePos = false;

@@ -528,6 +528,17 @@ namespace UnuBattleRods
                 //Main.NewText("Position: " + newCenter.X +" : " + newCenter.Y + " ;");
                 if (WorldGen.InWorld((int)(newCenter.X / 16.0f), (int)(newCenter.Y / 16.0f))){
                     player.Center = new Vector2(newCenter.X, newCenter.Y);
+                    for (int i = 0; i < Main.projectile.Length; i++)
+                    {
+                        if (Main.projectile[i].modProjectile != null)
+                        {
+                            Bobber b = Main.projectile[i].modProjectile as Bobber;
+                            if (b != null && ((b.npcIndex - Main.npc.Length) == player.whoAmI))
+                            {
+                                b.projectile.Center = new Vector2(newCenter.X, newCenter.Y);
+                            }
+                        }
+                    }
                 }
                // player.velocity = new Vector2(newSpeed.X, newSpeed.Y);
                 newCenter = new Vector2(-10000, -10000);

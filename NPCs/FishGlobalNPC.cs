@@ -65,6 +65,17 @@ namespace UnuBattleRods.NPCs
                 if (WorldGen.InWorld((int)(newCenter.X / 16.0f), (int)(newCenter.Y / 16.0f)))
                 { 
                     npc.Center = new Vector2(newCenter.X, newCenter.Y);
+                    for(int i = 0; i <Main.projectile.Length; i++)
+                    {
+                        if(Main.projectile[i].modProjectile != null)
+                        {
+                            Bobber b = Main.projectile[i].modProjectile as Bobber;
+                            if(b != null && b.npcIndex == npc.whoAmI)
+                            {
+                                b.projectile.Center = new Vector2(newCenter.X, newCenter.Y);
+                            }
+                        }
+                    }
                 }
                 // npc.velocity = new Vector2(newSpeed.X, newSpeed.Y);
                 newCenter = new Vector2(-10000, -10000);
