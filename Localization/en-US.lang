@@ -41,7 +41,7 @@ BuffDescription.CratePetBuff=A crate that helps you find crates!
 
 
 ItemName.WormCape=Cape of Worms
-ItemToolTip.WormCape=Spawns worms as you walk. Truffle worms will not flee from you.
+ItemTooltip.WormCape=Spawns worms as you walk. Truffle worms will not flee from you.
 
 
 // UnuBattleRods.Items.Accessories.Discarded
@@ -54,34 +54,34 @@ ItemName.Discardable=
 
 
 ItemName.BarbedHook=Barbed Hook
-ItemToolTip.BarbedHook=Increase fishing crit by 10%
+ItemTooltip.BarbedHook=Increase fishing crit by 10%
 
 ItemName.CrateCallingHook=Crate Calling Hook
-ItemToolTip.CrateCallingHook=5% chance for the enemy dropping a crate on kill. Crate type depends on the rod used.
+ItemTooltip.CrateCallingHook=5% chance for the enemy dropping a crate on kill. Crate type depends on the rod used.
 
 ItemName.CurrencyHook=Currency Hook
-ItemToolTip.CurrencyHook=0.5% chance for hooked enemy to drop some money after a bob. Money types change with game progression.
+ItemTooltip.CurrencyHook=0.5% chance for hooked enemy to drop some money after a bob. Money types change with game progression.
 
 ItemName.HeavenlyHook=Heavenly Hook
-ItemToolTip.HeavenlyHook=Increase fishing damage based on player altitude.
+ItemTooltip.HeavenlyHook=Increase fishing damage based on player altitude.
 
 ItemName.HookSet=Hook Set
-ItemToolTip.HookSet=Increase fishing damage based on player altitude\nIncrease fishing damage if enemy is under water\nSeals bobber-stuck enemies damage by 20%\nIncrease fishing crit by 20%
+ItemTooltip.HookSet=Increase fishing damage based on player altitude\nIncrease fishing damage if enemy is under water\nSeals bobber-stuck enemies damage by 20%\nIncrease fishing crit by 20%
 
 ItemName.RustyHook=Rusty Hook
-ItemToolTip.RustyHook=Increase fishing damage if enemy is under water.
+ItemTooltip.RustyHook=Increase fishing damage if enemy is under water.
 
 ItemName.SealedHook=Sealed Hook
-ItemToolTip.SealedHook=Seals bobber-stuck enemies damage by 20%
+ItemTooltip.SealedHook=Seals bobber-stuck enemies damage by 20%
 
 ItemName.SuperBarbedHook=Super Barbed Hook
-ItemToolTip.SuperBarbedHook=Increase fishing crit by 20%
+ItemTooltip.SuperBarbedHook=Increase fishing crit by 20%
 
 ItemName.UrgencyBobSpeeder=Urgency Bob Speeder
-ItemToolTip.UrgencyBobSpeeder=The lower the health, the faster the bob moves (up to 75% faster).
+ItemTooltip.UrgencyBobSpeeder=The lower the health, the faster the bob moves (up to 75% faster).
 
 ItemName.Wormicide=Wormicide
-ItemToolTip.Wormicide=Doubles bobber damage when stuck on a worm-like enemy.
+ItemTooltip.Wormicide=Doubles bobber damage when stuck on a worm-like enemy.
 
 
 // UnuBattleRods.Items.Accessories.Knives
@@ -90,16 +90,16 @@ ItemToolTip.Wormicide=Doubles bobber damage when stuck on a worm-like enemy.
 ItemName.BaseFishingKnife=
 
 ItemName.BlazingFishingKnife=Blazing Fishing Knife
-ItemToolTip.BlazingFishingKnife=Attacks enemies who are very near you, once every second.\n80 base Damage.\nAverage knockback.\nInflicts Solar Fire debuff.\nDouble damage to enemies stuck to your bobber.
+ItemTooltip.BlazingFishingKnife=Attacks enemies who are very near you, once every second.\n80 base Damage.\nAverage knockback.\nInflicts Solar Fire debuff.\nDouble damage to enemies stuck to your bobber.
 
 ItemName.FishingKnife=Professional Fishing Knife
-ItemToolTip.FishingKnife=Attacks enemies who are very near you, once every second.\n40 base Damage.\nAverage knockback.\nDouble damage to enemies stuck to your bobber.
+ItemTooltip.FishingKnife=Attacks enemies who are very near you, once every second.\n40 base Damage.\nAverage knockback.\nDouble damage to enemies stuck to your bobber.
 
 ItemName.FractaliteFishingKnife=Fractalite Fishing Knife
-ItemToolTip.FractaliteFishingKnife=Attacks enemies who are near you, twice per second.\n120 base Damage.\nStrong knockback.\nInflicts Frost Fire debuff.\nDouble damage to enemies stuck to your bobber.
+ItemTooltip.FractaliteFishingKnife=Attacks enemies who are near you, twice per second.\n120 base Damage.\nStrong knockback.\nInflicts Frost Fire debuff.\nDouble damage to enemies stuck to your bobber.
 
 ItemName.WoodenFishingKnife=Wooden Fishing Knife
-ItemToolTip.WoodenFishingKnife=Attacks enemies who are almost touching you, once every 2 seconds.\n15 base Damage.\nWeak knockback.\nDouble damage to enemies stuck to your bobber.
+ItemTooltip.WoodenFishingKnife=Attacks enemies who are almost touching you, once every 2 seconds.\n15 base Damage.\nWeak knockback.\nDouble damage to enemies stuck to your bobber.
 
 
 // UnuBattleRods.Items.Accessories.Lures
@@ -108,25 +108,25 @@ ItemToolTip.WoodenFishingKnife=Attacks enemies who are almost touching you, once
 ItemName.FishingLure=
 
 ItemName.BoxOfCountlessLures=Box of Countless Lures
-ItemToolTip.BoxOfCountlessLures=Allows for casting thirty-two extra lines while fishing.
+ItemTooltip.BoxOfCountlessLures=Allows for casting thirty-two extra lines while fishing.
 
 ItemName.BoxOfLures=Box of Lures
-ItemToolTip.BoxOfLures=Allows for casting sixteen extra lines while fishing.
+ItemTooltip.BoxOfLures=Allows for casting sixteen extra lines while fishing.
 
 ItemName.DoubleLure=Double Lure
-ItemToolTip.DoubleLure=Allows for casting two extra lines while fishing.
+ItemTooltip.DoubleLure=Allows for casting two extra lines while fishing.
 
 ItemName.ExtraLure=Extra Lure
-ItemToolTip.ExtraLure=Allows for casting one extra lines while fishing.
+ItemTooltip.ExtraLure=Allows for casting one extra lines while fishing.
 
 ItemName.OctoLure=Octo-Lure
-ItemToolTip.OctoLure=Allows for casting eight extra lines while fishing.
+ItemTooltip.OctoLure=Allows for casting eight extra lines while fishing.
 
 ItemName.Omnilure=Omnilure
-ItemToolTip.Omnilure=Forces only one lure, but with 15% more damage.
+ItemTooltip.Omnilure=Forces only one lure, but with 15% more damage.
 
 ItemName.QuadLure=Quad-Lure
-ItemToolTip.QuadLure=Allows for casting four extra lines while fishing.
+ItemTooltip.QuadLure=Allows for casting four extra lines while fishing.
 
 
 // UnuBattleRods.Items.Accessories.Metronomes
@@ -135,330 +135,330 @@ ItemToolTip.QuadLure=Allows for casting four extra lines while fishing.
 ItemName.Metronome=
 
 ItemName.FastMetronome=Fast Metronome
-ItemToolTip.FastMetronome=Increases bob speed by 10%, but decreases fishing damage by 8%
+ItemTooltip.FastMetronome=Increases bob speed by 10%, but decreases fishing damage by 8%
 
 ItemName.HyperFastMetronome=Hyper Fast Metronome
-ItemToolTip.HyperFastMetronome=Increases bob speed by 30%, but decreases fishing damage by 26%
+ItemTooltip.HyperFastMetronome=Increases bob speed by 30%, but decreases fishing damage by 26%
 
 ItemName.HyperSlowMetronome=Hyper Slow Metronome
-ItemToolTip.HyperSlowMetronome=Increases fishing damage by 30%, but decreases bob speed by 20%
+ItemTooltip.HyperSlowMetronome=Increases fishing damage by 30%, but decreases bob speed by 20%
 
 ItemName.SlowMetronome=Slow Metronome
-ItemToolTip.SlowMetronome=Increases fishing damage by 10%, but decreases bob speed by 5%
+ItemTooltip.SlowMetronome=Increases fishing damage by 10%, but decreases bob speed by 5%
 
 ItemName.SuperFastMetronome=Super Fast Metronome
-ItemToolTip.SuperFastMetronome=Increases bob speed by 20%, but decreases fishing damage by 18%
+ItemTooltip.SuperFastMetronome=Increases bob speed by 20%, but decreases fishing damage by 18%
 
 ItemName.SuperSlowMetronome=Super Slow Metronome
-ItemToolTip.SuperSlowMetronome=Increases fishing damage by 20%, but decreases bob speed by 15%
+ItemTooltip.SuperSlowMetronome=Increases fishing damage by 20%, but decreases bob speed by 15%
 
 
 // UnuBattleRods.Items.Accessories.Other
 
 
 ItemName.BobAccelerator=Bob Accelerator
-ItemToolTip.BobAccelerator=Increases your casting speed by 30%
+ItemTooltip.BobAccelerator=Increases your casting speed by 30%
 
 ItemName.BobScope=Bob Scope
-ItemToolTip.BobScope=Tries to hit all your bobbers where your cursor is aiming.
+ItemTooltip.BobScope=Tries to hit all your bobbers where your cursor is aiming.
 
 ItemName.DiscardableBobs=Discardable Bobbers
-ItemToolTip.DiscardableBobs=Allows you to re-cast very fast if bobs are retrieved from an enemy (right-click with rod).
+ItemTooltip.DiscardableBobs=Allows you to re-cast very fast if bobs are retrieved from an enemy (right-click with rod).
 
 ItemName.FasterFishingKit=Faster Fishing Kit
-ItemToolTip.FasterFishingKit=Allows you to re-cast very fast if bobs are retrieved from an enemy (right-click with rod).\nTries to hit your bobber where your cursor is aiming.\nIncreases your casting speed by 30 %.
+ItemTooltip.FasterFishingKit=Allows you to re-cast very fast if bobs are retrieved from an enemy (right-click with rod).\nTries to hit your bobber where your cursor is aiming.\nIncreases your casting speed by 30 %.
 
 ItemName.ManaEscalationReel=Mana Escalation Reel
-ItemToolTip.ManaEscalationReel=Increases bobber damage by 2% each second, but costs 8 mana per second.
+ItemTooltip.ManaEscalationReel=Increases bobber damage by 2% each second, but costs 8 mana per second.
 
 ItemName.MaximumManaEscalationReel=Maximum Mana Escalation Reel
-ItemToolTip.MaximumManaEscalationReel=Increases bobber damage by 12% each second, but costs 24 mana per second (maximum 300%).
+ItemTooltip.MaximumManaEscalationReel=Increases bobber damage by 12% each second, but costs 24 mana per second (maximum 300%).
 
 ItemName.StrongerManaEscalationReel=Stronger Mana Escalation Reel
-ItemToolTip.StrongerManaEscalationReel=Increases bobber damage by 7% each second, but costs 16 mana per second.
+ItemTooltip.StrongerManaEscalationReel=Increases bobber damage by 7% each second, but costs 16 mana per second.
 
 
 // UnuBattleRods.Items.Accessories.Shafts
 
 
 ItemName.ManaShieldShaft=Mana Shield Shaft
-ItemToolTip.ManaShieldShaft=Up to 15% of all damage received is deducted from your Mana instead.
+ItemTooltip.ManaShieldShaft=Up to 15% of all damage received is deducted from your Mana instead.
 
 ItemName.MaximumManaShieldShaft=Maximum Mana Shield Shaft
-ItemToolTip.MaximumManaShieldShaft=Up to 50% of all damage received is deducted from your Mana instead.
+ItemTooltip.MaximumManaShieldShaft=Up to 50% of all damage received is deducted from your Mana instead.
 
 ItemName.ProjectileCancelerShaft=Anti-Projectile Shaft
-ItemToolTip.ProjectileCancelerShaft=30% chance to disable an incoming hostile projectile if hooked to an enemy.
+ItemTooltip.ProjectileCancelerShaft=30% chance to disable an incoming hostile projectile if hooked to an enemy.
 
 ItemName.StrongerManaShieldShaft=Stronger Mana Shield Shaft
-ItemToolTip.StrongerManaShieldShaft=Up to 30% of all damage received is deducted from your Mana instead.
+ItemTooltip.StrongerManaShieldShaft=Up to 30% of all damage received is deducted from your Mana instead.
 
 
 // UnuBattleRods.Items.Accessories.Wires
 
 
 ItemName.HookshotWire=Hookshot Wire
-ItemToolTip.HookshotWire=Always reeled in towards the enemy.
+ItemTooltip.HookshotWire=Always reeled in towards the enemy.
 
 ItemName.LinkCable=Link Cable
-ItemToolTip.LinkCable=Damage increased by ammount bobbers stuck to different enemies.
+ItemTooltip.LinkCable=Damage increased by ammount bobbers stuck to different enemies.
 
 ItemName.MoonWire=Moon Wire
-ItemToolTip.MoonWire=Increases fishing damage based on the weather, time and moon phase.
+ItemTooltip.MoonWire=Increases fishing damage based on the weather, time and moon phase.
 
 ItemName.RedirectorWire=Redirector Wire
-ItemToolTip.RedirectorWire=Thorns damage is instead dealt equally to all enemies with your bobber attached.
+ItemTooltip.RedirectorWire=Thorns damage is instead dealt equally to all enemies with your bobber attached.
 
 ItemName.SyphoningWire=Syphoning Wire
-ItemToolTip.SyphoningWire=Provides 10% mana Syphon on damage dealt with the bobber.
+ItemTooltip.SyphoningWire=Provides 10% mana Syphon on damage dealt with the bobber.
 
 ItemName.ThornyRedirectorWire=Thorny Redirector Wire
-ItemToolTip.ThornyRedirectorWire=Thorns damage is also dealt equally to all enemies with your bobber attached.
+ItemTooltip.ThornyRedirectorWire=Thorns damage is also dealt equally to all enemies with your bobber attached.
 
 ItemName.TitanWire=Titan Wire
-ItemToolTip.TitanWire=Can always reel in the enemy, no matter the size (except if immobile). Fishing line never breaks.
+ItemTooltip.TitanWire=Can always reel in the enemy, no matter the size (except if immobile). Fishing line never breaks.
 
 ItemName.VampiricWire=Vampiric Wire
-ItemToolTip.VampiricWire=Provides 10% life steal on damage dealt with the bobber.
+ItemTooltip.VampiricWire=Provides 10% life steal on damage dealt with the bobber.
 
 
 // UnuBattleRods.Items.Armors.HardMode
 
 
 ItemName.EvilHatOfBlood=Evil Hat of Blood
-ItemToolTip.EvilHatOfBlood=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
+ItemTooltip.EvilHatOfBlood=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
 
 ItemName.EvilHatOfDarkness=Evil Hat of Darkness
-ItemToolTip.EvilHatOfDarkness=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
+ItemTooltip.EvilHatOfDarkness=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
 
 ItemName.EvilPantsOfBlood=Evil Pants of Blood
-ItemToolTip.EvilPantsOfBlood=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
+ItemTooltip.EvilPantsOfBlood=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
 
 ItemName.EvilPantsOfDarkness=Evil Pants of Darkness
-ItemToolTip.EvilPantsOfDarkness=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
+ItemTooltip.EvilPantsOfDarkness=Increases Fishing Skill by 8\nIncreases Bob Speed and Fishing Damage by 5%
 
 ItemName.EvilVestOfBlood=Evil Vest of Blood
-ItemToolTip.EvilVestOfBlood=Increases Fishing Skill by 10\nIncreases Bob Speed and Fishing Damage by 8%
+ItemTooltip.EvilVestOfBlood=Increases Fishing Skill by 10\nIncreases Bob Speed and Fishing Damage by 8%
 
 ItemName.EvilVestOfDarkness=Evil Vest of Darkness
-ItemToolTip.EvilVestOfDarkness=Increases Fishing Skill by 10\nIncreases Bob Speed and Fishing Damage by 8%
+ItemTooltip.EvilVestOfDarkness=Increases Fishing Skill by 10\nIncreases Bob Speed and Fishing Damage by 8%
 
 ItemName.HardTriadHat=Hard Triad Hat
-ItemToolTip.HardTriadHat=Increases Fishing Skill by 12\nIncreases Bob Speed and Fishing Damage by 8%
+ItemTooltip.HardTriadHat=Increases Fishing Skill by 12\nIncreases Bob Speed and Fishing Damage by 8%
 
 ItemName.HardTriadPants=Hard Triad Pants
-ItemToolTip.HardTriadPants=Increases Fishing Skill by 13\nIncreases Bob Speed and Fishing Damage by 8%
+ItemTooltip.HardTriadPants=Increases Fishing Skill by 13\nIncreases Bob Speed and Fishing Damage by 8%
 
 ItemName.HardTriadVest=Hard Triad Vest
-ItemToolTip.HardTriadVest=Increases Fishing Skill by 15\nIncreases Bob Speed and Fishing Damage by 12%
+ItemTooltip.HardTriadVest=Increases Fishing Skill by 15\nIncreases Bob Speed and Fishing Damage by 12%
 
 ItemName.LifeforceHat=Lifeforce Hat
-ItemToolTip.LifeforceHat=Increases Fishing Skill by 20\nIncreases Bob Speed and Fishing Damage by 12%
+ItemTooltip.LifeforceHat=Increases Fishing Skill by 20\nIncreases Bob Speed and Fishing Damage by 12%
 
 ItemName.LifeforcePants=Lifeforce Pants
-ItemToolTip.LifeforcePants=Increases Fishing Skill by 20\nIncreases Movement speed by 20%
+ItemTooltip.LifeforcePants=Increases Fishing Skill by 20\nIncreases Movement speed by 20%
 
 ItemName.LifeforceVest=Lifeforce Vest
-ItemToolTip.LifeforceVest=Increases Fishing Skill by 25\nIncreases Bob Speed and Fishing Damage by 16%
+ItemTooltip.LifeforceVest=Increases Fishing Skill by 25\nIncreases Bob Speed and Fishing Damage by 16%
 
 
 // UnuBattleRods.Items.Armors.NormalMode
 
 
 ItemName.BeeteoriteHat=Beeteorite Hat
-ItemToolTip.BeeteoriteHat=Increases Fishing Skill by 5\nIncreases Bob Speed by 6%
+ItemTooltip.BeeteoriteHat=Increases Fishing Skill by 5\nIncreases Bob Speed by 6%
 
 ItemName.BeeteoritePants=Beeteorite Pants
-ItemToolTip.BeeteoritePants=Increases Fishing Skill by 5\nIncreases Bob Speed by 6%
+ItemTooltip.BeeteoritePants=Increases Fishing Skill by 5\nIncreases Bob Speed by 6%
 
 ItemName.BeeteoriteVest=Beeteorite Vest
-ItemToolTip.BeeteoriteVest=Increases Fishing Skill by 5\nIncreases Fishing Damage by 8%
+ItemTooltip.BeeteoriteVest=Increases Fishing Skill by 5\nIncreases Fishing Damage by 8%
 
 ItemName.FlinxHat=Flinx Hat
-ItemToolTip.FlinxHat=Increases Fishing Skill by 3\nIncreases Bob Speed and Damage by 3%\nMade out of real Flinx!
+ItemTooltip.FlinxHat=Increases Fishing Skill by 3\nIncreases Bob Speed and Damage by 3%\nMade out of real Flinx!
 
 ItemName.SnowSlothPants=Snow Sloth Pants
-ItemToolTip.SnowSlothPants=Increases Fishing Skill by 3\nIncreases Bob Speed and Damage by 2%\nMade of real Flinx!
+ItemTooltip.SnowSlothPants=Increases Fishing Skill by 3\nIncreases Bob Speed and Damage by 2%\nMade of real Flinx!
 
 ItemName.SnowSlothVest=Snow Sloth Vest
-ItemToolTip.SnowSlothVest=Increases Fishing Skill by 5\nIncreases Bob Speed and Damage by 3%\nMade of real Flinx!
+ItemTooltip.SnowSlothVest=Increases Fishing Skill by 5\nIncreases Bob Speed and Damage by 3%\nMade of real Flinx!
 
 ItemName.StarmixHat=Star Mix Hat
-ItemToolTip.StarmixHat=Increases Fishing Skill by 6\nIncreases Bob Speed by 5%\nGives double defense in Hardmode.
+ItemTooltip.StarmixHat=Increases Fishing Skill by 6\nIncreases Bob Speed by 5%\nGives double defense in Hardmode.
 
 ItemName.StarmixPants=Star Mix Pants
-ItemToolTip.StarmixPants=Increases Fishing Skill by 6\nIncreases Bob Speed by 5%\nGives double defense in Hardmode.
+ItemTooltip.StarmixPants=Increases Fishing Skill by 6\nIncreases Bob Speed by 5%\nGives double defense in Hardmode.
 
 ItemName.StarmixVest=Star Mix Vest
-ItemToolTip.StarmixVest=Increases Fishing Skill by 8\nIncreases Fishing Damage by 5%\nGives double defense in Hardmode.
+ItemTooltip.StarmixVest=Increases Fishing Skill by 8\nIncreases Fishing Damage by 5%\nGives double defense in Hardmode.
 
 ItemName.VacationHat=Vacation Hat
-ItemToolTip.VacationHat=Increases Fishing Skill by 3
+ItemTooltip.VacationHat=Increases Fishing Skill by 3
 
 ItemName.VacationPants=Vacation Pants
-ItemToolTip.VacationPants=Increases Fishing Skill by 3
+ItemTooltip.VacationPants=Increases Fishing Skill by 3
 
 ItemName.VacationVest=Vacation Vest
-ItemToolTip.VacationVest=Increases Fishing Skill by 5
+ItemTooltip.VacationVest=Increases Fishing Skill by 5
 
 ItemName.WerewolfHat=Werewolf Hat
-ItemToolTip.WerewolfHat=Increases fishing skill, damage and bob speed.\nNight and Moon phases alters stats.\nMoon events too.\nWerewolf friendly.
+ItemTooltip.WerewolfHat=Increases fishing skill, damage and bob speed.\nNight and Moon phases alters stats.\nMoon events too.\nWerewolf friendly.
 
 ItemName.WerewolfPants=Werewolf Pants
-ItemToolTip.WerewolfPants=Increases fishing skill, damage and bob speed.\nNight and Moon phases alters stats.\nMoon events too.\nWerewolf friendly.
+ItemTooltip.WerewolfPants=Increases fishing skill, damage and bob speed.\nNight and Moon phases alters stats.\nMoon events too.\nWerewolf friendly.
 
 ItemName.WerewolfVest=Werewolf Vest
-ItemToolTip.WerewolfVest=Increases fishing skill, damage and bob speed.\nNight and Moon phases alters stats.\nMoon events too.\nWerewolf friendly.
+ItemTooltip.WerewolfVest=Increases fishing skill, damage and bob speed.\nNight and Moon phases alters stats.\nMoon events too.\nWerewolf friendly.
 
 
 // UnuBattleRods.Items.Armors.PostMoonLord
 
 
 ItemName.FractaliteHat=Fractalite Hat
-ItemToolTip.FractaliteHat=Increases Fishing Skill by 30\nIncreases Bob Speed and Fishing Damage by 15%
+ItemTooltip.FractaliteHat=Increases Fishing Skill by 30\nIncreases Bob Speed and Fishing Damage by 15%
 
 ItemName.FractalitePants=Fractalite Pants
-ItemToolTip.FractalitePants=Increases Fishing Skill by 30\nIncreases Bob Speed and Fishing Damage by 10%\nIncreases movement speed by 35%
+ItemTooltip.FractalitePants=Increases Fishing Skill by 30\nIncreases Bob Speed and Fishing Damage by 10%\nIncreases movement speed by 35%
 
 ItemName.FractaliteVest=Fractalite Vest
-ItemToolTip.FractaliteVest=Increases Fishing Skill by 50\nIncreases Bob Speed and Fishing Damage by 20%
+ItemTooltip.FractaliteVest=Increases Fishing Skill by 50\nIncreases Bob Speed and Fishing Damage by 20%
 
 
 // UnuBattleRods.Items.Baits.BuffBaits
 
 
 ItemName.DoctorBait=Doctor Bait
-ItemToolTip.DoctorBait=Heals you just right.
+ItemTooltip.DoctorBait=Heals you just right.
 
 ItemName.DryadApprenticeBait=Dryad Apprentice Bait
-ItemToolTip.DryadApprenticeBait=Dryad protection in bait form.
+ItemTooltip.DryadApprenticeBait=Dryad protection in bait form.
 
 ItemName.DryadBait=Dryad Bait
-ItemToolTip.DryadBait=Dryad protection in bait form.
+ItemTooltip.DryadBait=Dryad protection in bait form.
 
 ItemName.DryadMasterBait=Dryad Master Bait
-ItemToolTip.DryadMasterBait=Dryad protection in bait form.
+ItemTooltip.DryadMasterBait=Dryad protection in bait form.
 
 
 // UnuBattleRods.Items.Baits.DebuffBaits
 
 
 ItemName.BetsyCurseApprenticeBait=Betsy's Curse Apprentice Bait
-ItemToolTip.BetsyCurseApprenticeBait=Curse of the Dragon!
+ItemTooltip.BetsyCurseApprenticeBait=Curse of the Dragon!
 
 ItemName.BetsyCurseBait=Betsy's Curse Bait
-ItemToolTip.BetsyCurseBait=Curse of the Dragon!
+ItemTooltip.BetsyCurseBait=Curse of the Dragon!
 
 ItemName.BetsyCurseMasterBait=Betsy's Curse Master Bait
-ItemToolTip.BetsyCurseMasterBait=Curse of the Dragon!
+ItemTooltip.BetsyCurseMasterBait=Curse of the Dragon!
 
 ItemName.ConfusionApprenticeBait=Confusion Apprentice Bait
-ItemToolTip.ConfusionApprenticeBait=Confusing bugs!
+ItemTooltip.ConfusionApprenticeBait=Confusing bugs!
 
 ItemName.ConfusionBait=Confusion Bait
-ItemToolTip.ConfusionBait=Confusing bugs!
+ItemTooltip.ConfusionBait=Confusing bugs!
 
 ItemName.ConfusionMasterBait=Confusion Master Bait
-ItemToolTip.ConfusionMasterBait=Confusing bugs!
+ItemTooltip.ConfusionMasterBait=Confusing bugs!
 
 ItemName.CursedFlameApprenticeBait=Cursed Flame Apprentice Bait
-ItemToolTip.CursedFlameApprenticeBait=The power of Green Fire!
+ItemTooltip.CursedFlameApprenticeBait=The power of Green Fire!
 
 ItemName.CursedFlameBait=Cursed Flame Bait
-ItemToolTip.CursedFlameBait=The power of Green Fire!
+ItemTooltip.CursedFlameBait=The power of Green Fire!
 
 ItemName.CursedFlameMasterBait=Cursed Flame Master Bait
-ItemToolTip.CursedFlameMasterBait=The power of Green Fire!
+ItemTooltip.CursedFlameMasterBait=The power of Green Fire!
 
 ItemName.FireApprenticeBait=Fire Apprentice Bait
-ItemToolTip.FireApprenticeBait=Hot to the touch!
+ItemTooltip.FireApprenticeBait=Hot to the touch!
 
 ItemName.FireBait=Fire Bait
-ItemToolTip.FireBait=Hot to the touch!
+ItemTooltip.FireBait=Hot to the touch!
 
 ItemName.FireMasterBait=Fire Master Bait
-ItemToolTip.FireMasterBait=Hot to the touch!
+ItemTooltip.FireMasterBait=Hot to the touch!
 
 ItemName.FrostburnApprenticeBait=Frost Burn Apprentice Bait
-ItemToolTip.FrostburnApprenticeBait=Cold to the touch!
+ItemTooltip.FrostburnApprenticeBait=Cold to the touch!
 
 ItemName.FrostburnBait=Frost Burn Bait
-ItemToolTip.FrostburnBait=Cold to the touch!
+ItemTooltip.FrostburnBait=Cold to the touch!
 
 ItemName.FrostburnMasterBait=Frost Burn Master Bait
-ItemToolTip.FrostburnMasterBait=Cold to the touch!
+ItemTooltip.FrostburnMasterBait=Cold to the touch!
 
 ItemName.FrostfireApprenticeBait=Frost Fire Apprentice Bait
-ItemToolTip.FrostfireApprenticeBait=Its either too hot or too cold!
+ItemTooltip.FrostfireApprenticeBait=Its either too hot or too cold!
 
 ItemName.FrostfireBait=Frost Fire Bait
-ItemToolTip.FrostfireBait=Its either too hot or too cold!
+ItemTooltip.FrostfireBait=Its either too hot or too cold!
 
 ItemName.FrostfireMasterBait=Frost Fire Master Bait
-ItemToolTip.FrostfireMasterBait=Its either too hot or too cold!
+ItemTooltip.FrostfireMasterBait=Its either too hot or too cold!
 
 ItemName.IchorApprenticeBait=Ichor Apprentice Bait
-ItemToolTip.IchorApprenticeBait=Icky and Sticky!
+ItemTooltip.IchorApprenticeBait=Icky and Sticky!
 
 ItemName.IchorBait=Ichor Bait
-ItemToolTip.IchorBait=Icky and Sticky!
+ItemTooltip.IchorBait=Icky and Sticky!
 
 ItemName.IchorMasterBait=Ichor Master Bait
-ItemToolTip.IchorMasterBait=Icky and Sticky!
+ItemTooltip.IchorMasterBait=Icky and Sticky!
 
 ItemName.MidasApprenticeBait=Midas Apprentice Bait
-ItemToolTip.MidasApprenticeBait=Turns enemies into Coins!
+ItemTooltip.MidasApprenticeBait=Turns enemies into Coins!
 
 ItemName.MidasBait=Midas Bait
-ItemToolTip.MidasBait=Turns enemies into Coins!
+ItemTooltip.MidasBait=Turns enemies into Coins!
 
 ItemName.MidasMasterBait=Midas Master Bait
-ItemToolTip.MidasMasterBait=Turns enemies into Coins!
+ItemTooltip.MidasMasterBait=Turns enemies into Coins!
 
 ItemName.OilApprenticeBait=Oil Apprentice Bait
-ItemToolTip.OilApprenticeBait=Very flammable!
+ItemTooltip.OilApprenticeBait=Very flammable!
 
 ItemName.OilBait=Oil Bait
-ItemToolTip.OilBait=Very flammable!
+ItemTooltip.OilBait=Very flammable!
 
 ItemName.OilMasterBait=Oil Master Bait
-ItemToolTip.OilMasterBait=Very flammable!
+ItemTooltip.OilMasterBait=Very flammable!
 
 ItemName.PoisonApprenticeBait=Poison Apprentice Bait
-ItemToolTip.PoisonApprenticeBait=Poisonous!
+ItemTooltip.PoisonApprenticeBait=Poisonous!
 
 ItemName.PoisonBait=Poison Bait
-ItemToolTip.PoisonBait=Poisonous!
+ItemTooltip.PoisonBait=Poisonous!
 
 ItemName.PoisonMasterBait=Poison Master Bait
-ItemToolTip.PoisonMasterBait=Poisonous!
+ItemTooltip.PoisonMasterBait=Poisonous!
 
 ItemName.ShadowflameApprenticeBait=Shadowflame Apprentice Bait
-ItemToolTip.ShadowflameApprenticeBait=Straight from the goblins!
+ItemTooltip.ShadowflameApprenticeBait=Straight from the goblins!
 
 ItemName.ShadowflameBait=Shadowflame Bait
-ItemToolTip.ShadowflameBait=Straight from the goblins!
+ItemTooltip.ShadowflameBait=Straight from the goblins!
 
 ItemName.ShadowflameMasterBait=Shadowflame Master Bait
-ItemToolTip.ShadowflameMasterBait=Straight from the goblins!
+ItemTooltip.ShadowflameMasterBait=Straight from the goblins!
 
 ItemName.SolarfireApprenticeBait=Solar Fire Apprentice Bait
-ItemToolTip.SolarfireApprenticeBait=Hot as the Sun!
+ItemTooltip.SolarfireApprenticeBait=Hot as the Sun!
 
 ItemName.SolarfireBait=Solar Fire Bait
-ItemToolTip.SolarfireBait=Hot as the Sun!
+ItemTooltip.SolarfireBait=Hot as the Sun!
 
 ItemName.SolarfireMasterBait=Solar Fire Master Bait
-ItemToolTip.SolarfireMasterBait=Hot as the Sun!
+ItemTooltip.SolarfireMasterBait=Hot as the Sun!
 
 ItemName.VenomApprenticeBait=Venom Apprentice Bait
-ItemToolTip.VenomApprenticeBait=Venomous!
+ItemTooltip.VenomApprenticeBait=Venomous!
 
 ItemName.VenomBait=Venom Bait
-ItemToolTip.VenomBait=Venomous!
+ItemTooltip.VenomBait=Venomous!
 
 ItemName.VenomMasterBait=Venom Master Bait
-ItemToolTip.VenomMasterBait=Venomous!
+ItemTooltip.VenomMasterBait=Venomous!
 
 
 // UnuBattleRods.Items.Baits
@@ -477,14 +477,14 @@ ItemName.MasterPoweredBait=
 
 
 ItemName.IceyWorm=Icy Worm
-ItemToolTip.IceyWorm=I wonder what I could catch with this...
+ItemTooltip.IceyWorm=I wonder what I could catch with this...
 
 
 // UnuBattleRods.Items.BossBags
 
 
 ItemName.CoolerBossBag=Treasure Bag
-ItemToolTip.CoolerBossBag=Right click to open
+ItemTooltip.CoolerBossBag=Right click to open
 
 
 // UnuBattleRods.Items.Crates
@@ -511,7 +511,7 @@ ItemName.MarbleCrate=Marble Crate
 ItemName.MeteorCrate=Meteor Crate
 
 ItemName.MimicCrate=Odd Crate
-ItemToolTip.MimicCrate=Something tells me I should not try and open this...
+ItemTooltip.MimicCrate=Something tells me I should not try and open this...
 
 ItemName.ObsidianCrate=Obsidian Crate
 
@@ -530,33 +530,33 @@ ItemName.TerraCrate=Terra Crate
 ItemName.BetsyScales=Betsy Scales
 
 ItemName.CrustyStar=Crusty Star
-ItemToolTip.CrustyStar=A fallen star, crusty with obsidian.\nTo be used in the Extractinator.
+ItemTooltip.CrustyStar=A fallen star, crusty with obsidian.\nTo be used in the Extractinator.
 
 ItemName.EnergyAmalgamate=Energy Amalgamate
-ItemToolTip.EnergyAmalgamate=Concentrated Souls
+ItemTooltip.EnergyAmalgamate=Concentrated Souls
 
 ItemName.FlinxFur=Flinx Fur
-ItemToolTip.FlinxFur=Would make a fine hat.
+ItemTooltip.FlinxFur=Would make a fine hat.
 
 ItemName.FractaliteBar=Fractalite Bar
 
 ItemName.FungalSpores=Fungal Spores
-ItemToolTip.FungalSpores=This could be used to prepare fur.
+ItemTooltip.FungalSpores=This could be used to prepare fur.
 
 ItemName.HoneyStar=Honey-glued stars
-ItemToolTip.HoneyStar=fallen stars glued by the bees.\nBurn off the honey on the Furnace.
+ItemTooltip.HoneyStar=fallen stars glued by the bees.\nBurn off the honey on the Furnace.
 
 ItemName.LesserEnergyAmalgamate=Lesser Energy Amalgamate
-ItemToolTip.LesserEnergyAmalgamate=Concentrated Souls
+ItemTooltip.LesserEnergyAmalgamate=Concentrated Souls
 
 ItemName.MasterBaiterCertificate=Certificate of a Master Baiter
-ItemToolTip.MasterBaiterCertificate=Allows you to craft Powered Baits when consumed, permanently.
+ItemTooltip.MasterBaiterCertificate=Allows you to craft Powered Baits when consumed, permanently.
 
 ItemName.SeaweedStar=Seaweed Star
-ItemToolTip.SeaweedStar=A fallen star, covered in damp (sea)weed.\nBurn off the weed on the Furnace.
+ItemTooltip.SeaweedStar=A fallen star, covered in damp (sea)weed.\nBurn off the weed on the Furnace.
 
 ItemName.Shadowflame=Shadowflame
-ItemToolTip.Shadowflame=Purest flame from the Goblin Summoners
+ItemTooltip.Shadowflame=Purest flame from the Goblin Summoners
 
 ItemName.StarMix=Star Mix
 
@@ -565,26 +565,26 @@ ItemName.StarMix=Star Mix
 
 
 ItemName.CratePetItem=Crate Charm
-ItemToolTip.CratePetItem=Summons a Crate Pet that greatly helps you fish crates.
+ItemTooltip.CratePetItem=Summons a Crate Pet that greatly helps you fish crates.
 
 
 // UnuBattleRods.Items.Potions
 
 
 ItemName.BobEscalationPotion=Bob Escalation Potion
-ItemToolTip.BobEscalationPotion=Increase damage by 2% per second while the bobber is attatched to the same enemy.
+ItemTooltip.BobEscalationPotion=Increase damage by 2% per second while the bobber is attatched to the same enemy.
 
 ItemName.BobSpeedingPotion=Bob Speeding Potion
-ItemToolTip.BobSpeedingPotion=Increases your bob speed by 25%
+ItemTooltip.BobSpeedingPotion=Increases your bob speed by 25%
 
 ItemName.FasterEscalationPotion=Faster Escalation Potion
-ItemToolTip.FasterEscalationPotion=Increase damage by 5% per second while the bobber is attatched to the same enemy.
+ItemTooltip.FasterEscalationPotion=Increase damage by 5% per second while the bobber is attatched to the same enemy.
 
 ItemName.FurtherEscalationPotion=Further Escalation Potion
-ItemToolTip.FurtherEscalationPotion=Increases max Escalation bonus by 200%. Does not give any escalation bonus by itself.
+ItemTooltip.FurtherEscalationPotion=Increases max Escalation bonus by 200%. Does not give any escalation bonus by itself.
 
 ItemName.MaximumEscalationPotion=Maximum Escalation Potion
-ItemToolTip.MaximumEscalationPotion=Increase damage by 8% per second while the bobber is attatched to the same enemy. Maximum of 100 times base damage.
+ItemTooltip.MaximumEscalationPotion=Increase damage by 8% per second while the bobber is attatched to the same enemy. Maximum of 100 times base damage.
 
 
 // UnuBattleRods.Items.Rods.HardMode
@@ -593,69 +593,69 @@ ItemToolTip.MaximumEscalationPotion=Increase damage by 8% per second while the b
 ItemName.AdamantiteBattlerod=Adamantite Battle Rod
 
 ItemName.BeeteoriteBattlerod=Beeteorite Battle Rod
-ItemToolTip.BeeteoriteBattlerod=Spawns fire bees that inflict On Fire and any other debuffs your baits may have.\nBait time decreased each time bees get spawned.
+ItemTooltip.BeeteoriteBattlerod=Spawns fire bees that inflict On Fire and any other debuffs your baits may have.\nBait time decreased each time bees get spawned.
 
 ItemName.BeetleBattlerod=Beetle Battle Rod
-ItemToolTip.BeetleBattlerod=Releases beetles.
+ItemTooltip.BeetleBattlerod=Releases beetles.
 
 ItemName.BetsyBattlerod=Betsy's Battle Rod
-ItemToolTip.BetsyBattlerod=Inflicts Betsy's Curse debuff(on npcs).\nAllows 2 different powered baits at once.
+ItemTooltip.BetsyBattlerod=Inflicts Betsy's Curse debuff(on npcs).\nAllows 2 different powered baits at once.
 
 ItemName.ChlorophyteBattlerod=Chlorophyte Battle Rod
-ItemToolTip.ChlorophyteBattlerod=Spreads spores when idle.
+ItemTooltip.ChlorophyteBattlerod=Spreads spores when idle.
 
 ItemName.CobaltBattlerod=Cobalt Battle Rod
 
 ItemName.DragonMixBattlerod=Dragon Mix Battle Rod
-ItemToolTip.DragonMixBattlerod=The Power of Dragons!\nInflicts Betsy's Curse debuff(on npcs).\nReleases bubbles.\nAllows 2 different powered baits at once.
+ItemTooltip.DragonMixBattlerod=The Power of Dragons!\nInflicts Betsy's Curse debuff(on npcs).\nReleases bubbles.\nAllows 2 different powered baits at once.
 
 ItemName.EvilRodOfBlood=Evil Rod of Blood
-ItemToolTip.EvilRodOfBlood=Provides slight life steal.
+ItemTooltip.EvilRodOfBlood=Provides slight life steal.
 
 ItemName.EvilRodOfDarkness=Evil Rod of Darkness
-ItemToolTip.EvilRodOfDarkness=Provides slight mana shyphon.
+ItemTooltip.EvilRodOfDarkness=Provides slight mana shyphon.
 
 ItemName.FishronBattlerod=Fishron Battle Rod
-ItemToolTip.FishronBattlerod=King of the Sea. Releases bubbles.
+ItemTooltip.FishronBattlerod=King of the Sea. Releases bubbles.
 
 ItemName.ForbiddenBattlerod=Forbidden Battle Rod
-ItemToolTip.ForbiddenBattlerod=Watch out for sandnados!
+ItemTooltip.ForbiddenBattlerod=Watch out for sandnados!
 
 ItemName.FrostBattlerod=Frost Battle Rod
-ItemToolTip.FrostBattlerod=Imbued with the power of Frost Fire.
+ItemTooltip.FrostBattlerod=Imbued with the power of Frost Fire.
 
 ItemName.HallowedBattlerod=Hallowed Battle Rod
-ItemToolTip.HallowedBattlerod=Super effective against Bosses!
+ItemTooltip.HallowedBattlerod=Super effective against Bosses!
 
 ItemName.HardTriadBattlerod=Hard Triad Battle Rod
-ItemToolTip.HardTriadBattlerod=Good against Bosses, but best against regular enemies.\nGenerates tornadoes when wet and inflicts Frost Fire.
+ItemTooltip.HardTriadBattlerod=Good against Bosses, but best against regular enemies.\nGenerates tornadoes when wet and inflicts Frost Fire.
 
 ItemName.LifeforceBattlerod=Lifeforce Battle Rod
-ItemToolTip.LifeforceBattlerod=Drains lifeforce from your opponent. Suprisingly fast.
+ItemTooltip.LifeforceBattlerod=Drains lifeforce from your opponent. Suprisingly fast.
 
 ItemName.MythrilBattlerod=Mythril Battle Rod
 
 ItemName.OrichalcumBattlerod=Orichalcum Battle Rod
-ItemToolTip.OrichalcumBattlerod=So pretty!
+ItemTooltip.OrichalcumBattlerod=So pretty!
 
 ItemName.PalladiumBattlerod=Palladium Battle Rod
 
 ItemName.ShroomiteBattlerod=Shroomite Battle Rod
-ItemToolTip.ShroomiteBattlerod=Spreads mushrooms when idle. Suprisingly fast.
+ItemTooltip.ShroomiteBattlerod=Spreads mushrooms when idle. Suprisingly fast.
 
 ItemName.SpectreBattlerod=Spectre Battle Rod
-ItemToolTip.SpectreBattlerod=Spreads magnet spheres when idle. Slight life steal.
+ItemTooltip.SpectreBattlerod=Spreads magnet spheres when idle. Slight life steal.
 
 ItemName.SpookyBattlerod=Spooky Battle Rod
-ItemToolTip.SpookyBattlerod=Shoots bats.
+ItemTooltip.SpookyBattlerod=Shoots bats.
 
 ItemName.TerraBattlerod=Terra Battle Rod
-ItemToolTip.TerraBattlerod=The Legendary Rod. Shoots blades when idle.
+ItemTooltip.TerraBattlerod=The Legendary Rod. Shoots blades when idle.
 
 ItemName.TitaniumBattlerod=Titanium Battle Rod
 
 ItemName.TurtleBattlerod=Turtle Battle Rod
-ItemToolTip.TurtleBattlerod=Reflects all damage when attached.
+ItemTooltip.TurtleBattlerod=Reflects all damage when attached.
 
 
 // UnuBattleRods.Items.Rods
@@ -668,50 +668,50 @@ ItemName.BattleRod=
 
 
 ItemName.BeeBattlerod=Bee Battle Rod
-ItemToolTip.BeeBattlerod=So many Bees!
+ItemTooltip.BeeBattlerod=So many Bees!
 
 ItemName.CactusBattlerod=Cactus Battle Rod
-ItemToolTip.CactusBattlerod=Prickly!
+ItemTooltip.CactusBattlerod=Prickly!
 
 ItemName.CoolerBattlerod=Cooler Battle Rod
-ItemToolTip.CoolerBattlerod=Allows 3 different powered baits at once.\nDoes (almost) no damage.
+ItemTooltip.CoolerBattlerod=Allows 3 different powered baits at once.\nDoes (almost) no damage.
 
 ItemName.CopperBattlerod=Copper Battle Rod
 
 ItemName.CorruptBattlerod=Corrupt Battle Rod
-ItemToolTip.CorruptBattlerod=Very slight mana syphon.
+ItemTooltip.CorruptBattlerod=Very slight mana syphon.
 
 ItemName.CrimsonBattlerod=Crimson Battle Rod
-ItemToolTip.CrimsonBattlerod=Very slight life steal.
+ItemTooltip.CrimsonBattlerod=Very slight life steal.
 
 ItemName.DungeonBattlerod=Dungeon Battle Rod
-ItemToolTip.DungeonBattlerod=I feel like I'm being wached...
+ItemTooltip.DungeonBattlerod=I feel like I'm being wached...
 
 ItemName.EdgeBattlerod=Edge Battle Rod
 
 ItemName.GoldBattlerod=Gold Battle Rod
-ItemToolTip.GoldBattlerod=Not a Golden Fishing Rod...\nI can hear the money raining down!
+ItemTooltip.GoldBattlerod=Not a Golden Fishing Rod...\nI can hear the money raining down!
 
 ItemName.HellstoneBattlerod=Hellstone Battle Rod
-ItemToolTip.HellstoneBattlerod=Sets enemies on fire!\nCan fish in lava.
+ItemTooltip.HellstoneBattlerod=Sets enemies on fire!\nCan fish in lava.
 
 ItemName.IronBattlerod=Iron Battle Rod
 
 ItemName.JungleBattlerod=Jungle Battle Rod
-ItemToolTip.JungleBattlerod=Poison enemies.
+ItemTooltip.JungleBattlerod=Poison enemies.
 
 ItemName.LeadBattlerod=Lead Battle Rod
 
 ItemName.MeteorBattlerod=Meteor Battle Rod
-ItemToolTip.MeteorBattlerod=Sets enemies on fire!
+ItemTooltip.MeteorBattlerod=Sets enemies on fire!
 
 ItemName.PlatinumBattlerod=Platinum Battle Rod
 
 ItemName.SilverBattlerod=Silver Battle Rod
-ItemToolTip.SilverBattlerod=Really effective against werewolfs.
+ItemTooltip.SilverBattlerod=Really effective against werewolfs.
 
 ItemName.StarMixBattlerod=Star Mix Battle Rod
-ItemToolTip.StarMixBattlerod=Doubles the damage against bosses.
+ItemTooltip.StarMixBattlerod=Doubles the damage against bosses.
 
 ItemName.TinBattlerod=Tin Battle Rod
 
@@ -724,38 +724,38 @@ ItemName.WoodenBattlerod=Wooden Battle Rod
 
 
 ItemName.FractaliteBattlerod=Fractalite Battle Rod
-ItemToolTip.FractaliteBattlerod=Creates an area where it infilcts enemies with the Solar Fire debuff.\nReally strong.\nFires homing bullets.
+ItemTooltip.FractaliteBattlerod=Creates an area where it infilcts enemies with the Solar Fire debuff.\nReally strong.\nFires homing bullets.
 
 ItemName.NebulaBattlerod=Nebula Battle Rod
-ItemToolTip.NebulaBattlerod=Releases helpfull pickups when wet.
+ItemTooltip.NebulaBattlerod=Releases helpfull pickups when wet.
 
 ItemName.RodContainmentUnit=Rod Containment Unit
-ItemToolTip.RodContainmentUnit=The Ultimate Battle Rod!\nCreates a large area around the bobber that damages whoever is inside.
+ItemTooltip.RodContainmentUnit=The Ultimate Battle Rod!\nCreates a large area around the bobber that damages whoever is inside.
 
 ItemName.SolarBattlerod=Solar Battle Rod
-ItemToolTip.SolarBattlerod=Creates an area where it infilcts enemies with the Solar Fire debuff.\nReally strong.\nCan fish in lava.
+ItemTooltip.SolarBattlerod=Creates an area where it infilcts enemies with the Solar Fire debuff.\nReally strong.\nCan fish in lava.
 
 ItemName.StardustBattlerod=Stardust Battle Rod
-ItemToolTip.StardustBattlerod=Creates two Stardust Cell minions on swing.\nReally good at fishing!
+ItemTooltip.StardustBattlerod=Creates two Stardust Cell minions on swing.\nReally good at fishing!
 
 ItemName.VortexBattlerod=Vortex Battle Rod
-ItemToolTip.VortexBattlerod=Fires homing bullets.\nReally Fast!
+ItemTooltip.VortexBattlerod=Fires homing bullets.\nReally Fast!
 
 
 // UnuBattleRods.Items.Weapons.Cooler
 
 
 ItemName.BeerPack=Pack of Beer
-ItemToolTip.BeerPack=Not so cold anymore.
+ItemTooltip.BeerPack=Not so cold anymore.
 
 ItemName.IceCreamer=Ice Creamer
-ItemToolTip.IceCreamer=Shoots one of four different flavors!
+ItemTooltip.IceCreamer=Shoots one of four different flavors!
 
 ItemName.MagicSoda=Magic Soda
-ItemToolTip.MagicSoda=Shake and Spray! Damage usually decreases with distance.
+ItemTooltip.MagicSoda=Shake and Spray! Damage usually decreases with distance.
 
 ItemName.Melonbrand=Melonbrand
-ItemToolTip.Melonbrand=Throws melon slices on swing.
+ItemTooltip.Melonbrand=Throws melon slices on swing.
 
 
 // UnuBattleRods.NPCs
