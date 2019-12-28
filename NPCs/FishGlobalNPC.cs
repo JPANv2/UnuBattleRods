@@ -60,7 +60,7 @@ namespace UnuBattleRods.NPCs
                 }
             }
 
-            if(newCenter.X > -10000 && newCenter.Y > -10000)
+            if(newCenter.X > -100 && newCenter.Y > -100)
             {
                 if (WorldGen.InWorld((int)(newCenter.X / 16.0f), (int)(newCenter.Y / 16.0f)))
                 { 
@@ -88,7 +88,7 @@ namespace UnuBattleRods.NPCs
         {
             if(projectile.modProjectile != null && (projectile.modProjectile is Bobber))
             {
-                FishPlayer p = Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod);
+                FishPlayer p = Main.player[projectile.owner].GetModPlayer<FishPlayer>();
                 
                 if (p != null && p.wormicide && Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
                 {
@@ -141,7 +141,7 @@ namespace UnuBattleRods.NPCs
         {
             if (projectile.modProjectile != null && (projectile.modProjectile is Bobber))
             {
-                FishPlayer p = Main.player[projectile.owner].GetModPlayer<FishPlayer>(mod);
+                FishPlayer p = Main.player[projectile.owner].GetModPlayer<FishPlayer>();
                 if (p != null && Main.rand.Next(10000) < p.moneyPercent)
                 {
                     int itmID = ItemID.CopperCoin;
@@ -248,7 +248,7 @@ namespace UnuBattleRods.NPCs
                     Bobber b = Main.projectile[i].modProjectile as Bobber;
                     if(b != null && b.getStuckEntity() is NPC && b.getStuckEntity().whoAmI == npc.whoAmI)
                     {
-                        FishPlayer p = Main.player[b.projectile.owner].GetModPlayer<FishPlayer>(mod);
+                        FishPlayer p = Main.player[b.projectile.owner].GetModPlayer<FishPlayer>();
                         if(Main.rand.Next(10000) < p.cratePercent)
                         {
                             int itmID = ItemID.WoodenCrate;
@@ -259,9 +259,13 @@ namespace UnuBattleRods.NPCs
                             {
                                 itmID = ItemID.GoldenCrate;
                             }
-                            if (itmID == ItemID.WoodenCrate)
+                            if (itmID == ItemID.WoodenCrate && Main.rand.Next(2) == 0)
                             {
-                                p.replaceWithRodCrate(p.player.inventory[p.player.selectedItem], -1, ref itmID);
+                                List<int> possibleCrates = p.replaceWithRodCrate(p.player.inventory[p.player.selectedItem], -1);
+                                if (possibleCrates.Count > 0)
+                                {
+                                    itmID = possibleCrates[Main.rand.Next(possibleCrates.Count)];
+                                }
                             }
                             Item.NewItem(npc.Center, Vector2.Zero, itmID);
                         }
@@ -397,6 +401,17 @@ namespace UnuBattleRods.NPCs
                     pk.Write(debuffsPresent[i]);
                 }
                 pk.Send();
+            }
+        }
+
+        public void applyBaitDebuffs(int[] debuffs)
+        {
+            for (int i = 0; i < debuffs.Length; i++)
+            {
+                if (debuffs[i] >= 0 && !debuffsPresent.Contains(debuffs[i]))
+                {
+                    debuffsPresent.Add(debuffs[i]);
+                }
             }
         }
     }

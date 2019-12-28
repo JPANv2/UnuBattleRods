@@ -51,7 +51,7 @@ namespace UnuBattleRods.Items.Armors.HardMode
             recipe.AddIngredient(ItemID.HallowedBar, 12);
             recipe.AddIngredient(ItemID.FrostCore);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddIngredient(mod.ItemType<LesserEnergyAmalgamate>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<LesserEnergyAmalgamate>(), 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
@@ -60,7 +60,7 @@ namespace UnuBattleRods.Items.Armors.HardMode
             recipe.AddRecipeGroup("UnuBattleRods:HallowedHelmets");
             recipe.AddIngredient(ItemID.FrostHelmet);
             recipe.AddIngredient(ItemID.AncientBattleArmorHat);
-            recipe.AddIngredient(mod.ItemType<LesserEnergyAmalgamate>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<LesserEnergyAmalgamate>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

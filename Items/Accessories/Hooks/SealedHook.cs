@@ -40,7 +40,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).seals = true;
+            player.GetModPlayer<FishPlayer>().seals = true;
                
         }
 
@@ -49,7 +49,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             if (!base.CanEquipAccessory(player, slot))
                 return false;
 
-            int hook = mod.ItemType<HookSet>();
+            int hook = ModContent.ItemType<HookSet>();
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 if (player.armor[i].type == hook)

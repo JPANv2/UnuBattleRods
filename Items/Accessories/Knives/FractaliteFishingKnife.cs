@@ -40,7 +40,7 @@ namespace UnuBattleRods.Items.Accessories.Knives
             baseKnockback = 9.0f;
             radius = 64.0f;
             cooldown = 30;
-            buffID = mod.BuffType<Frostfire>();
+            buffID = ModContent.BuffType<Frostfire>();
         }
 
         public override void AddRecipes()

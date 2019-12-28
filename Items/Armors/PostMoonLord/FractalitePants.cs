@@ -47,7 +47,7 @@ namespace UnuBattleRods.Items.Armors.PostMoonLord
             recipe.AddIngredient(ItemID.FragmentVortex, 15);
             recipe.AddIngredient(ItemID.FragmentNebula, 15);
             recipe.AddIngredient(ItemID.FragmentStardust, 15);
-            recipe.AddIngredient(mod.ItemType<FractaliteBar>(), 4); 
+            recipe.AddIngredient(ModContent.ItemType<FractaliteBar>(), 4); 
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
@@ -57,7 +57,7 @@ namespace UnuBattleRods.Items.Armors.PostMoonLord
             recipe.AddIngredient(ItemID.VortexLeggings);
             recipe.AddIngredient(ItemID.NebulaLeggings);
             recipe.AddIngredient(ItemID.StardustLeggings);
-            recipe.AddIngredient(mod.ItemType<FractaliteBar>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<FractaliteBar>(), 4);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

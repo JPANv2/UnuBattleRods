@@ -64,7 +64,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
 
            
 
-            player.GetModPlayer<FishPlayer>(mod).bobberDamage += ans;
+            player.GetModPlayer<FishPlayer>().bobberDamage += ans;
             
         }
     }

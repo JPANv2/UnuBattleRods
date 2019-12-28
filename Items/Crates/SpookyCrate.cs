@@ -194,6 +194,7 @@ namespace UnuBattleRods.Items.Crates
 
             player.QuickSpawnItem(ItemID.SpookyWood, Main.rand.Next(25, 76));
             player.QuickSpawnItem(ItemID.Pumpkin, Main.rand.Next(25, 76));
+            player.QuickSpawnItem(ItemID.GoodieBag, Main.rand.Next(1, 5));
             base.RightClick(player);
         }
     }

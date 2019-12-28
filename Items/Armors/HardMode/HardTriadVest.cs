@@ -48,7 +48,7 @@ namespace UnuBattleRods.Items.Armors.HardMode
             recipe.AddIngredient(ItemID.HallowedBar,24);
             recipe.AddIngredient(ItemID.FrostCore);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddIngredient(mod.ItemType<LesserEnergyAmalgamate>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<LesserEnergyAmalgamate>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
@@ -57,7 +57,7 @@ namespace UnuBattleRods.Items.Armors.HardMode
             recipe.AddIngredient(ItemID.HallowedPlateMail);
             recipe.AddIngredient(ItemID.FrostBreastplate);
             recipe.AddIngredient(ItemID.AncientBattleArmorShirt);
-            recipe.AddIngredient(mod.ItemType<LesserEnergyAmalgamate>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<LesserEnergyAmalgamate>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

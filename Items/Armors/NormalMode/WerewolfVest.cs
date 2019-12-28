@@ -31,6 +31,7 @@ namespace UnuBattleRods.Items.Armors.NormalMode
 
         public override void UpdateEquip(Player player)
         {
+            item.defense = 7;
             float statMultiplier = 1.0f;
             if (Main.pumpkinMoon || Main.snowMoon || Main.eclipse)
             {

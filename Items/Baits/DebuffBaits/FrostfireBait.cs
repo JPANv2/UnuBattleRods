@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ID;
 using UnuBattleRods.Buffs;
+using Terraria.ModLoader;
+
 
 namespace UnuBattleRods.Items.Baits.DebuffBaits
 {
@@ -20,7 +22,7 @@ namespace UnuBattleRods.Items.Baits.DebuffBaits
         public override void SetDefaults()
         {
             base.SetDefaults();
-            debuffID = mod.BuffType<Frostfire>();
+            debuffID = ModContent.BuffType<Frostfire>();
         }
 
         public override void AddRecipes()
@@ -47,7 +49,7 @@ namespace UnuBattleRods.Items.Baits.DebuffBaits
         public override void SetDefaults()
         {
             base.SetDefaults();
-            debuffID = mod.BuffType<Frostfire>();
+            debuffID = ModContent.BuffType<Frostfire>();
         }
 
         public override void AddRecipes()
@@ -73,7 +75,7 @@ namespace UnuBattleRods.Items.Baits.DebuffBaits
         public override void SetDefaults()
         {
             base.SetDefaults();
-            debuffID = mod.BuffType<Frostfire>();
+            debuffID = ModContent.BuffType<Frostfire>();
         }
 
         public override void AddRecipes()

@@ -15,6 +15,7 @@ namespace UnuBattleRods.Items.BossBags
 {
     class CoolerBossBag : ModItem
     {
+        public override int BossBagNPC => base.mod.NPCType("CoolerBoss");
         public override void SetStaticDefaults()
         {
             base.DisplayName.SetDefault("Treasure Bag");
@@ -29,7 +30,6 @@ namespace UnuBattleRods.Items.BossBags
             base.item.height = 24;
             base.item.rare = 9;
             base.item.expert = true;
-            this.bossBagNPC = base.mod.NPCType("CoolerBoss");
         }
 
         public override bool CanRightClick()
@@ -41,28 +41,28 @@ namespace UnuBattleRods.Items.BossBags
         {
             player.QuickSpawnItem(ItemID.Hook, Main.rand.Next(1, 4));
             if (Main.rand.Next(3) == 0)
-                player.QuickSpawnItem(mod.ItemType<CoolerBattlerod>());
+                player.QuickSpawnItem(ModContent.ItemType<CoolerBattlerod>());
             else
             {
                 switch (Main.rand.Next(4))
                 {
                     case 1:
-                        player.QuickSpawnItem(mod.ItemType<Melonbrand>());
+                        player.QuickSpawnItem(ModContent.ItemType<Melonbrand>());
                         break;
                     case 2:
-                        player.QuickSpawnItem(mod.ItemType<MagicSoda>());
+                        player.QuickSpawnItem(ModContent.ItemType<MagicSoda>());
                         break;
                     case 3:
-                        player.QuickSpawnItem(mod.ItemType<BeerPack>());
+                        player.QuickSpawnItem(ModContent.ItemType<BeerPack>());
                         break;
                     default:
-                        player.QuickSpawnItem(mod.ItemType<IceCreamer>());
+                        player.QuickSpawnItem(ModContent.ItemType<IceCreamer>());
                         break;
                 }
             }
             if (CoolerBoss.doesItDropCertificate())
             {
-                player.QuickSpawnItem(mod.ItemType<MasterBaiterCertificate>(), 1);
+                player.QuickSpawnItem(ModContent.ItemType<MasterBaiterCertificate>(), 1);
             }
         }
 

@@ -48,7 +48,7 @@ namespace UnuBattleRods.Items.Accessories.Lures
         public override void UpdateEquip(Player player)
         {
             base.UpdateEquip(player);
-            player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.15f;
+            player.GetModPlayer<FishPlayer>().bobberDamage += 0.15f;
         }
     }
 }

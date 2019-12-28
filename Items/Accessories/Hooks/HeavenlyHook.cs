@@ -41,17 +41,17 @@ namespace UnuBattleRods.Items.Accessories.Hooks
         public override void UpdateEquip(Player player)
         {
             if (player.ZoneUnderworldHeight || player.ZoneSkyHeight) {
-                player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.3f;
+                player.GetModPlayer<FishPlayer>().bobberDamage += 0.3f;
                 return;
             }
             if (player.ZoneRockLayerHeight)
             {
-                player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.2f;
+                player.GetModPlayer<FishPlayer>().bobberDamage += 0.2f;
                 return;
             }
             if (player.ZoneDirtLayerHeight)
             {
-                player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.1f;
+                player.GetModPlayer<FishPlayer>().bobberDamage += 0.1f;
                 return;
             }
                
@@ -62,7 +62,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             if (!base.CanEquipAccessory(player, slot))
                 return false;
 
-            int hook = mod.ItemType<HookSet>();
+            int hook = ModContent.ItemType<HookSet>();
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 if (player.armor[i].type == hook)

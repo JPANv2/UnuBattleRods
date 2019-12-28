@@ -12,13 +12,13 @@ namespace UnuBattleRods.Tiles.Crates
             base.SetDefaults();
         }
 
-        public override void RightClick(int i, int j)
+        public override bool NewRightClick(int i, int j)
         {
 
-            FishPlayer f = Main.player[Main.myPlayer].GetModPlayer<FishPlayer>(mod);
+            FishPlayer f = Main.player[Main.myPlayer].GetModPlayer<FishPlayer>();
 
             if (f == null || f.mimicToSpawn)
-                return;
+                return false;
 
             if (Main.tile[i, j].frameX > 0)
                 i--;
@@ -34,12 +34,12 @@ namespace UnuBattleRods.Tiles.Crates
             f.mimicX = i * 16 + 16;
             f.mimicY = j * 16 + 32;
             f.mimicToSpawn = true;
-
+            return true;
         }
 
         public override void HitWire(int i, int j)
         {
-            RightClick(i, j);
+            NewRightClick(i, j);
         }
     }
 }

@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.IO;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using UnuBattleRods.Buffs;
+using UnuBattleRods.Items.Baits.SummonBaits;
+using UnuBattleRods.Items.BossBags;
+using UnuBattleRods.Items.Currency;
+using UnuBattleRods.Items.Materials;
 using UnuBattleRods.Items.Rods.HardMode;
 using UnuBattleRods.Items.Rods.NormalMode;
+using UnuBattleRods.Items.Weapons.Cooler;
 using UnuBattleRods.NPCs;
 using UnuBattleRods.Projectiles.Bobbers;
 
@@ -16,13 +23,24 @@ namespace UnuBattleRods
 {
     public class UnuBattleRods : Mod
     {
-        public static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs", "UnuBattlleRods");
+        public static string GithubUserName { get { return "jpanv2"; } }
+        public static string GithubProjectName { get { return "UnuBattleRods"; } }
+
+        public static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs", "UnuBattleRods");
+
+        public static string ConfigFileRelativePath
+        {
+            get { return "Mod Configs/UnuBattleRods/main.json"; }
+        }
 
         public static bool startWithRod = true;
         public static bool startWithBait = true;
 
         public static bool harderLureRecipes = true;
         public static bool allowFishedItems = true;
+
+        public static bool doesFallOnFloor = true;
+        public static bool explosivesDamageEveryone = true;
 
         public static List<String> fishToReplace = new List<String>();
 
@@ -47,15 +65,20 @@ namespace UnuBattleRods
                 AutoloadSounds = true
             };
         }
-
+        public static int fishSteaksCurrencyID = -1;
         public override void Load()
         {
             loadConfig();
-
+            fishSteaksCurrencyID = CustomCurrencyManager.RegisterCurrency(new FishCurrency(ModContent.ItemType<FishSteaks>(), 999));
             base.Load();
         }
 
-        public void loadConfig()
+        public static void ReloadConfigFromFile()
+        {
+            UnuBattleRods.loadConfig();
+        }
+
+        public static void loadConfig()
         {
             if (!System.IO.Directory.Exists(ConfigPath))
             {
@@ -70,6 +93,8 @@ namespace UnuBattleRods
                 config.Put("allowFishedItems", true);
                 makeDefaultFishReplaceList();
                 config.Put("fishToReplace", fishToReplace);
+                config.Put("canBobberFallOnFloor", doesFallOnFloor);
+                config.Put("explosivesDamageEveryone", explosivesDamageEveryone);
                 config.Save();
             }
 
@@ -77,6 +102,8 @@ namespace UnuBattleRods
             startWithBait = config.Get<bool>("startWithBait", true);
             harderLureRecipes = config.Get<bool>("harderLureRecipes", true);
             allowFishedItems = config.Get<bool>("allowFishedItems", true);
+            doesFallOnFloor = config.Get<bool>("canBobberFallOnFloor", true);
+            explosivesDamageEveryone = config.Get<bool>("explosivesDamageEveryone", true);
             fishToReplace.Clear();
             List<string> fr = getStringListFromConfig(config, "fishToReplace");
             if(fr.Count != 0)
@@ -89,7 +116,7 @@ namespace UnuBattleRods
             
         }
 
-        private void makeDefaultFishReplaceList()
+        private static void makeDefaultFishReplaceList()
         {
             fishToReplace.Clear();
             fishToReplace.Add("" + ItemID.WoodenCrate);
@@ -127,12 +154,48 @@ namespace UnuBattleRods
             Mod bosses = ModLoader.GetMod("BossChecklist");
             if (bosses != null)
             {
-                object[] parameters = new object[5];
-                parameters[0] = "AddBossWithInfo";
-                parameters[1] = "Cooler";
-                parameters[2] = 5.39f;
-                parameters[3] = new Func<bool>(() => FishWorld.downedCooler);
-                parameters[4] = "Place a [i:" + this.ItemType("IceyWorm") + "] alone in a chest. Warning: Difficulty increases in hardmode.";
+                /*
+                 "AddBoss",
+                 float progression,
+                 int/List<int> BossNPCIDs,
+                 Mod mod, string bossName,
+                 Func<bool> downedBoss,
+                 int/List<int> SpawnItemIDs, 
+                 int/List<int> CollectionItemIDs, 
+                 int/List<int> LootItemIDs, [string spawnInfo], [string despawnMessage], [string texture], [string overrideHeadIconTexture], [Func<bool> bossAvailable]
+                 */
+                object[] parameters = new object[11];
+                parameters[0] = "AddBoss";
+                parameters[1] = 5.39f;
+                parameters[2] = ModContent.NPCType<CoolerBoss>();
+                parameters[3] = this;
+                parameters[4] = "Cooler";
+                parameters[5] = (Func<bool>)(() => FishWorld.downedCooler);
+                parameters[6] = ModContent.ItemType<IceyWorm>();
+                parameters[7] = 0;
+                parameters[8] = new List<int>
+                {
+                    ModContent.ItemType<CoolerBossBag>(),
+                    ItemID.Hook,
+                    ModContent.ItemType<MasterBaiterCertificate>(),
+                    ModContent.ItemType<CoolerBattlerod>(),
+                    ModContent.ItemType<Melonbrand>(),
+                    ModContent.ItemType<MagicSoda>(),
+                    ModContent.ItemType<BeerPack>(),
+                    ModContent.ItemType<IceCreamer>()
+                };
+                parameters[9] = "Place a [i:" + this.ItemType("IceyWorm") + "] alone in a chest. Warning: Difficulty increases in hardmode.";
+                parameters[10] = "The {0} defeated all players!";
+
+                /*OLD*/
+                /*
+               object[] parameters = new object[5];
+               parameters[0] = "AddBossWithInfo";
+               parameters[1] = "Cooler";
+               parameters[2] = 5.39f;
+               parameters[3] = new Func<bool>(() => FishWorld.downedCooler);
+               parameters[4] = "Place a [i:" + this.ItemType("IceyWorm") + "] alone in a chest. Warning: Difficulty increases in hardmode.";
+               */
                 bosses.Call(parameters);
             }
             thoriumPresent = ModLoader.GetMod("ThoriumMod") != null;
@@ -146,15 +209,20 @@ namespace UnuBattleRods
                 if (i == 0 && Main.netMode == 2)
                 {
                     int idx = reader.ReadInt16();
-                    int proj = reader.ReadUInt16();
+                    int proj = reader.ReadInt16();
                     int posX = reader.ReadInt32();
                     int posY = reader.ReadInt32();
+                    if (Main.projectile[proj].type == 0 || !Main.projectile[proj].active)
+                        return;
+                    Bobber bob = (Main.projectile[proj].modProjectile) as Bobber;
+                    if (bob == null)
+                        return;
+                    Entity target = bob.projectile;
                     if (idx <= -1)
                     {
-                        return;
+                        target = bob.projectile;
+                        bob.updatePos = true;
                     }
-                    Bobber bob = (Bobber)(Main.projectile[proj].modProjectile);
-                    Entity target = bob.projectile;
                     if (idx < Main.npc.Length)
                     {
                         target = Main.npc[idx];
@@ -176,7 +244,7 @@ namespace UnuBattleRods
                     int p = reader.ReadUInt16();
                     int mimicX = reader.ReadInt32();
                     int mimicY = reader.ReadInt32();
-                    FishPlayer f = Main.player[p].GetModPlayer<FishPlayer>(this);
+                    FishPlayer f = Main.player[p].GetModPlayer<FishPlayer>();
                     if (f != null)
                     {
                         f.mimicX = mimicX;
@@ -329,7 +397,7 @@ namespace UnuBattleRods
                     }
                     if (Main.netMode == NetmodeID.MultiplayerClient && Main.myPlayer == plr)
                         return;
-                    int pbtype = BuffType<PoweredBaitBuff>();
+                    int pbtype = ModContent.BuffType<PoweredBaitBuff>();
                     for (int j = 0; j < 22; j++)
                     {
                         if (pl.player.buffType[j] == pbtype)
@@ -380,28 +448,29 @@ namespace UnuBattleRods
                         pk.Send();
                     }
                 }
-                if(i == 12)
+                if (i == 12)
                 {
                     int updatee = reader.ReadInt32();
                     int count = reader.ReadInt32();
                     List<int> debuffs = new List<int>();
-                    for (int k = 0; k< count; k++)
+                    for (int k = 0; k < count; k++)
                     {
                         debuffs.Add(reader.ReadInt32());
                     }
-                    if(updatee >= Main.npc.Length)
+                    if (updatee >= Main.npc.Length)
                     {
                         FishPlayer pl = Main.player[updatee - Main.npc.Length].GetModPlayer<FishPlayer>();
                         pl.debuffsPresent.Clear();
                         pl.debuffsPresent.AddRange(debuffs);
-                    }else
+                    }
+                    else
                     {
                         NPC npc = Main.npc[updatee];
                         FishGlobalNPC fgnpc = npc.GetGlobalNPC<FishGlobalNPC>();
                         fgnpc.debuffsPresent.Clear();
                         fgnpc.debuffsPresent.AddRange(debuffs);
                     }
-                    if(Main.netMode == NetmodeID.Server)
+                    if (Main.netMode == NetmodeID.Server)
                     {
                         ModPacket pk = GetPacket();
                         pk.Write((byte)UnuBattleRods.Message.DebuffUpdate);
@@ -414,17 +483,28 @@ namespace UnuBattleRods
                         pk.Send();
                     }
                 }
-                if(i == 14)//Syncronize Config to server options
+                if (i == 14)//Syncronize Config to server options
                 {
-                    byte flags = reader.ReadByte();
-                    harderLureRecipes = ((flags & 1) == 1);
-                    allowFishedItems = ((flags & 2) == 2);
-                    int fishCount = reader.ReadInt32();
-                    fishToReplace.Clear();
-                    for(int k = 0; k < fishCount; k++)
+                    if (Main.netMode == NetmodeID.Server)
                     {
-                        fishToReplace.Add(reader.ReadString());
+                        sendMessage14(-1);
                     }
+                    else
+                    {
+                        byte flags = reader.ReadByte();
+                        harderLureRecipes = ((flags & 1) == 1);
+                        allowFishedItems = ((flags & 2) == 2);
+                        doesFallOnFloor = ((flags & 4) == 4);
+                        explosivesDamageEveryone = ((flags & 8) == 8);
+                        int fishCount = reader.ReadInt32();
+                        fishToReplace.Clear();
+                        for (int k = 0; k < fishCount; k++)
+                        {
+                            fishToReplace.Add(reader.ReadString());
+                        }
+                    }
+
+
                 }
             }
             catch (Exception ex)
@@ -440,6 +520,29 @@ namespace UnuBattleRods
             }
         }
 
+        public static void sendMessage14(int player)
+        {
+            ModPacket pk = ModLoader.GetMod("UnuBattleRods").GetPacket();
+            pk.Write((byte)14);
+            byte flags = (byte)(harderLureRecipes ? 1 : 0);
+            flags |= (byte)(allowFishedItems ? 2 : 0);
+            flags |= (byte)(doesFallOnFloor ? 4 : 0);
+            flags |= (byte)(explosivesDamageEveryone ? 8 : 0);
+            pk.Write(flags);
+            pk.Write(fishToReplace.Count);
+            for (int k = 0; k < fishToReplace.Count; k++)
+            {
+                pk.Write(fishToReplace[k]);
+            }
+            if (player < 0 || player > Main.player.Length)
+            {
+                pk.Send();
+            }
+            else
+            {
+                pk.Send(player);
+            }
+        }
 
         public void AddRGBars()
         {
@@ -690,50 +793,50 @@ namespace UnuBattleRods
             //rods
             RecipeGroup group = new RecipeGroup(() => Lang.misc[37] + " " + "Copper/Tin Battlerod", new int[]
             {
-                 this.ItemType<CopperBattlerod>(), this.ItemType<TinBattlerod>()
+                 ModContent.ItemType<CopperBattlerod>(), ModContent.ItemType<TinBattlerod>()
             });
             RecipeGroup.RegisterGroup("UnuBattleRods:Tier0Rods", group);
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Iron/Lead Battlerod", new int[]
             {
-                 this.ItemType<IronBattlerod>(), this.ItemType<LeadBattlerod>()
+                 ModContent.ItemType<IronBattlerod>(), ModContent.ItemType<LeadBattlerod>()
             });
             RecipeGroup.RegisterGroup("UnuBattleRods:Tier1Rods", group);
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Silver/Tungsten Battlerod", new int[]
             {
-                 this.ItemType<SilverBattlerod>(), this.ItemType<TungstenBattlerod>()
+                 ModContent.ItemType<SilverBattlerod>(), ModContent.ItemType<TungstenBattlerod>()
             });
             RecipeGroup.RegisterGroup("UnuBattleRods:Tier2Rods", group);
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Gold/Platinum Battlerod", new int[]
            {
-                 this.ItemType<GoldBattlerod>(), this.ItemType<PlatinumBattlerod>()
+                 ModContent.ItemType<GoldBattlerod>(), ModContent.ItemType<PlatinumBattlerod>()
            });
             RecipeGroup.RegisterGroup("UnuBattleRods:Tier3Rods", group);
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Evil Battlerod", new int[]
         {
-                 this.ItemType<EvilRodOfDarkness>(), this.ItemType<EvilRodOfBlood>()
+                 ModContent.ItemType<EvilRodOfDarkness>(), ModContent.ItemType<EvilRodOfBlood>()
         });
             RecipeGroup.RegisterGroup("UnuBattleRods:EvilRods", group);
 
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Cobalt/Palladium Battlerod", new int[]
            {
-                 this.ItemType<CobaltBattlerod>(), this.ItemType<PalladiumBattlerod>()
+                 ModContent.ItemType<CobaltBattlerod>(), ModContent.ItemType<PalladiumBattlerod>()
            });
             RecipeGroup.RegisterGroup("UnuBattleRods:HMTier1Rods", group);
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Mythril/Orichalcum Battlerod", new int[]
            {
-                 this.ItemType<MythrilBattlerod>(), this.ItemType<OrichalcumBattlerod>()
+                 ModContent.ItemType<MythrilBattlerod>(), ModContent.ItemType<OrichalcumBattlerod>()
            });
             RecipeGroup.RegisterGroup("UnuBattleRods:HMTier2Rods", group);
 
             group = new RecipeGroup(() => Lang.misc[37] + " " + "Adamantite/Titanium Battlerod", new int[]
            {
-                 this.ItemType<AdamantiteBattlerod>(), this.ItemType<TitaniumBattlerod>()
+                 ModContent.ItemType<AdamantiteBattlerod>(), ModContent.ItemType<TitaniumBattlerod>()
            });
             RecipeGroup.RegisterGroup("UnuBattleRods:HMTier3Rods", group);
         }
@@ -800,12 +903,19 @@ namespace UnuBattleRods
         public override void AddRecipes()
         {
             AddLureRecipes();
+            AddSelectiveRecipes();
         }
 
+       
+
         ModRecipe recipe1Lure;
+        ModRecipe recipe1Loser;
         ModRecipe recipe2Lure;
+        ModRecipe recipe2Loser;
         ModRecipe recipe4Lure;
         ModRecipe recipe4LureHM;
+        ModRecipe recipe4Loser;
+        ModRecipe recipe4LoserHM;
         ModRecipe recipe8Lure;
         ModRecipe recipe8LureHM;
         ModRecipe recipe16Lure;
@@ -820,12 +930,24 @@ namespace UnuBattleRods
             recipe1Lure.AddIngredient(ItemID.Hook, 1);
             recipe1Lure.AddTile(TileID.WorkBenches);
             recipe1Lure.SetResult(this, "ExtraLure");
-            
+
+            recipe1Loser = new ModRecipe(this);
+            recipe1Loser.AddIngredient(ItemID.Cobweb, 25);
+            recipe1Loser.AddIngredient(ItemID.Hook, 1);
+            recipe1Loser.AddTile(TileID.WorkBenches);
+            recipe1Loser.SetResult(this, "BobLoser");
+
             recipe2Lure = new ModRecipe(this);
             recipe2Lure.AddIngredient(ItemID.Cobweb, 10);
             recipe2Lure.AddIngredient(this, "ExtraLure", 2);
             recipe2Lure.AddTile(TileID.WorkBenches);
             recipe2Lure.SetResult(this, "DoubleLure");
+
+            recipe2Loser = new ModRecipe(this);
+            recipe2Loser.AddIngredient(ItemID.Cobweb, 10);
+            recipe2Loser.AddIngredient(this, "BobLoser", 2);
+            recipe2Loser.AddTile(TileID.WorkBenches);
+            recipe2Loser.SetResult(this, "DoubleBobLoser");
 
             recipe4Lure = new EasyRecipe(this);
             recipe4Lure.AddIngredient(ItemID.Cobweb, 10);
@@ -839,7 +961,20 @@ namespace UnuBattleRods
             recipe4LureHM.AddIngredient(this, "StarMix", 6);
             recipe4LureHM.AddTile(TileID.TinkerersWorkbench);
             recipe4LureHM.SetResult(this, "QuadLure");
-         
+
+            recipe4Loser = new EasyRecipe(this);
+            recipe4Loser.AddIngredient(ItemID.Cobweb, 10);
+            recipe4Loser.AddIngredient(this, "DoubleBobLoser", 2);
+            recipe4Loser.AddTile(TileID.WorkBenches);
+            recipe4Loser.SetResult(this, "QuadBobLoser");
+
+            recipe4LoserHM = new HardRecipe(this);
+            recipe4LoserHM.AddIngredient(ItemID.Cobweb, 25);
+            recipe4LoserHM.AddIngredient(this, "DoubleBobLoser", 2);
+            recipe4LoserHM.AddIngredient(this, "StarMix", 6);
+            recipe4LoserHM.AddTile(TileID.TinkerersWorkbench);
+            recipe4LoserHM.SetResult(this, "QuadBobLoser");
+
             recipe8Lure = new EasyRecipe(this);
             recipe8Lure.AddIngredient(ItemID.Cobweb, 10);
             recipe8Lure.AddIngredient(this, "QuadLure", 2);
@@ -881,22 +1016,183 @@ namespace UnuBattleRods
             recipe32LureHM.AddIngredient(this, "BoxOfLures", 2);
             recipe32LureHM.AddIngredient(this, "FractaliteBar", 12);
             recipe32LureHM.AddTile(TileID.TinkerersWorkbench);
-            recipe32LureHM.SetResult(this, "BoxOfCountlessLures");
-           
+            recipe32LureHM.SetResult(this, "BoxOfCountlessLures");        
 
             recipe1Lure.AddRecipe();
+            recipe1Loser.AddRecipe();
             recipe2Lure.AddRecipe();
+            recipe2Loser.AddRecipe();
 
             recipe4LureHM.AddRecipe();
+            recipe4LoserHM.AddRecipe();
             recipe8LureHM.AddRecipe();
             recipe16LureHM.AddRecipe();
             recipe32LureHM.AddRecipe();
             
             recipe4Lure.AddRecipe();
+            recipe4Loser.AddRecipe();
             recipe8Lure.AddRecipe();
             recipe16Lure.AddRecipe();
             recipe32Lure.AddRecipe();
 
+            
+
+
+            ModRecipe recipeConversion = new ModRecipe(this);
+            recipeConversion.AddIngredient(this, "ExtraLure");
+            recipeConversion.SetResult(this, "BobLoser");
+            recipeConversion.AddRecipe();
+
+            recipeConversion = new ModRecipe(this);
+            recipeConversion.AddIngredient(this, "BobLoser");
+            recipeConversion.SetResult(this, "ExtraLure");
+            recipeConversion.AddRecipe();
+
+            recipeConversion = new ModRecipe(this);
+            recipeConversion.AddIngredient(this, "DoubleLure");
+            recipeConversion.SetResult(this, "DoubleBobLoser");
+            recipeConversion.AddRecipe();
+
+            recipeConversion = new ModRecipe(this);
+            recipeConversion.AddIngredient(this, "DoubleBobLoser");
+            recipeConversion.SetResult(this, "DoubleLure");
+            recipeConversion.AddRecipe();
+
+            recipeConversion = new ModRecipe(this);
+            recipeConversion.AddIngredient(this, "QuadLure");
+            recipeConversion.SetResult(this, "QuadBobLoser");
+            recipeConversion.AddRecipe();
+
+            recipeConversion = new ModRecipe(this);
+            recipeConversion.AddIngredient(this, "QuadBobLoser");
+            recipeConversion.SetResult(this, "QuadLure");
+            recipeConversion.AddRecipe();
+
+        }
+
+        ModRecipe selectiveBobbers;
+
+        ModRecipe doubleSelectiveBobbers;
+        ModRecipe doubleSelectiveBobbersHM;
+        ModRecipe turretBobbers;
+        ModRecipe turretBobbersHM;
+
+        ModRecipe smartBobbers;
+       
+
+        public void AddSelectiveRecipes()
+        {
+            selectiveBobbers = new ModRecipe(this);
+            selectiveBobbers.AddIngredient(this, "ExtraLure", 2);
+            selectiveBobbers.AddIngredient(ItemID.IronBar, 10);
+            selectiveBobbers.AddIngredient(this, "Sandpaper");
+            selectiveBobbers.anyIronBar = true;
+            selectiveBobbers.AddTile(TileID.TinkerersWorkbench);
+            selectiveBobbers.SetResult(this, "SelectiveBobbers");
+
+            doubleSelectiveBobbers = new EasyRecipe(this);
+            doubleSelectiveBobbers.AddIngredient(this, "DoubleLure", 2);
+            doubleSelectiveBobbers.AddIngredient(this, "Sandpaper");
+            doubleSelectiveBobbers.AddTile(TileID.TinkerersWorkbench);
+            doubleSelectiveBobbers.SetResult(this, "DoubleSelectiveBobbers");
+
+            doubleSelectiveBobbersHM = new HardRecipe(this);
+            doubleSelectiveBobbersHM.AddIngredient(this, "SelectiveBobbers", 2);
+            doubleSelectiveBobbersHM.AddIngredient(this, "Sandpaper", 5);
+            doubleSelectiveBobbersHM.AddIngredient(ItemID.IronBar, 10);
+            doubleSelectiveBobbersHM.AddIngredient(this, "LesserEnergyAmalgamate", 2);
+            doubleSelectiveBobbersHM.anyIronBar = true;
+            doubleSelectiveBobbersHM.AddTile(TileID.TinkerersWorkbench);
+            doubleSelectiveBobbersHM.SetResult(this, "DoubleSelectiveBobbers");
+
+
+            turretBobbers = new EasyRecipe(this);
+            turretBobbers.AddIngredient(ItemID.ChlorophyteBar, 10);
+            turretBobbers.AddIngredient(this, "Sandpaper");
+            turretBobbers.AddTile(TileID.TinkerersWorkbench);
+            turretBobbers.SetResult(this, "TurretBobbers");
+
+            turretBobbersHM = new HardRecipe(this);
+            turretBobbersHM.AddIngredient(ItemID.ChlorophyteBar, 20);
+            turretBobbersHM.AddIngredient(this, "Sandpaper");
+            turretBobbersHM.AddIngredient(this, "EnergyAmalgamate", 4);
+            turretBobbersHM.AddTile(TileID.TinkerersWorkbench);
+            turretBobbersHM.SetResult(this, "TurretBobbers");
+
+            selectiveBobbers.AddRecipe();
+            doubleSelectiveBobbers.AddRecipe();
+            doubleSelectiveBobbersHM.AddRecipe();
+            turretBobbers.AddRecipe();
+            turretBobbersHM.AddRecipe();
+
+        }
+
+        public static void sendChat(string msg)
+        {
+            sendChat(msg, Color.White);
+        }
+
+        public static void debugChat(string msg)
+        {
+            sendChat(msg, Color.Yellow);
+        }
+
+        public static void sendChatToAll(string msg)
+        {
+            sendChatToAll(msg, Color.White);
+        }
+
+        public static void sendChat(string msg, Color c)
+        {
+            if (Main.netMode == 0 || Main.netMode == 1) // Single Player
+            {
+                string[] toSend = msg.Split('\n');
+                for (int i = 0; i < toSend.Length; i++)
+                {
+                    toSend[i] = toSend[i].Trim();
+                    if (toSend[i] != "")
+                        Main.NewText(toSend[i], c.R, c.G, c.B);
+                }
+            }
+            else
+            {
+                Console.WriteLine(msg);
+            }
+        }
+
+        public static void sendChatToAll(string msg, Color c)
+        {
+            if (Main.netMode == 2) // Server
+            {
+                string[] toSend = msg.Split('\n');
+                for (int i = 0; i < toSend.Length; i++)
+                {
+                    toSend[i] = toSend[i].Trim();
+                    if (toSend[i] != "")
+                        NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(toSend[i]), c);
+                }
+
+            }
+            else if (Main.netMode == 1)
+            {
+                string[] toSend = msg.Split('\n');
+                for (int i = 0; i < toSend.Length; i++)
+                {
+                    toSend[i] = toSend[i].Trim();
+                    if (toSend[i] != "")
+                        NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(toSend[i]), c, Main.myPlayer);
+                }
+            }
+            else if (Main.netMode == 0) // Single Player
+            {
+                string[] toSend = msg.Split('\n');
+                for (int i = 0; i < toSend.Length; i++)
+                {
+                    toSend[i] = toSend[i].Trim();
+                    if (toSend[i] != "")
+                        Main.NewText(toSend[i], c.R, c.G, c.B);
+                }
+            }
         }
     }
 }

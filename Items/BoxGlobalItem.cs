@@ -18,7 +18,7 @@ namespace UnuBattleRods.Items
         {
             if (item.fishingPole > 0 && (item.modItem == null || !(item.modItem is BattleRod)))
             {
-                int lures = player.GetModPlayer<FishPlayer>(mod).multilineFishing;
+                int lures = player.GetModPlayer<FishPlayer>().multilineFishing;
                 if (lures > 0)
                 {
                     for (int i = 1; i < lures; i++)

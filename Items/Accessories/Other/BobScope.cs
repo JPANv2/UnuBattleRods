@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Other
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).aimBobber = true;
+            player.GetModPlayer<FishPlayer>().aimBobber = true;
         }
     }
 }

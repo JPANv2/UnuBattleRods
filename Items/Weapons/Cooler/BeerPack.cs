@@ -23,7 +23,7 @@ namespace UnuBattleRods.Items.Weapons.Cooler
         {
             item.useStyle = 5;
             item.shootSpeed = 6.5f;
-            item.shoot = mod.ProjectileType<Beer>();
+            item.shoot = ModContent.ProjectileType<Beer>();
             item.width = 22;
             item.height = 22;
             item.UseSound = SoundID.Item1;

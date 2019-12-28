@@ -173,26 +173,26 @@ namespace UnuBattleRods.NPCs
                 {
                     if (doesItDropCertificate())
                     {
-                        Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, mod.ItemType<MasterBaiterCertificate>(), 1, false, 0, false, false);
+                        Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ModContent.ItemType<MasterBaiterCertificate>(), 1, false, 0, false, false);
                     }
                 }
                 if(Main.rand.Next(2) == 0)
-                    Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, mod.ItemType<CoolerBattlerod>(), 1, false, 0, false, false);
+                    Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ModContent.ItemType<CoolerBattlerod>(), 1, false, 0, false, false);
                 else
                 {
                     switch (Main.rand.Next(4))
                     {
                         case 1:
-                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, mod.ItemType<Melonbrand>(), 1, false, 0, false, false);
+                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ModContent.ItemType<Melonbrand>(), 1, false, 0, false, false);
                             break;
                         case 2:
-                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, mod.ItemType<MagicSoda>(), 1, false, 0, false, false);
+                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ModContent.ItemType<MagicSoda>(), 1, false, 0, false, false);
                             break;
                         case 3:
-                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, mod.ItemType<BeerPack>(), 1, false, 0, false, false);
+                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ModContent.ItemType<BeerPack>(), 1, false, 0, false, false);
                             break;
                         default:
-                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, mod.ItemType<IceCreamer>(), 1, false, 0, false, false);
+                            Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ModContent.ItemType<IceCreamer>(), 1, false, 0, false, false);
                             break;
                     }
                 }
@@ -200,7 +200,7 @@ namespace UnuBattleRods.NPCs
             
             }else
             {
-                Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, mod.ItemType<CoolerBossBag>(), 1, false, 0, false, false);
+                Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ModContent.ItemType<CoolerBossBag>(), 1, false, 0, false, false);
             }
         }
 

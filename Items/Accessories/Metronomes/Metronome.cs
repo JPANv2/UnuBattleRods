@@ -22,8 +22,8 @@ namespace UnuBattleRods.Items.Accessories.Metronomes
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).bobberDamage += bobberDamage;
-            player.GetModPlayer<FishPlayer>(mod).bobberSpeed += bobberSpeed;
+            player.GetModPlayer<FishPlayer>().bobberDamage += bobberDamage;
+            player.GetModPlayer<FishPlayer>().bobberSpeed += bobberSpeed;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

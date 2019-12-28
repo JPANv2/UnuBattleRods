@@ -75,7 +75,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
                 damageMod -= 0.1f;
             }
 
-            player.GetModPlayer<FishPlayer>(mod).bobberDamage += damageMod;
+            player.GetModPlayer<FishPlayer>().bobberDamage += damageMod;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

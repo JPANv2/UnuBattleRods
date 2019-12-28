@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Other
 
         public override void UpdateEquip(Player player)
         {
-            FishPlayer p = player.GetModPlayer<FishPlayer>(mod);
+            FishPlayer p = player.GetModPlayer<FishPlayer>();
             p.escalation = true;
             p.escalationManaCost += 8;
             p.escalationFromMana = true;

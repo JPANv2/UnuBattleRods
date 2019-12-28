@@ -40,7 +40,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
         }
         public override void UpdateEquip(Player player)
         {
-			player.GetModPlayer<FishPlayer>(mod).wormicide = true;
+			player.GetModPlayer<FishPlayer>().wormicide = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

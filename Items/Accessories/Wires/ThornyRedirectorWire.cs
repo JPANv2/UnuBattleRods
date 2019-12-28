@@ -29,7 +29,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<RedirectorWire>());
+            recipe.AddIngredient(ModContent.ItemType<RedirectorWire>());
             recipe.AddIngredient(ItemID.ThornsPotion, 5);
             recipe.AddIngredient(ItemID.Cactus, 25);
             recipe.AddTile(TileID.TinkerersWorkbench);
@@ -38,8 +38,8 @@ namespace UnuBattleRods.Items.Accessories.Wires
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).linkDamage = true;
-            player.GetModPlayer<FishPlayer>(mod).redirectThorns = false;   
+            player.GetModPlayer<FishPlayer>().linkDamage = true;
+            player.GetModPlayer<FishPlayer>().redirectThorns = false;   
         }
     }
 }

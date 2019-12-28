@@ -42,7 +42,7 @@ namespace UnuBattleRods.Items.Accessories.Other
 
         public override void UpdateEquip(Player player)
         {
-            FishPlayer p = player.GetModPlayer<FishPlayer>(mod);
+            FishPlayer p = player.GetModPlayer<FishPlayer>();
             p.destroyBobber = true;
             p.aimBobber = true;
             p.bobberShootSpeed += 0.3f;

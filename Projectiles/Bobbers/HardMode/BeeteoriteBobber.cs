@@ -90,7 +90,7 @@ namespace UnuBattleRods.Projectiles.Bobbers.HardMode
             int max = Main.rand.Next(2, 5);
             for (int i = 0; i < max; i++)
             {
-                int proj = mod.ProjectileType<FireBee>();
+                int proj = ModContent.ProjectileType<FireBee>();
                 float kb = player.beeKB(4.0f);
                 int dmg = player.beeDamage(projectile.damage*2/max);
 

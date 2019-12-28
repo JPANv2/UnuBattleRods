@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).bobberCrit += 10;   
+            player.GetModPlayer<FishPlayer>().bobberCrit += 10;   
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -47,7 +47,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             if (!base.CanEquipAccessory(player, slot))
                 return false;
 
-            int[] hooks = { mod.ItemType<HookSet>(), mod.ItemType<SuperBarbedHook>() };
+            int[] hooks = { ModContent.ItemType<HookSet>(), ModContent.ItemType<SuperBarbedHook>() };
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 if (player.armor[i].type == hooks[0])

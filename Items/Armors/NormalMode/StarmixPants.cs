@@ -48,7 +48,7 @@ namespace UnuBattleRods.Items.Armors.NormalMode
             recipe.AddIngredient(ItemID.IronBar, 25);
             recipe.AddRecipeGroup("UnuBattleRods:Tier2Bars", 25);
             recipe.AddRecipeGroup("UnuBattleRods:Tier3Bars", 30);
-            recipe.AddIngredient(mod.ItemType<StarMix>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<StarMix>(), 4);
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
@@ -59,7 +59,7 @@ namespace UnuBattleRods.Items.Armors.NormalMode
             recipe.AddRecipeGroup("UnuBattleRods:Tier1Legs");
             recipe.AddRecipeGroup("UnuBattleRods:Tier2Legs");
             recipe.AddRecipeGroup("UnuBattleRods:Tier3Legs");
-            recipe.AddIngredient(mod.ItemType<StarMix>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<StarMix>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

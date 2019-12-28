@@ -32,7 +32,7 @@ namespace UnuBattleRods.Items.Rods.NormalMode
             recipe.AddIngredient(ItemID.IronBar, 10);
             recipe.AddRecipeGroup("UnuBattleRods:Tier2Bars",10);
             recipe.AddRecipeGroup("UnuBattleRods:Tier3Bars", 10);
-            recipe.AddIngredient(mod.ItemType<StarMix>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<StarMix>(), 8);
             recipe.AddIngredient(ItemID.Cobweb, 25);
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
@@ -44,7 +44,7 @@ namespace UnuBattleRods.Items.Rods.NormalMode
             recipe.AddRecipeGroup("UnuBattleRods:Tier1Rods");
             recipe.AddRecipeGroup("UnuBattleRods:Tier2Rods");
             recipe.AddRecipeGroup("UnuBattleRods:Tier3Rods");
-            recipe.AddIngredient(mod.ItemType<StarMix>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<StarMix>(), 8);
             recipe.AddIngredient(ItemID.Cobweb, 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);

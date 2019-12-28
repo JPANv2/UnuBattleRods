@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).cratePercent += 500;   
+            player.GetModPlayer<FishPlayer>().cratePercent += 500;   
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

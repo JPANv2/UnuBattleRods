@@ -21,9 +21,9 @@ namespace UnuBattleRods.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<FishPlayer>(mod).escalation = true;
-            player.GetModPlayer<FishPlayer>(mod).escalationBonus = 0.08f;
-            player.GetModPlayer<FishPlayer>(mod).escalationMax += 99f;
+            player.GetModPlayer<FishPlayer>().escalation = true;
+            player.GetModPlayer<FishPlayer>().escalationBonus = 0.08f;
+            player.GetModPlayer<FishPlayer>().escalationMax += 99f;
         }
     }
 }

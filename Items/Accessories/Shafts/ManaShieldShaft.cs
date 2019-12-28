@@ -39,8 +39,8 @@ namespace UnuBattleRods.Items.Accessories.Shafts
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).manaShield = true;
-            player.GetModPlayer<FishPlayer>(mod).manaShieldPercentage += 0.15f;
+            player.GetModPlayer<FishPlayer>().manaShield = true;
+            player.GetModPlayer<FishPlayer>().manaShieldPercentage += 0.15f;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

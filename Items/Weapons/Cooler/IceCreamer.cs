@@ -36,7 +36,7 @@ namespace UnuBattleRods.Items.Weapons.Cooler
            item.value = Item.sellPrice(0, 1, 90, 0);
            item.rare = 3;
            item.UseSound = SoundID.Item11;
-           item.shoot = mod.ProjectileType<ChocolateShot>();
+           item.shoot = ModContent.ProjectileType<ChocolateShot>();
            item.shootSpeed = 15f;
            item.useAmmo = AmmoID.Snowball;
         }
@@ -54,16 +54,16 @@ namespace UnuBattleRods.Items.Weapons.Cooler
                 switch (Main.rand.Next(4))
                 {
                     case 1:
-                        types[i] = mod.ProjectileType<StrawberryShot>();
+                        types[i] = ModContent.ProjectileType<StrawberryShot>();
                         break;
                     case 2:
-                        types[i] = mod.ProjectileType<ChocolateShot>();
+                        types[i] = ModContent.ProjectileType<ChocolateShot>();
                         break;
                     case 3:
-                        types[i] = mod.ProjectileType<MintShot>();
+                        types[i] = ModContent.ProjectileType<MintShot>();
                         break;
                     default:
-                        types[i] = mod.ProjectileType<VanillaShot>();
+                        types[i] = ModContent.ProjectileType<VanillaShot>();
                         break;
                 }
             }

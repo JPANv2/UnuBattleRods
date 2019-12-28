@@ -48,7 +48,7 @@ namespace UnuBattleRods.Items.Accessories.Lures
 
         /*public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.GetModPlayer<FishPlayer>(mod).multilineFishing += 16;
+			player.GetModPlayer<FishPlayer>().multilineFishing += 16;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

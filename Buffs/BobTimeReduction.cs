@@ -21,7 +21,7 @@ namespace UnuBattleRods.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<FishPlayer>(mod).bobberSpeed += 0.25f;
+            player.GetModPlayer<FishPlayer>().bobberSpeed += 0.25f;
         }
     }
 }

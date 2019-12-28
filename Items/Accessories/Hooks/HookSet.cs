@@ -43,20 +43,20 @@ namespace UnuBattleRods.Items.Accessories.Hooks
         public override void UpdateEquip(Player player)
         {
             if (player.ZoneUnderworldHeight || player.ZoneSkyHeight) {
-                player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.3f;                
+                player.GetModPlayer<FishPlayer>().bobberDamage += 0.3f;                
             }else if (player.ZoneRockLayerHeight)
             {
-                player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.2f;
+                player.GetModPlayer<FishPlayer>().bobberDamage += 0.2f;
             }else if (player.ZoneDirtLayerHeight)
             {
-                player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.1f;
+                player.GetModPlayer<FishPlayer>().bobberDamage += 0.1f;
             }
 
             underwaterBoost(player);
             
-            player.GetModPlayer<FishPlayer>(mod).seals = true;
+            player.GetModPlayer<FishPlayer>().seals = true;
 
-            player.GetModPlayer<FishPlayer>(mod).bobberCrit += 20;
+            player.GetModPlayer<FishPlayer>().bobberCrit += 20;
         }
 
         private void underwaterBoost(Player player)
@@ -68,7 +68,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
                     Entity stuck = ((Bobber)(Main.projectile[i].modProjectile)).getStuckEntity();
                     if (stuck.wet && !stuck.lavaWet && !stuck.honeyWet)
                     {
-                        player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.2f;
+                        player.GetModPlayer<FishPlayer>().bobberDamage += 0.2f;
                         return;
                     }
 
@@ -81,8 +81,8 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             if (!base.CanEquipAccessory(player, slot))
                 return false;
 
-            int[] hooks = new int[] { mod.ItemType<RustyHook>(), mod.ItemType<BarbedHook>(), mod.ItemType<SuperBarbedHook>(),
-            mod.ItemType<HeavenlyHook>(), mod.ItemType<SealedHook>(), this.item.type};
+            int[] hooks = new int[] { ModContent.ItemType<RustyHook>(), ModContent.ItemType<BarbedHook>(), ModContent.ItemType<SuperBarbedHook>(),
+            ModContent.ItemType<HeavenlyHook>(), ModContent.ItemType<SealedHook>(), this.item.type};
             for(int i = 3; i< 8 + player.extraAccessorySlots; i++)
             {
                 for(int j = 0; j<hooks.Length; j++)

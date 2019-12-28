@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using UnuBattleRods.Buffs;
-using UnuBattleRods.Items.Accessories.Discarded;
+using UnuBattleRods.Items.Discardables;
 using UnuBattleRods.Items.Armors.NormalMode;
 using UnuBattleRods.Items.Baits;
 using UnuBattleRods.Items.Baits.BuffBaits;
 using UnuBattleRods.Items.Baits.DebuffBaits;
 using UnuBattleRods.Items.Baits.SummonBaits;
+using UnuBattleRods.Items.Crates;
 using UnuBattleRods.Items.Materials;
 using UnuBattleRods.Items.Rods;
 using UnuBattleRods.Items.Rods.NormalMode;
 using UnuBattleRods.NPCs;
 using UnuBattleRods.Projectiles;
 using UnuBattleRods.Projectiles.Bobbers;
+using UnuBattleRods.Buffs.Minion;
 
 namespace UnuBattleRods
 {
@@ -30,6 +33,7 @@ namespace UnuBattleRods
 
 
         public float bobberDamage = 1.0f;
+        public float perBobberDamage = 1.0f;
         public int bobberCrit = 0;
         public float bobberSpeed = 0.0f;
         public float sizeMultiplierMultiplier = 1.0f;
@@ -105,15 +109,43 @@ namespace UnuBattleRods
         public List<int> debuffsPresent = new List<int>();
 
         public Discardable currentDiscard = null;
+        public int maxBobbersPerEnemy = -1;
+        public bool smartBobberDistribution = false;
+        public int smartBobberRange = 64;
+
+        public int baitDispersalRange = 0;
+
+        public bool fallOnFloor = true;
+        public int fallOnFloorPercentage = 10;
+
+        public bool bobbersCatchItems = false;
+
+        public bool buddyfish = false;
 
         public override void ResetEffects()
         {
+            buddyfish = false;
             if (baitBuff == null)
             {
                 baitBuff = new int[] { -1, -1, -1, -1 };
+            }
+            if (baitDebuff == null)
+            {
                 baitDebuff = new int[] { -1, -1, -1, -1 };
             }
+
+            if(player.FindBuffIndex(ModContent.BuffType<PoweredBaitBuff>()) < 0)
+            {
+                baitDebuff = new int[] { -1, -1, -1, -1 };
+                baitBuff = new int[] { -1, -1, -1, -1 };
+            }
+            if (player.FindBuffIndex(ModContent.BuffType<PoweredBaitDebuff>()) < 0)
+            {
+                debuffsPresent.Clear();
+            }
+
             bobberDamage = 1.0f;
+            perBobberDamage = 1.0f;
             bobberSpeed = 0.0f;
             bobberCrit = 0;
             reelSpeed = 0.0f;
@@ -135,6 +167,21 @@ namespace UnuBattleRods
             if (player.FindBuffIndex(BuffID.StardustMinion) < 0)
             {
                 stardustCells = 0;
+            }
+            if (player.FindBuffIndex(ModContent.BuffType<Buddyfish>()) < 0 && !buddyfish)
+            {
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].owner == player.whoAmI)
+                    {
+                        if (Main.projectile[i].modProjectile as Projectiles.Minions.Buddyfish != null)
+                        {
+                            Main.projectile[i].timeLeft = 0;
+                            Main.projectile[i].Kill();
+                        }
+                    }
+                 }
+                buddyfish = false;
             }
             frostFire = false;
             solarFire = false;
@@ -169,21 +216,29 @@ namespace UnuBattleRods
             wormSpawner = false;
 
             currentDiscard = null;
+            maxBobbersPerEnemy = -1;
+            smartBobberDistribution = false;
+            smartBobberRange = 64;
+            fallOnFloor = UnuBattleRods.doesFallOnFloor;
+            fallOnFloorPercentage = 10;
+            baitDispersalRange = 0;
+            bobbersCatchItems = false;
+
             base.ResetEffects();
         }
 
-        public override void SetupStartInventory(IList<Item> items)
+        public override void SetupStartInventory(IList<Item> items, bool mediumCoreDeath)
         {
             if (UnuBattleRods.startWithRod)
             {
                 Item rod = new Item();
-                rod.SetDefaults(mod.ItemType<WoodenBattlerod>());
+                rod.SetDefaults(ModContent.ItemType<WoodenBattlerod>());
                 items.Add(rod);
             }
             if (UnuBattleRods.startWithBait)
             {
                 Item bait = new Item();
-                bait.SetDefaults(mod.ItemType<PoisonApprenticeBait>());
+                bait.SetDefaults(ModContent.ItemType<PoisonApprenticeBait>());
                 bait.stack = 10;
                 items.Add(bait);
             }
@@ -214,7 +269,7 @@ namespace UnuBattleRods
                 damage = (int)(damage * 0.8f);
             }
 
-           /* if (target.GetModPlayer<FishPlayer>(mod).linkDamage)
+           /* if (target.GetModPlayer<FishPlayer>().linkDamage)
             {
                 activateLinkDamage(target, damage, crit);
             }*/
@@ -235,7 +290,7 @@ namespace UnuBattleRods
             {
                 damage = (int)(damage * 0.8f);
             }
-            if (player.armor[0].type == mod.ItemType<FlinxHat>())
+            if (player.armor[0].type == ModContent.ItemType<FlinxHat>())
             {
                 if (Main.hardMode)
                 {
@@ -255,7 +310,7 @@ namespace UnuBattleRods
             {
                 damage = (int)(damage * 0.8f);
             }
-            if (player.armor[0].type == mod.ItemType<FlinxHat>())
+            if (player.armor[0].type == ModContent.ItemType<FlinxHat>())
             {
                 if (Main.hardMode)
                 {
@@ -270,7 +325,7 @@ namespace UnuBattleRods
         
         public override bool CanBeHitByProjectile(Projectile proj)
         {
-            FishProjectileInfo info = proj.GetGlobalProjectile<FishProjectileInfo>(mod);
+            FishProjectileInfo info = proj.GetGlobalProjectile<FishProjectileInfo>();
             if (!info.hasBeenCalculated)
             {
                 if (hasEscalationBobber())
@@ -510,7 +565,7 @@ namespace UnuBattleRods
 
         public override void PostUpdate()
         {
-            int pbtype = mod.BuffType<PoweredBaitBuff>();
+            int pbtype = ModContent.BuffType<PoweredBaitBuff>();
             int baitBuffIdx = player.FindBuffIndex(pbtype);
             if (baitBuffIdx < 0)
             {
@@ -583,7 +638,7 @@ namespace UnuBattleRods
             int max = Main.rand.Next(1, 3);
             for (int i = 0; i < max; i++)
             {
-                int proj = mod.ProjectileType<FireBee>();
+                int proj = ModContent.ProjectileType<FireBee>();
                 float kb = player.beeKB(4.0f);
                 int dmg = player.beeDamage(player.HeldItem.damage > 0 ? player.HeldItem.damage : 20);
 
@@ -636,7 +691,7 @@ namespace UnuBattleRods
                 }
             }
 
-            for (int i = 0; i < Main.npc.Length; i++)
+            for (int i = 0; i < 200; i++) //Main.npc.Length
             {
                 NPC n = Main.npc[i];
                 if (!npcToIgnore[i] && ((!n.friendly || (n.type == NPCID.Guide && player.killGuide) || (n.type == NPCID.Clothier && player.killClothier)) &&
@@ -901,17 +956,53 @@ namespace UnuBattleRods
 
             if (canReplaceFish(caughtType))
             {
-                if(player.ZoneBeach && liquidType == 0 && Main.rand.Next(9) == 0)
+                if (player.ZoneBeach && liquidType == 0 && Main.rand.Next(9) == 0)
                 {
                     caughtType = mod.ItemType("SeaweedStar");
                     return;
                 }
-                if ((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(24) == 0 || (caughtType == ItemID.WoodenCrate && Main.rand.Next(12) == 0))
+
+                List<int> possibleCrate = new List<int>();
+
+                if (((maxCrate && Main.rand.Next(25) == 0) || Main.rand.Next(50) == 0) && NPC.downedMoonlord && player.ZoneSkyHeight)
                 {
-                    replaceWithRodCrate(fishingRod, liquidType, ref caughtType);
+                    caughtType = ModContent.ItemType<WingCrate>();
                     return;
                 }
-                if((maxCrate && Main.rand.Next(6) == 0) || (!Main.hardMode && Main.rand.Next(32) == 0) || Main.rand.Next(64) == 0)
+
+                if (((maxCrate && Main.rand.Next(40) == 0) || Main.rand.Next(80) == 0) && Main.hardMode)
+                {
+                    caughtType = ModContent.ItemType<AnkhCrate>();
+                    return;
+                }
+
+                if ((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(16) == 0 || (caughtType == ItemID.WoodenCrate && Main.rand.Next(8) == 0))
+                {
+                    possibleCrate.AddRange(replaceWithEventCrate(fishingRod, liquidType));
+                    if(possibleCrate.Count > 0)
+                    {
+                        caughtType = possibleCrate[Main.rand.Next(possibleCrate.Count)];
+                        return;
+                    }
+                }
+
+                if ((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(24) == 0 || (caughtType == ItemID.WoodenCrate && Main.rand.Next(12) == 0))
+                {
+                    possibleCrate.AddRange(replaceWithRodCrate(fishingRod, liquidType));
+                    if (possibleCrate.Count > 0)
+                    {
+                        caughtType = possibleCrate[Main.rand.Next(possibleCrate.Count)];
+                        return;
+                    }
+                }
+
+                if(player.ZonePeaceCandle && ((maxCrate && Main.rand.Next(10) == 0) || Main.rand.Next(25) == 0))
+                {
+                    caughtType = ModContent.ItemType<CritterCrate>();
+                    return;
+                }
+
+                if ((maxCrate && Main.rand.Next(6) == 0) || (!Main.hardMode && Main.rand.Next(32) == 0) || Main.rand.Next(64) == 0)
                 {
                     caughtType = mod.ItemType("MimicCrate");
                     return;
@@ -1039,14 +1130,14 @@ namespace UnuBattleRods
             if (player.anglerQuestsFinished == 20 && !player.GetModPlayer<FishPlayer>().MasterBaiter)
             {
                 Item itm = new Item();
-                itm.SetDefaults(mod.ItemType<MasterBaiterCertificate>(), true);
+                itm.SetDefaults(ModContent.ItemType<MasterBaiterCertificate>(), true);
                 itm.stack = 1;
                 rewardItems.Add(itm);
             }
             if (NPC.downedMoonlord && Main.rand.Next(3) == 0)
             {
                 Item itm = new Item();
-                itm.SetDefaults(mod.ItemType<DoctorBait>(), true);
+                itm.SetDefaults(ModContent.ItemType<DoctorBait>(), true);
                 itm.stack = Main.rand.Next(3,9);
                 rewardItems.Add(itm);
             }
@@ -1057,46 +1148,46 @@ namespace UnuBattleRods
                 switch (Main.rand.Next(14))
                 {
                     case 0:
-                        type = mod.ItemType<DryadMasterBait>();
+                        type = ModContent.ItemType<DryadMasterBait>();
                         break;
                     case 1:
-                        type = mod.ItemType<VenomMasterBait>();
+                        type = ModContent.ItemType<VenomMasterBait>();
                         break;
                     case 2:
-                        type = mod.ItemType<SolarfireMasterBait>();
+                        type = ModContent.ItemType<SolarfireMasterBait>();
                         break;
                     case 3:
-                        type = mod.ItemType<ShadowflameMasterBait>();
+                        type = ModContent.ItemType<ShadowflameMasterBait>();
                         break;
                     case 4:
-                        type = mod.ItemType<PoisonMasterBait>();
+                        type = ModContent.ItemType<PoisonMasterBait>();
                         break;
                     case 5:
-                        type = mod.ItemType<OilMasterBait>();
+                        type = ModContent.ItemType<OilMasterBait>();
                         break;
                     case 6:
-                        type = mod.ItemType<MidasMasterBait>();
+                        type = ModContent.ItemType<MidasMasterBait>();
                         break;
                     case 7:
-                        type = mod.ItemType<IchorMasterBait>();
+                        type = ModContent.ItemType<IchorMasterBait>();
                         break;
                     case 8:
-                        type = mod.ItemType<FrostfireMasterBait>();
+                        type = ModContent.ItemType<FrostfireMasterBait>();
                         break;
                     case 9:
-                        type = mod.ItemType<FrostburnMasterBait>();
+                        type = ModContent.ItemType<FrostburnMasterBait>();
                         break;
                     case 10:
-                        type = mod.ItemType<FireMasterBait>();
+                        type = ModContent.ItemType<FireMasterBait>();
                         break;
                     case 11:
-                        type = mod.ItemType<CursedFlameMasterBait>();
+                        type = ModContent.ItemType<CursedFlameMasterBait>();
                         break;
                     case 12:
-                        type = mod.ItemType<ConfusionMasterBait>();
+                        type = ModContent.ItemType<ConfusionMasterBait>();
                         break;
                     case 13:
-                        type = mod.ItemType<BetsyCurseMasterBait>();
+                        type = ModContent.ItemType<BetsyCurseMasterBait>();
                         break;
                 }
                 Item itm = new Item();
@@ -1112,46 +1203,46 @@ namespace UnuBattleRods
                 switch (Main.rand.Next(14))
                 {
                     case 0:
-                        type = mod.ItemType<DryadBait>();
+                        type = ModContent.ItemType<DryadBait>();
                         break;
                     case 1:
-                        type = mod.ItemType<VenomBait>();
+                        type = ModContent.ItemType<VenomBait>();
                         break;
                     case 2:
-                        type = mod.ItemType<SolarfireBait>();
+                        type = ModContent.ItemType<SolarfireBait>();
                         break;
                     case 3:
-                        type = mod.ItemType<ShadowflameBait>();
+                        type = ModContent.ItemType<ShadowflameBait>();
                         break;
                     case 4:
-                        type = mod.ItemType<PoisonBait>();
+                        type = ModContent.ItemType<PoisonBait>();
                         break;
                     case 5:
-                        type = mod.ItemType<OilBait>();
+                        type = ModContent.ItemType<OilBait>();
                         break;
                     case 6:
-                        type = mod.ItemType<MidasBait>();
+                        type = ModContent.ItemType<MidasBait>();
                         break;
                     case 7:
-                        type = mod.ItemType<IchorBait>();
+                        type = ModContent.ItemType<IchorBait>();
                         break;
                     case 8:
-                        type = mod.ItemType<FrostfireBait>();
+                        type = ModContent.ItemType<FrostfireBait>();
                         break;
                     case 9:
-                        type = mod.ItemType<FrostburnBait>();
+                        type = ModContent.ItemType<FrostburnBait>();
                         break;
                     case 10:
-                        type = mod.ItemType<FireBait>();
+                        type = ModContent.ItemType<FireBait>();
                         break;
                     case 11:
-                        type = mod.ItemType<CursedFlameBait>();
+                        type = ModContent.ItemType<CursedFlameBait>();
                         break;
                     case 12:
-                        type = mod.ItemType<ConfusionBait>();
+                        type = ModContent.ItemType<ConfusionBait>();
                         break;
                     case 13:
-                        type = mod.ItemType<BetsyCurseBait>();
+                        type = ModContent.ItemType<BetsyCurseBait>();
                         break;
                 }
                 Item itm = new Item();
@@ -1167,46 +1258,46 @@ namespace UnuBattleRods
                 switch (Main.rand.Next(14))
                 {
                     case 0:
-                        type = mod.ItemType<DryadApprenticeBait>();
+                        type = ModContent.ItemType<DryadApprenticeBait>();
                         break;
                     case 1:
-                        type = mod.ItemType<VenomApprenticeBait>();
+                        type = ModContent.ItemType<VenomApprenticeBait>();
                         break;
                     case 2:
-                        type = mod.ItemType<SolarfireApprenticeBait>();
+                        type = ModContent.ItemType<SolarfireApprenticeBait>();
                         break;
                     case 3:
-                        type = mod.ItemType<ShadowflameApprenticeBait>();
+                        type = ModContent.ItemType<ShadowflameApprenticeBait>();
                         break;
                     case 4:
-                        type = mod.ItemType<PoisonApprenticeBait>();
+                        type = ModContent.ItemType<PoisonApprenticeBait>();
                         break;
                     case 5:
-                        type = mod.ItemType<OilApprenticeBait>();
+                        type = ModContent.ItemType<OilApprenticeBait>();
                         break;
                     case 6:
-                        type = mod.ItemType<MidasApprenticeBait>();
+                        type = ModContent.ItemType<MidasApprenticeBait>();
                         break;
                     case 7:
-                        type = mod.ItemType<IchorApprenticeBait>();
+                        type = ModContent.ItemType<IchorApprenticeBait>();
                         break;
                     case 8:
-                        type = mod.ItemType<FrostfireApprenticeBait>();
+                        type = ModContent.ItemType<FrostfireApprenticeBait>();
                         break;
                     case 9:
-                        type = mod.ItemType<FrostburnApprenticeBait>();
+                        type = ModContent.ItemType<FrostburnApprenticeBait>();
                         break;
                     case 10:
-                        type = mod.ItemType<FireApprenticeBait>();
+                        type = ModContent.ItemType<FireApprenticeBait>();
                         break;
                     case 11:
-                        type = mod.ItemType<CursedFlameApprenticeBait>();
+                        type = ModContent.ItemType<CursedFlameApprenticeBait>();
                         break;
                     case 12:
-                        type = mod.ItemType<ConfusionApprenticeBait>();
+                        type = ModContent.ItemType<ConfusionApprenticeBait>();
                         break;
                     case 13:
-                        type = mod.ItemType<BetsyCurseApprenticeBait>();
+                        type = ModContent.ItemType<BetsyCurseApprenticeBait>();
                         break;
                 }
                 Item itm = new Item();
@@ -1217,158 +1308,123 @@ namespace UnuBattleRods
             }
         }
 
-        public void replaceWithRodCrate(Item fishingRod, int liquid, ref int caughtType)
+        public List<int> replaceWithEventCrate(Item fishingRod, int liquid)
         {
-            if(fishingRod.type == mod.ItemType("RodContainmentUnit"))
+            List<int> ans = new List<int>();
+            if(DD2Event.Ongoing && DD2Event.ReadyForTier3)
             {
-                switch (Main.rand.Next(12))
-                {
-                    case 0:
-                        caughtType = mod.ItemType("BeeCrate");
-                        return;
-                    case 1:
-                        caughtType = mod.ItemType("ObsidianCrate");
-                        return;
-                    case 2:
-                        caughtType = mod.ItemType("LuminiteCrate");
-                        return;
-                    case 3:
-                        caughtType = mod.ItemType("MeteorCrate");
-                        return;
-                    case 4:
-                        caughtType = mod.ItemType("HallowedCrate");
-                        return;
-                    case 5:
-                        caughtType = mod.ItemType("SoulCrate");
-                        return;
-                    case 6:
-                        caughtType = mod.ItemType("CorruptCrate");
-                        return;
-                    case 7:
-                        caughtType = mod.ItemType("CrimsonCrate");
-                        return;
-                    case 8:
-                        caughtType = mod.ItemType("ShroomiteCrate");
-                        return;
-                    case 9:
-                        caughtType = mod.ItemType("TerraCrate");
-                        return;
-                    case 10:
-                        caughtType = mod.ItemType("SpookyCrate");
-                        return;
-                    default:
-                        caughtType = ItemID.DungeonFishingCrate;
-                        return;
-                }
+                ans.Add(ModContent.ItemType<OldOnesCrate>());
+            }
+            if (Main.pumpkinMoon)
+            {
+                ans.Add(ModContent.ItemType<SpookyCrate>());
+            }
+            if (Main.snowMoon)
+            {
+                ans.Add(ModContent.ItemType<FrostMoonCrate>());
+            }
+            if (Main.eclipse)
+            {
+                ans.Add(ModContent.ItemType<EclipseCrate>());
+            }
+            if (Main.bloodMoon)
+            {
+                ans.Add(ModContent.ItemType<BloodCrate>());
+            }
+            if (Main.slimeRain)
+            {
+                ans.Add(ModContent.ItemType<SlimeCrate>());
             }
 
-            if((liquid == 2 || liquid == -1) && (fishingRod.type == mod.ItemType("BeeBattlerod")|| fishingRod.type == mod.ItemType("BeeteoriteBattlerod")))
-            {
-                caughtType = mod.ItemType("BeeCrate");
-                return;
+            if (Main.invasionType == 1) {
+                ans.Add(ModContent.ItemType<GoblinCrate>());
             }
-            if ((liquid != 2)&& fishingRod.type == mod.ItemType("HellstoneBattlerod"))
+            else if (Main.invasionType == 2)
             {
-                caughtType = mod.ItemType("ObsidianCrate");
-                return;
+                ans.Add(ModContent.ItemType<FrostLegionCrate>());
             }
-            if (fishingRod.type == mod.ItemType("VortexBattlerod")|| fishingRod.type == mod.ItemType("SolarBattlerod") || fishingRod.type == mod.ItemType("NebulaBattlerod") || fishingRod.type == mod.ItemType("StardustBattlerod") || fishingRod.type == mod.ItemType("FractaliteBattlerod"))
+            else if (Main.invasionType == 3)
             {
-                caughtType = mod.ItemType("LuminiteCrate");
-                return;
+                ans.Add(ModContent.ItemType<TreasureCrate>());
             }
-            if (fishingRod.type == mod.ItemType("MeteorBattlerod") || fishingRod.type == mod.ItemType("BeeteoriteBattlerod"))
+            else if (Main.invasionType == 4)
             {
-                caughtType = mod.ItemType("MeteorCrate");
-                return;
-            }
-            if (fishingRod.type == mod.ItemType("HallowedBattlerod") || fishingRod.type == mod.ItemType("HardTriadBattlerod"))
-            {
-                caughtType = mod.ItemType("HallowedCrate");
-                return;
-            }
-            if(fishingRod.type == mod.ItemType("EvilRodOfDarkness"))
-            {
-                if(Main.rand.Next(2) == 0)
-                {
-                    caughtType = mod.ItemType("SoulCrate");
-                    return;
-                }
-                caughtType = mod.ItemType("CorruptCrate");
-                return;
+                ans.Add(ModContent.ItemType<AlienCrate>());
             }
 
-            if (fishingRod.type == mod.ItemType("EvilRodOfBlood"))
+            if(Sandstorm.Happening && player.ZoneDesert)
             {
-                if (Main.rand.Next(2) == 0)
-                {
-                    caughtType = mod.ItemType("SoulCrate");
-                    return;
-                }
-                caughtType = mod.ItemType("CrimsonCrate");
-                return;
+                ans.Add(ModContent.ItemType<SandstormCrate>());
             }
 
-            if (fishingRod.type == mod.ItemType("CorruptBattlerod"))
+            if(Main.raining && player.ZoneSnow)
             {
-                caughtType = mod.ItemType("CorruptCrate");
-                return;
-            }
-            if (fishingRod.type == mod.ItemType("CrimsonBattlerod"))
-            {
-                caughtType = mod.ItemType("CrimsonCrate");
-                return;
+                ans.Add(ModContent.ItemType<SnowstormCrate>());
             }
 
-            if(fishingRod.type == mod.ItemType("LifeforceBattlerod"))
+            return ans;
+        }
+
+        public List<int> replaceWithRodCrate(Item fishingRod, int liquid)
+        {
+            bool rodContainment = fishingRod.type == mod.ItemType("RodContainmentUnit");
+            List<int> ans = new List<int>();
+
+            if ((liquid == 2 || liquid == -1) && (rodContainment || fishingRod.type == mod.ItemType("BeeBattlerod")|| fishingRod.type == mod.ItemType("BeeteoriteBattlerod")))
             {
-                switch (Main.rand.Next(3)) { 
-                    case 0:
-                        caughtType = mod.ItemType("ShroomiteCrate");
-                        return;
-                    case 1:
-                        caughtType = mod.ItemType("ChlorophyteCrate");
-                        return;
-                    default:
-                        caughtType = mod.ItemType("SoulCrate");
-                        return;
-                }
+                ans.Add(mod.ItemType("BeeCrate"));
+            }
+            if ((liquid != 2)&& (rodContainment || fishingRod.type == mod.ItemType("HellstoneBattlerod")))
+            {
+                ans.Add(mod.ItemType("ObsidianCrate"));
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("VortexBattlerod")|| fishingRod.type == mod.ItemType("SolarBattlerod") || fishingRod.type == mod.ItemType("NebulaBattlerod") || fishingRod.type == mod.ItemType("StardustBattlerod") || fishingRod.type == mod.ItemType("FractaliteBattlerod"))
+            {
+                ans.Add(mod.ItemType("LuminiteCrate"));
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("MeteorBattlerod") || fishingRod.type == mod.ItemType("BeeteoriteBattlerod"))
+            {
+                ans.Add(mod.ItemType("MeteorCrate"));
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("HallowedBattlerod") || fishingRod.type == mod.ItemType("HardTriadBattlerod"))
+            {
+                ans.Add(mod.ItemType("HallowedCrate"));
             }
 
-            if (fishingRod.type == mod.ItemType("ShroomiteBattlerod"))
+            if (rodContainment || fishingRod.type == mod.ItemType("CorruptBattlerod") || fishingRod.type == mod.ItemType("EvilRodOfDarkness"))
             {
-                caughtType = mod.ItemType("ShroomiteCrate");
-                return;
+                ans.Add(mod.ItemType("CorruptCrate"));
             }
-            if (fishingRod.type == mod.ItemType("SpectreBattlerod"))
+            if (rodContainment || fishingRod.type == mod.ItemType("CrimsonBattlerod") || fishingRod.type == mod.ItemType("EvilRodOfBlood"))
             {
-                caughtType = mod.ItemType("SoulCrate");
-                return;
+               ans.Add(mod.ItemType("CrimsonCrate"));
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("LifeforceBattlerod")  || fishingRod.type == mod.ItemType("ShroomiteBattlerod"))
+            {
+                ans.Add(mod.ItemType("ShroomiteCrate"));
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("LifeforceBattlerod") || fishingRod.type == mod.ItemType("EvilRodOfDarkness") || fishingRod.type == mod.ItemType("EvilRodOfBlood") ||fishingRod.type == mod.ItemType("SpectreBattlerod"))
+            {
+                ans.Add(mod.ItemType("SoulCrate"));
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("LifeforceBattlerod") || fishingRod.type == mod.ItemType("ChlorophyteBattlerod") || fishingRod.type == mod.ItemType("TurtleBattlerod") || fishingRod.type == mod.ItemType("BeetleBattlerod"))
+            {
+                ans.Add(mod.ItemType("ChlorophyteCrate"));
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("TerraBattlerod"))
+            {
+                ans.Add(mod.ItemType("TerraCrate"));                
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("DungeonBattlerod"))
+            {
+                ans.Add(ItemID.DungeonFishingCrate);
+            }
+            if (rodContainment || fishingRod.type == mod.ItemType("SpookyBattlerod"))
+            {
+                ans.Add(mod.ItemType("SpookyCrate"));
             }
 
-            if (fishingRod.type == mod.ItemType("TerraBattlerod"))
-            {
-                caughtType = mod.ItemType("TerraCrate");
-                return;
-            }
-
-            if (fishingRod.type == mod.ItemType("DungeonBattlerod"))
-            {
-                caughtType = ItemID.DungeonFishingCrate;
-                return;
-            }
-
-            if (fishingRod.type == mod.ItemType("ChlorophyteBattlerod") || fishingRod.type == mod.ItemType("TurtleBattlerod") || fishingRod.type == mod.ItemType("BeetleBattlerod"))
-            {
-                caughtType = mod.ItemType("ChlorophyteCrate");
-                return;
-            }
-
-            if (fishingRod.type == mod.ItemType("SpookyBattlerod"))
-            {
-                caughtType = mod.ItemType("SpookyCrate");
-                return;
-            }
+            return ans;
         }
 
         public static bool canReplaceFish(int fishFound)
@@ -1418,7 +1474,7 @@ namespace UnuBattleRods
 
         public bool isSpawnItem(int type)
         {
-            return type == mod.ItemType<IceyWorm>();
+            return type == ModContent.ItemType<IceyWorm>();
         }
 
         public void summonMimic(int itemType)
@@ -1442,9 +1498,9 @@ namespace UnuBattleRods
                 }
             }
             Chest.DestroyChest(x, y);
-            if (itemType == mod.ItemType<IceyWorm>())
+            if (itemType == ModContent.ItemType<IceyWorm>())
             {
-                int type2 = mod.NPCType<CoolerBoss>();
+                int type2 = ModContent.NPCType<CoolerBoss>();
                 int num5 = NPC.NewNPC(x * 16 + 16, y * 16 + 32, type2, 0, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num5].whoAmI = num5;
                 NetMessage.SendData(23, -1, -1, null, num5, 0f, 0f, 0f, 0, 0, 0);
@@ -1497,7 +1553,7 @@ namespace UnuBattleRods
                 baitTimer = Math.Max(time, baitTimer);
             }
 
-            int pbtype = mod.BuffType<PoweredBaitBuff>();
+            int pbtype = ModContent.BuffType<PoweredBaitBuff>();
             int baitBuffIdx = player.FindBuffIndex(pbtype);
             if (baitBuffIdx >= 0)
             {
@@ -1521,11 +1577,15 @@ namespace UnuBattleRods
         {
             if(Main.netMode == NetmodeID.SinglePlayer)
             {
-                (mod as UnuBattleRods).loadConfig();
+                UnuBattleRods.loadConfig();
             }
             else if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 ModPacket pk = mod.GetPacket();
+                pk.Write((byte)14);
+                pk.Send();
+
+                pk = mod.GetPacket();
                 pk.Write((byte)9);
                 pk.Send();
             }else if(Main.netMode == NetmodeID.Server)
@@ -1541,15 +1601,7 @@ namespace UnuBattleRods
                         }
                     }
                 }
-                ModPacket pk = mod.GetPacket();
-                pk.Write((byte)14);
-                pk.Write((byte)(UnuBattleRods.allowFishedItems ? 2 : 0) | (UnuBattleRods.harderLureRecipes ? 1 : 0));
-                pk.Write((int)(UnuBattleRods.fishToReplace.Count));
-                foreach (String k in UnuBattleRods.fishToReplace)
-                {
-                    pk.Write(k);
-                }
-                pk.Send(player.whoAmI);
+                UnuBattleRods.sendMessage14(player.whoAmI);
             }
         }
 
@@ -1575,6 +1627,15 @@ namespace UnuBattleRods
 
         public bool hasAnyBaitBuffs()
         {
+            if(baitBuff == null)
+            {
+                baitBuff = new int[4];
+                for (int i = 0; i < baitBuff.Length; i++)
+                {
+                    baitBuff[i] = -1;
+                }
+                return false;
+            }
             for (int i = 0; i < baitBuff.Length; i++)
             {
                 if (baitBuff[i] != -1)
@@ -1584,6 +1645,16 @@ namespace UnuBattleRods
         }
         public bool hasAnyBaitDebuffs()
         {
+            if (baitDebuff == null)
+            {
+                baitDebuff = new int[4];
+                for (int i = 0; i < baitDebuff.Length; i++)
+                {
+                    baitDebuff[i] = -1;
+                }
+                return false;
+            }
+
             for (int i = 0; i < baitDebuff.Length; i++)
             {
                 if (baitDebuff[i] != -1)
@@ -1641,14 +1712,14 @@ namespace UnuBattleRods
 
                     for (buffSlot = 0; buffSlot < 22; buffSlot++)
                     {
-                        if (player.buffType[buffSlot] == mod.BuffType<PoweredBaitBuff>())
+                        if (player.buffType[buffSlot] == ModContent.BuffType<PoweredBaitBuff>())
                             break;
                     }
                     if (buffSlot == 22)
                         return;
                 }
                 bff.Update(player,ref buffSlot);
-                player.buffType[buffSlot] = mod.BuffType<PoweredBaitBuff>();
+                player.buffType[buffSlot] = ModContent.BuffType<PoweredBaitBuff>();
                 return;
             }
 
@@ -2904,7 +2975,8 @@ namespace UnuBattleRods
         {
             if(currentDiscard != null)
             {
-                currentDiscard.onDiscard(proj.getStuckEntity());
+                currentDiscard.onDiscard(this.player,proj.projectile.damage, proj.getStuckEntity());
+                currentDiscard = null;
             }
         }
     }

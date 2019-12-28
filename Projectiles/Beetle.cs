@@ -20,7 +20,7 @@ namespace UnuBattleRods.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             FishPlayer pl = Main.player[projectile.owner].GetModPlayer<FishPlayer>();
-            PoweredBaitDebuff pbdbf = mod.GetBuff<PoweredBaitDebuff>();
+            PoweredBaitDebuff pbdbf = ModContent.GetInstance<PoweredBaitDebuff>();
             if (pl.hasAnyBaitDebuffs())
             {
                 target.AddBuff(pbdbf.Type, 120);
@@ -35,7 +35,7 @@ namespace UnuBattleRods.Projectiles
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             FishPlayer pl = Main.player[projectile.owner].GetModPlayer<FishPlayer>();
-            PoweredBaitDebuff pbdbf = mod.GetBuff<PoweredBaitDebuff>();
+            PoweredBaitDebuff pbdbf = ModContent.GetInstance<PoweredBaitDebuff>();
             if (pl.hasAnyBaitDebuffs())
             {
                 target.AddBuff(pbdbf.Type, 120);

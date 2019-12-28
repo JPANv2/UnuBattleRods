@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Wires
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).vampiricLinePercent += 0.10f;  
+            player.GetModPlayer<FishPlayer>().vampiricLinePercent += 0.10f;  
         }
     }
 }

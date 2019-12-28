@@ -40,7 +40,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).bobberSpeed += (1 - ((player.statLife*1.0f) / player.statLifeMax2))*0.75f;
+            player.GetModPlayer<FishPlayer>().bobberSpeed += (1 - ((player.statLife*1.0f) / player.statLifeMax2))*0.75f;
                
         }
 

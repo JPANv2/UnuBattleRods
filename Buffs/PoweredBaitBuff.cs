@@ -25,7 +25,7 @@ namespace UnuBattleRods.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            FishPlayer pl = player.GetModPlayer<FishPlayer>(mod);
+            FishPlayer pl = player.GetModPlayer<FishPlayer>();
             List<Entity> hookedEntities = getHookedEntities(pl);
             if(pl.baitTimer < player.buffTime[buffIndex])
             {
@@ -62,7 +62,7 @@ namespace UnuBattleRods.Buffs
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
             tip = "";
-            FishPlayer pl = Main.player[Main.myPlayer].GetModPlayer<FishPlayer>(mod);
+            FishPlayer pl = Main.player[Main.myPlayer].GetModPlayer<FishPlayer>();
             if (pl.hasAnyBaitBuffs())
             {
                 tip += Description.GetTranslation(Language.ActiveCulture)+"\n";
@@ -212,7 +212,7 @@ namespace UnuBattleRods.Buffs
 
             foreach(Player p in list)
             {
-                if(p.active && !p.dead && p.FindBuffIndex(mod.BuffType<PoweredBaitBuff>())>= 0)
+                if(p.active && !p.dead && p.FindBuffIndex(ModContent.BuffType<PoweredBaitBuff>())>= 0)
                 {
                     FishPlayer pl = p.GetModPlayer<FishPlayer>();
                     for(int i = 0; i <pl.baitDebuff.Length; i++)

@@ -23,7 +23,7 @@ namespace UnuBattleRods.Items.Crates
 
         public override void RightClick(Player player)
         {
-            FishPlayer f = Main.player[Main.myPlayer].GetModPlayer<FishPlayer>(mod);
+            FishPlayer f = Main.player[Main.myPlayer].GetModPlayer<FishPlayer>();
 
             if (f == null || f.mimicToSpawn)
                 return;

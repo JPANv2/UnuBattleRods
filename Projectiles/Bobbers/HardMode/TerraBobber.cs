@@ -106,7 +106,7 @@ namespace UnuBattleRods.Projectiles.Bobbers.HardMode
             float secondClosest = Single.MaxValue;
             float thirdClosest = Single.MaxValue;
             int[] res = { -1, -1, -1 };
-            for (int i = 0; i < Main.npc.Length; i++)
+            for (int i = 0; i < 200; i++) //Main.npc.Length
             {
                 NPC n = Main.npc[i];
                 if (n.active && !n.immortal && n.life > 5 && n.Center != npc.Center)

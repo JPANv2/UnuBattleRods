@@ -38,7 +38,7 @@ namespace UnuBattleRods.Items.Rods.PostMoonLord
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.GetModPlayer<FishPlayer>(mod).stardustCells < 2)
+            if (player.GetModPlayer<FishPlayer>().stardustCells < 2)
             {
                 int p = Projectile.NewProjectile(position + new Vector2(16, 16), new Vector2(speedX, speedY), ProjectileID.StardustCellMinion, damage, knockBack, player.whoAmI);
                 if (p >= 0 && p < Main.projectile.Length)
@@ -50,7 +50,7 @@ namespace UnuBattleRods.Items.Rods.PostMoonLord
                         Main.projectile[p].minionSlots = 0;
                     }
                     player.AddBuff(BuffID.StardustMinion, 120);
-                    player.GetModPlayer<FishPlayer>(mod).stardustCells += 2;
+                    player.GetModPlayer<FishPlayer>().stardustCells += 2;
                 }
             }
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);

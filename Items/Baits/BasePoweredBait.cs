@@ -28,7 +28,7 @@ namespace UnuBattleRods.Items.Baits
         {
 
             FishPlayer pl = player.GetModPlayer<FishPlayer>();
-            int pbtype = mod.BuffType<PoweredBaitBuff>();
+            int pbtype = ModContent.BuffType<PoweredBaitBuff>();
 
             for (int j = 0; j < 22; j++)
             {
@@ -106,7 +106,7 @@ namespace UnuBattleRods.Items.Baits
         public override bool RecipeAvailable()
         {
             Player p = Main.player[Main.myPlayer];
-            FishPlayer pl = p.GetModPlayer<FishPlayer>(this.mod);
+            FishPlayer pl = p.GetModPlayer<FishPlayer>();
             return pl.MasterBaiter;
         }
     }

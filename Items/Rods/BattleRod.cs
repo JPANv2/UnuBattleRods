@@ -36,15 +36,18 @@ namespace UnuBattleRods.Items.Rods
         }
 
 
-        public override void GetWeaponDamage(Player player, ref int damage)
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-            damage = (int)Math.Round((double)damage * (player.GetModPlayer<FishPlayer>().bobberDamage)/ player.rangedDamage);
+            mult *= ((player.GetModPlayer<FishPlayer>().bobberDamage)/ player.rangedDamage);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            FishPlayer p = player.GetModPlayer<FishPlayer>(mod);
+            FishPlayer p = player.GetModPlayer<FishPlayer>();
             int lures = noOfBobs + p.multilineFishing;
+
+            if (lures <= 1)
+                lures = 1;
 
             Vector2 speedVector = new Vector2(speedX, speedY);
             float trueSpeed = speedVector.Length() * p.bobberShootSpeed;
@@ -140,7 +143,7 @@ namespace UnuBattleRods.Items.Rods
         public int getNoOfBuffs(Player player)
         {
             int ans = 0;
-            int baitbufftype = mod.GetBuff<PoweredBaitBuff>().Type;
+            int baitbufftype = ModContent.GetInstance<PoweredBaitBuff>().Type;
             for(int i = 0; i<player.buffType.Length; i++)
             {
                 if(player.buffType[i] != 0 && player.buffType[i] != baitbufftype)
@@ -188,15 +191,27 @@ namespace UnuBattleRods.Items.Rods
         {
             base.ModifyTooltips(tooltips);
 
+            FishPlayer pl = Main.player[Main.myPlayer].GetModPlayer<FishPlayer>();
+            int lures = noOfBobs + pl.multilineFishing;
+
+            if (lures <= 1)
+                lures = 1;
+
+            int trueDamage = 0;
+            if (getDamage() > 0)
+            {
+                trueDamage = (getDamage() / lures < 1 ? 1 : getDamage() / lures);
+            }
+
             int idx = tooltips.FindIndex(x => x.Name == "Damage");
             if (idx >= 0)
             {
                 tooltips.RemoveAt(idx);
-                tooltips.Insert(idx, new TooltipLine(mod, "Damage", getDamage() + " Fishing damage"));
+                tooltips.Insert(idx, new TooltipLine(mod, "Damage", getDamage() + " Fishing damage"+ ((lures > 1 ? (" (" + trueDamage + "x " + lures + " bobbers)") : ""))));
             }else
             {
                 idx = tooltips.FindIndex(x => x.Name == "FishingPower");
-                tooltips.Insert(idx, new TooltipLine(mod, "Damage", getDamage() + " Fishing damage"));
+                tooltips.Insert(idx, new TooltipLine(mod, "Damage", getDamage() + " Fishing damage" + ((lures > 1 ? (" (" + trueDamage + "x " + lures + " bobbers)") : ""))));
             }
                 
             idx = tooltips.FindIndex(x => x.Name == "FishingPower");
@@ -226,7 +241,7 @@ namespace UnuBattleRods.Items.Rods
                 tooltips.Insert(idx + 1, new TooltipLine(mod, "TensileStrength", b.TensileStrength().ToString("0.0") + "pix/s Tensile Strength"));
                 if(noOfBobs > 1)
                 {
-                    tooltips.Insert(idx + 1, new TooltipLine(mod, "BobNo", "Launches "+noOfBobs+ " bobs at once."));
+                    tooltips.Insert(idx + 1, new TooltipLine(mod, "BobNo", "Launches "+noOfBobs+ " bobbers at once."));
                 }
             }
         }
@@ -236,7 +251,7 @@ namespace UnuBattleRods.Items.Rods
             float dmg = item.damage;
             Player p = Main.player[Main.myPlayer];
 
-            FishPlayer f = p.GetModPlayer<FishPlayer>(mod);
+            FishPlayer f = p.GetModPlayer<FishPlayer>();
             dmg *= f.bobberDamage;
 
             return (int)Math.Round(dmg);

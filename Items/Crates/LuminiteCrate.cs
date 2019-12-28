@@ -1,6 +1,7 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
+using System.Collections.Generic;
 
 namespace UnuBattleRods.Items.Crates
 {
@@ -72,31 +73,28 @@ namespace UnuBattleRods.Items.Crates
 
                 player.QuickSpawnItem(ItemID.LunarOre, Main.rand.Next(4, 25));
 
-            switch (Main.rand.Next(UnuBattleRods.thoriumPresent? 6: 4))
+            List<int> possibleFragments = new List<int>();
+            possibleFragments.Add(ItemID.FragmentSolar);
+            possibleFragments.Add(ItemID.FragmentNebula);
+            possibleFragments.Add(ItemID.FragmentStardust);
+            possibleFragments.Add(ItemID.FragmentVortex);
+
+            if (UnuBattleRods.thoriumPresent)
             {
-                case 0:
-                    player.QuickSpawnItem(ItemID.FragmentSolar, Main.rand.Next(2, 21));
-                    break;
-                case 1:
-                    player.QuickSpawnItem(ItemID.FragmentNebula, Main.rand.Next(2, 21));
-                    break;
-                case 2:
-                    player.QuickSpawnItem(ItemID.FragmentStardust, Main.rand.Next(2, 21));
-                    break;
-                case 4:
-                    player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:CelestialFragment"), Main.rand.Next(2, 21));
-                    break;
-                case 5:
-                    player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:CometFragment"), Main.rand.Next(2, 21));
-                    break;
-                default:
-                    player.QuickSpawnItem(ItemID.FragmentVortex, Main.rand.Next(2, 21));
-                    break;
+                possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("ThoriumMod:CelestialFragment"));
+                possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("ThoriumMod:WhiteDwarfFragment"));
+                possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("ThoriumMod:CometFragment"));
+            }
+            if(ModLoader.GetMod("DBZMOD") != null)
+            {
+                possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("DBZMOD:RadiantFragment"));
             }
             if (ModLoader.GetMod("SacredTools") != null && Main.rand.Next(8) == 0)
             {
-                player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("SacredTools:FragmentNova"), Main.rand.Next(2, 21));
+                possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("SacredTools:FragmentNova"));
             }
+
+            player.QuickSpawnItem(possibleFragments[Main.rand.Next(possibleFragments.Count)] , Main.rand.Next(2, 21));
 
             base.RightClick(player);
         }

@@ -40,7 +40,7 @@ namespace UnuBattleRods.Projectiles.Pets
                 return;
             }
             projectile.timeLeft = 18000;
-            player.GetModPlayer<FishPlayer>(mod).maxCrate = true;
+            player.GetModPlayer<FishPlayer>().maxCrate = true;
             player.sonarPotion = true;
         }
     }

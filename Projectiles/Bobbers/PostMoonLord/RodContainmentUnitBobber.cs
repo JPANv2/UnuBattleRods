@@ -54,7 +54,7 @@ namespace UnuBattleRods.Projectiles.Bobbers.PostMoonLord
                     spawnDust(Main.player[projectile.owner], projectile);
 
                 size += e.width > e.height ? e.width : e.height;
-                for (int i = 0; i < Main.npc.Length; i++)
+                for (int i = 0; i < 200; i++) //Main.npc.Length
                 {
                     NPC npc = Main.npc[i];
                     if (Vector2.Distance(npc.Center, projectile.Center) < size)

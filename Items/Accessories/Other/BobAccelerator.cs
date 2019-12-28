@@ -39,7 +39,7 @@ namespace UnuBattleRods.Items.Accessories.Other
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).bobberShootSpeed += 0.30f;
+            player.GetModPlayer<FishPlayer>().bobberShootSpeed += 0.30f;
         }
     }
 }

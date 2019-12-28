@@ -35,16 +35,11 @@ namespace UnuBattleRods.Items.Crates
                             player.QuickSpawnItem(ItemID.BrokenHeroSword, 1);
                             break;
                         case 1:
-                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroScythe"), 1);
-                            break;
                         case 2:
-                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroStaff"), 1);
-                            break;
-                        default:
-                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroBow"), 1);
+                        case 3:
+                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroFragment"), 1);
                             break;
                     }
-
                 }else
                 {
 

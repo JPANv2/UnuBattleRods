@@ -37,7 +37,7 @@ namespace UnuBattleRods.Items.Accessories.Shafts
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).projectileDestroyPercentage += 3000;
+            player.GetModPlayer<FishPlayer>().projectileDestroyPercentage += 3000;
         }
     }
 }

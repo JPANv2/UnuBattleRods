@@ -29,12 +29,12 @@ namespace UnuBattleRods.Items.Accessories.Lures
             {
                 SetDefaults();
             }
-            if ((lures < -128) || (player.GetModPlayer<FishPlayer>(mod).multilineFishing <= -128))
+            if ((lures < -128) || (player.GetModPlayer<FishPlayer>().multilineFishing <= -128))
             {
-                player.GetModPlayer<FishPlayer>(mod).multilineFishing = lures;
+                player.GetModPlayer<FishPlayer>().multilineFishing = lures;
             }else
             {
-                player.GetModPlayer<FishPlayer>(mod).multilineFishing += lures;
+                player.GetModPlayer<FishPlayer>().multilineFishing += lures;
             }
         }
 

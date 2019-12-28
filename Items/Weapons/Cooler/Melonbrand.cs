@@ -33,7 +33,7 @@ namespace UnuBattleRods.Items.Weapons.Cooler
             item.value = Item.sellPrice(0, 1, 10, 0);
             item.rare = 3;
             item.UseSound = SoundID.Item1;
-            item.shoot = mod.ProjectileType<MelonProjectile>();
+            item.shoot = ModContent.ProjectileType<MelonProjectile>();
             item.shootSpeed = 5.0f;
         }
 

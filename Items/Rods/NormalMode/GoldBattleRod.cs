@@ -35,7 +35,7 @@ namespace UnuBattleRods.Items.Rods.NormalMode
 
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<FishPlayer>(mod).moneyPercent += 100;
+            player.GetModPlayer<FishPlayer>().moneyPercent += 100;
         }
     }
 }

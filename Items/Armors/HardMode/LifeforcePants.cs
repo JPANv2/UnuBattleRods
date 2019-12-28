@@ -42,7 +42,7 @@ namespace UnuBattleRods.Items.Armors.HardMode
             recipe.AddIngredient(ItemID.ChlorophyteBar, 18);
             recipe.AddIngredient(ItemID.ShroomiteBar, 18);
             recipe.AddIngredient(ItemID.SpectreBar, 18);
-            recipe.AddIngredient(mod.ItemType<EnergyAmalgamate>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EnergyAmalgamate>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
@@ -51,7 +51,7 @@ namespace UnuBattleRods.Items.Armors.HardMode
             recipe.AddIngredient(ItemID.ChlorophyteGreaves);
             recipe.AddIngredient(ItemID.ShroomiteLeggings);
             recipe.AddIngredient(ItemID.SpectrePants);
-            recipe.AddIngredient(mod.ItemType<EnergyAmalgamate>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EnergyAmalgamate>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

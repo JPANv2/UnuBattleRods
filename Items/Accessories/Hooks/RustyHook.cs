@@ -49,7 +49,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
                     Entity stuck = ((Bobber)(Main.projectile[i].modProjectile)).getStuckEntity();
                     if (stuck.wet && !stuck.lavaWet && !stuck.honeyWet)
                     {
-                        player.GetModPlayer<FishPlayer>(mod).bobberDamage += 0.2f;
+                        player.GetModPlayer<FishPlayer>().bobberDamage += 0.2f;
                         return;
                     }
 
@@ -63,7 +63,7 @@ namespace UnuBattleRods.Items.Accessories.Hooks
             if (!base.CanEquipAccessory(player, slot))
                 return false;
 
-            int hook = mod.ItemType<HookSet>();
+            int hook = ModContent.ItemType<HookSet>();
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 if (player.armor[i].type == hook) {
