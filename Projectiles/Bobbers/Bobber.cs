@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using UnuBattleRods.NPCs;
 using System.Collections.Generic;
 using UnuBattleRods.Buffs;
+using System.Linq;
 
 namespace UnuBattleRods.Projectiles.Bobbers
 {
@@ -36,6 +37,8 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         int bobsSinceAttatched = 0;
 
+        public int fishAmount = 0;
+
         public override void SetDefaults()
         {
             base.projectile.CloneDefaults(361);
@@ -44,6 +47,11 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         public override bool PreAI()
         {
+            if (Main.player[projectile.owner].GetModPlayer<FishPlayer>().sinkBobber)
+            {
+                this.projectile.ignoreWater = true;
+                this.projectile.wet = false;
+            }
             if (Main.netMode != NetmodeID.SinglePlayer)
             {
                 projectile.netUpdate = true;
@@ -96,7 +104,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     }
                     npcIndex = -1;
                     updatePos = true;
-                    base.AI();
+                    doBaseAI();
                     return;
                 }
             }
@@ -161,7 +169,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     if (!Main.npc[npc].active || Main.npc[npc].type == 0)
                     {
                         breakFree();
-                        base.AI();
+                        doBaseAI();
                         return;
                     }
                     if(projectile.ai[0] == 1) //retracting line
@@ -224,7 +232,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     if (!Main.player[player].active || Main.player[player].dead)
                     {
                         breakFree();
-                        base.AI();
+                        doBaseAI();
                         return;
                     }
                     if (projectile.ai[0] == 1) //retracting line
@@ -280,11 +288,25 @@ namespace UnuBattleRods.Projectiles.Bobbers
             }
             else
             {
-                base.AI();
+                doBaseAI();
             }
 
         }
-
+        public void doBaseAI()
+        {
+            projectile.VanillaAI();
+            /*if (Main.player[projectile.owner].GetModPlayer<FishPlayer>().sinkBobber)
+            {
+                if (projectile.velocity.Y != 0f)
+                {
+                    if (projectile.wet && projectile.ai[0] >= 0 && projectile.velocity.Y < 0f)
+                    {
+                        projectile.velocity.Y = 6f;
+                    }
+                }
+            }*/
+            
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npcIndex);
@@ -372,7 +394,8 @@ namespace UnuBattleRods.Projectiles.Bobbers
                     }
                 }
             }
-            return ans;
+            possibleTargets.AddRange(ans.OrderBy(x => Vector2.DistanceSquared(x.Center, projectile.Center)));
+            return possibleTargets;
 
         }
 
@@ -538,6 +561,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         public bool smartAttatch(FishPlayer fOwner, List<Entity> targets)
         {
+            
             if (fOwner.maxBobbersPerEnemy == 0)
                 return false; 
             List<Entity> zeroBobbers = targets.FindAll(x => (getNoOfBobbersAttatchedTo(x, fOwner.player.whoAmI) == 0));
@@ -953,7 +977,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 projectile.velocity.Y = 0;
                 projectile.tileCollide = true;
                 timeUntilGrab = 60;
-                
+                projectile.netUpdate = true;
                 if (Main.netMode != 0)
                 {
                     ModPacket pk = mod.GetPacket();
@@ -1026,7 +1050,17 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         public override bool ShouldUpdatePosition()
         {
-            return updatePos;
+            if (npcIndex == -1)
+                return true;
+            if(npcIndex < 200)
+            {
+                return Main.npc[npcIndex] == null || Main.npc[npcIndex].type == 0 || !Main.npc[npcIndex].active;
+            }
+            if (npcIndex - Main.npc.Length >= 0 && npcIndex - Main.npc.Length < Main.player.Length)
+            {
+                return Main.player[npcIndex - Main.npc.Length] == null || !Main.player[npcIndex - Main.npc.Length].active || Main.player[npcIndex - Main.npc.Length].dead;
+            }
+            return true;
         }
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)

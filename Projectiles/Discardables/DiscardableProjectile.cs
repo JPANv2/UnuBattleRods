@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using UnuBattleRods.Configs;
 using UnuBattleRods.Projectiles.Bobbers;
 using UnuBattleRods.Projectiles.Bobbers.NormalMode;
 
@@ -71,7 +72,7 @@ namespace UnuBattleRods.Projectiles.Discardables
                 trueDamage = (int)(trueDamage * pl.bobberDamage);
             }
 
-            if (UnuBattleRods.explosivesDamageEveryone && explosive)
+            if (ModContent.GetInstance<UnuServerConfig>().explosivesDamageEveryone && explosive)
             {
                 trueDamage *= 2;
                 Bobber b = new WoodenBobber();

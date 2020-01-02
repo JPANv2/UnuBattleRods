@@ -9,12 +9,14 @@ using Terraria.IO;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using UnuBattleRods.Buffs;
+using UnuBattleRods.Configs;
 using UnuBattleRods.Items.Baits.SummonBaits;
 using UnuBattleRods.Items.BossBags;
 using UnuBattleRods.Items.Currency;
 using UnuBattleRods.Items.Materials;
 using UnuBattleRods.Items.Rods.HardMode;
 using UnuBattleRods.Items.Rods.NormalMode;
+using UnuBattleRods.Items.Rods.PostMoonLord;
 using UnuBattleRods.Items.Weapons.Cooler;
 using UnuBattleRods.NPCs;
 using UnuBattleRods.Projectiles.Bobbers;
@@ -26,24 +28,11 @@ namespace UnuBattleRods
         public static string GithubUserName { get { return "jpanv2"; } }
         public static string GithubProjectName { get { return "UnuBattleRods"; } }
 
-        public static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs", "UnuBattleRods");
-
-        public static string ConfigFileRelativePath
-        {
-            get { return "Mod Configs/UnuBattleRods/main.json"; }
-        }
-
-        public static bool startWithRod = true;
-        public static bool startWithBait = true;
-
-        public static bool harderLureRecipes = true;
-        public static bool allowFishedItems = true;
-
-        public static bool doesFallOnFloor = true;
-        public static bool explosivesDamageEveryone = true;
-
-        public static List<String> fishToReplace = new List<String>();
-
+        public UnuPlayerConfig playerConfig = ModContent.GetInstance<UnuPlayerConfig>();
+        public UnuServerConfig serverConfig = ModContent.GetInstance<UnuServerConfig>();
+        public FishToReplaceConfig fishToReplaceConfig = ModContent.GetInstance<FishToReplaceConfig>();
+        public FishSteakRecipesConfig fishRecipes = ModContent.GetInstance<FishSteakRecipesConfig>();
+       
         public enum Message
         {
             BobProjectilePosition = 0,
@@ -68,68 +57,8 @@ namespace UnuBattleRods
         public static int fishSteaksCurrencyID = -1;
         public override void Load()
         {
-            loadConfig();
             fishSteaksCurrencyID = CustomCurrencyManager.RegisterCurrency(new FishCurrency(ModContent.ItemType<FishSteaks>(), 999));
             base.Load();
-        }
-
-        public static void ReloadConfigFromFile()
-        {
-            UnuBattleRods.loadConfig();
-        }
-
-        public static void loadConfig()
-        {
-            if (!System.IO.Directory.Exists(ConfigPath))
-            {
-                System.IO.Directory.CreateDirectory(ConfigPath);
-            }
-            Preferences config = new Preferences(Path.Combine(ConfigPath, "main.json"));
-            if (!config.Load())
-            {
-                config.Put("startWithRod", true);
-                config.Put("startWithBait", true);
-                config.Put("harderLureRecipes", true);
-                config.Put("allowFishedItems", true);
-                makeDefaultFishReplaceList();
-                config.Put("fishToReplace", fishToReplace);
-                config.Put("canBobberFallOnFloor", doesFallOnFloor);
-                config.Put("explosivesDamageEveryone", explosivesDamageEveryone);
-                config.Save();
-            }
-
-            startWithRod = config.Get<bool>("startWithRod", true);
-            startWithBait = config.Get<bool>("startWithBait", true);
-            harderLureRecipes = config.Get<bool>("harderLureRecipes", true);
-            allowFishedItems = config.Get<bool>("allowFishedItems", true);
-            doesFallOnFloor = config.Get<bool>("canBobberFallOnFloor", true);
-            explosivesDamageEveryone = config.Get<bool>("explosivesDamageEveryone", true);
-            fishToReplace.Clear();
-            List<string> fr = getStringListFromConfig(config, "fishToReplace");
-            if(fr.Count != 0)
-            {
-                fishToReplace.AddRange(fr);
-            }else
-            {
-                makeDefaultFishReplaceList();
-            }
-            
-        }
-
-        private static void makeDefaultFishReplaceList()
-        {
-            fishToReplace.Clear();
-            fishToReplace.Add("" + ItemID.WoodenCrate);
-            fishToReplace.Add("" + ItemID.Bass);
-            fishToReplace.Add("" + ItemID.Salmon);
-            fishToReplace.Add("" + ItemID.Trout);
-            fishToReplace.Add("" + ItemID.Tuna);
-            fishToReplace.Add("" + ItemID.AtlanticCod);
-            fishToReplace.Add("" + ItemID.NeonTetra);
-            fishToReplace.Add("" + ItemID.RedSnapper);
-            fishToReplace.Add("" + ItemID.Honeyfin);
-            fishToReplace.Add("" + ItemID.Obsidifish);
-            return;
         }
 
         public override void AddRecipeGroups()
@@ -199,8 +128,31 @@ namespace UnuBattleRods
                 bosses.Call(parameters);
             }
             thoriumPresent = ModLoader.GetMod("ThoriumMod") != null;
+           
         }
+        public override void PostAddRecipes()
+        {
+            if (ModLoader.GetMod("FargowiltasSouls") != null)
+            {
+               
+                RecipeFinder finder = new RecipeFinder();
+                finder.SetResult(getTypeFromTag("FargowiltasSouls:AnglerEnchantment"));
+                foreach (Recipe r in finder.SearchRecipes())
+                {
+                    RecipeEditor editor = new RecipeEditor(r);
+                    editor.AddIngredient(ItemID.ReaverShark, 1);
+                    editor.AddIngredient(ModContent.ItemType<EdgeBattlerod>(), 1);
 
+                }
+                finder.SetResult(getTypeFromTag("FargowiltasSouls:TrawlerSoul"));
+                foreach (Recipe r in finder.SearchRecipes())
+                {
+                    RecipeEditor editor = new RecipeEditor(r);
+                    editor.DeleteIngredient(ItemID.ReaverShark);
+                    editor.AddIngredient(ModContent.ItemType<RodContainmentUnit>(), 1);
+                }
+            }
+        }
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             int i = reader.ReadByte();
@@ -259,6 +211,8 @@ namespace UnuBattleRods
                     float ai0 = reader.ReadSingle();
                     Main.projectile[proj].ai[0] = ai0;
                     ((Bobber)(Main.projectile[proj].modProjectile)).npcIndex = npcIndex;
+                    if (npcIndex == -1)
+                        ((Bobber)(Main.projectile[proj].modProjectile)).updatePos = true;
                 }
                 if (i == 3 && Main.netMode == 1)
                 {
@@ -483,29 +437,6 @@ namespace UnuBattleRods
                         pk.Send();
                     }
                 }
-                if (i == 14)//Syncronize Config to server options
-                {
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        sendMessage14(-1);
-                    }
-                    else
-                    {
-                        byte flags = reader.ReadByte();
-                        harderLureRecipes = ((flags & 1) == 1);
-                        allowFishedItems = ((flags & 2) == 2);
-                        doesFallOnFloor = ((flags & 4) == 4);
-                        explosivesDamageEveryone = ((flags & 8) == 8);
-                        int fishCount = reader.ReadInt32();
-                        fishToReplace.Clear();
-                        for (int k = 0; k < fishCount; k++)
-                        {
-                            fishToReplace.Add(reader.ReadString());
-                        }
-                    }
-
-
-                }
             }
             catch (Exception ex)
             {
@@ -517,30 +448,6 @@ namespace UnuBattleRods
                 {
                     Console.WriteLine("Exception on message " + i + ": " + ex.ToString());
                 }
-            }
-        }
-
-        public static void sendMessage14(int player)
-        {
-            ModPacket pk = ModLoader.GetMod("UnuBattleRods").GetPacket();
-            pk.Write((byte)14);
-            byte flags = (byte)(harderLureRecipes ? 1 : 0);
-            flags |= (byte)(allowFishedItems ? 2 : 0);
-            flags |= (byte)(doesFallOnFloor ? 4 : 0);
-            flags |= (byte)(explosivesDamageEveryone ? 8 : 0);
-            pk.Write(flags);
-            pk.Write(fishToReplace.Count);
-            for (int k = 0; k < fishToReplace.Count; k++)
-            {
-                pk.Write(fishToReplace[k]);
-            }
-            if (player < 0 || player > Main.player.Length)
-            {
-                pk.Send();
-            }
-            else
-            {
-                pk.Send(player);
             }
         }
 
@@ -1077,7 +984,7 @@ namespace UnuBattleRods
         ModRecipe turretBobbers;
         ModRecipe turretBobbersHM;
 
-        ModRecipe smartBobbers;
+     
        
 
         public void AddSelectiveRecipes()

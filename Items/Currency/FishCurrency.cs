@@ -5,6 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
+using UnuBattleRods.Configs;
+using Terraria.ModLoader.Config;
+using System.Collections.Generic;
 
 namespace UnuBattleRods.Items.Currency
 {
@@ -27,45 +30,14 @@ namespace UnuBattleRods.Items.Currency
 
             public override void AddRecipes()
             {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.Tuna);
-                recipe.SetResult(this, 6);
-                recipe.AddRecipe();
-
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.Salmon);
-                recipe.SetResult(this, 4);
-                recipe.AddRecipe();
-
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.Bass);
-                recipe.SetResult(this, 2);
-                recipe.AddRecipe();
-
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.AtlanticCod);
-                recipe.SetResult(this, 3);
-                recipe.AddRecipe();
-
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.Trout);
-                recipe.SetResult(this, 2);
-                recipe.AddRecipe();
-
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.RedSnapper);
-                recipe.SetResult(this, 5);
-                recipe.AddRecipe();
-
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.GoldenCarp);
-                recipe.SetResult(this, 25);
-                recipe.AddRecipe();
-
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.DoubleCod);
-                recipe.SetResult(this, 6);
-                recipe.AddRecipe();
+                Dictionary<ItemDefinition,int> fishRecipes = ModContent.GetInstance<FishSteakRecipesConfig>().fishRecipes;
+                foreach (ItemDefinition itm in ModContent.GetInstance<FishSteakRecipesConfig>().fishRecipes.Keys)
+                {
+                    ModRecipe recipe = new ModRecipe(mod);
+                    recipe.AddIngredient(itm.Type);
+                    recipe.SetResult(this, fishRecipes[itm]);
+                    recipe.AddRecipe();
+                }
             }
         }
     }

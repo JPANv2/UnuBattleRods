@@ -23,6 +23,8 @@ using UnuBattleRods.NPCs;
 using UnuBattleRods.Projectiles;
 using UnuBattleRods.Projectiles.Bobbers;
 using UnuBattleRods.Buffs.Minion;
+using UnuBattleRods.Items.Currency;
+using UnuBattleRods.Configs;
 
 namespace UnuBattleRods
 {
@@ -41,6 +43,7 @@ namespace UnuBattleRods
 
         public bool beingReeled = false;
         public int multilineFishing = 0;
+        public bool sinkBobber = false;
 
         public int isHooked = 0;
         public int isSealed = 0;
@@ -122,6 +125,12 @@ namespace UnuBattleRods
 
         public bool buddyfish = false;
 
+        public bool fishSlicer = false;
+        public bool sellGate = false;
+
+
+        public int fishedAmount = 0;
+
         public override void ResetEffects()
         {
             buddyfish = false;
@@ -152,6 +161,7 @@ namespace UnuBattleRods
             sizeMultiplierMultiplier = 1.0f;
             beingReeled = false;
             multilineFishing = 0;
+            sinkBobber = false;
             seals = false;
             wormicide = false;
             redirectThorns = false;
@@ -219,23 +229,25 @@ namespace UnuBattleRods
             maxBobbersPerEnemy = -1;
             smartBobberDistribution = false;
             smartBobberRange = 64;
-            fallOnFloor = UnuBattleRods.doesFallOnFloor;
+            fallOnFloor = !ModContent.GetInstance<UnuServerConfig>().dontFallOnFloor;
             fallOnFloorPercentage = 10;
             baitDispersalRange = 0;
             bobbersCatchItems = false;
 
+            fishSlicer = false;
+            sellGate = false;
             base.ResetEffects();
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumCoreDeath)
         {
-            if (UnuBattleRods.startWithRod)
+            if (ModContent.GetInstance<UnuPlayerConfig>().startWithRod)
             {
                 Item rod = new Item();
                 rod.SetDefaults(ModContent.ItemType<WoodenBattlerod>());
                 items.Add(rod);
             }
-            if (UnuBattleRods.startWithBait)
+            if (ModContent.GetInstance<UnuPlayerConfig>().startWithBait)
             {
                 Item bait = new Item();
                 bait.SetDefaults(ModContent.ItemType<PoisonApprenticeBait>());
@@ -942,20 +954,32 @@ namespace UnuBattleRods
         {
             if (junk)
                 return;
-
-            if (player.position.Y >= Main.maxTilesY*0.91f && liquidType == 1 && Main.rand.Next(6) == 0)
-            {
-                caughtType = mod.ItemType("CrustyStar");
-                return;
-            }
-            if (liquidType == 2 && Main.rand.Next(7) == 0)
-            {
-                caughtType = mod.ItemType("HoneyStar");
-                return;
-            }
-
             if (canReplaceFish(caughtType))
             {
+                if (sellGate && ModContent.GetInstance<UnuServerConfig>().noSellItems.Contains(new Terraria.ModLoader.Config.ItemDefinition(caughtType)))
+                {
+                    Item itm = new Item();
+                    itm.SetDefaults(caughtType, false);
+                    if (itm.maxStack == 1)
+                    {
+                        caughtType = ItemID.CopperCoin;
+                        fishedAmount = itm.value / 5;
+                        return;
+                    }
+                }
+
+                if (player.position.Y >= Main.maxTilesY * 0.91f && liquidType == 1 && Main.rand.Next(6) == 0)
+                {
+                    caughtType = mod.ItemType("CrustyStar");
+                    return;
+                }
+                if (liquidType == 2 && Main.rand.Next(7) == 0)
+                {
+                    caughtType = mod.ItemType("HoneyStar");
+                    return;
+                }
+
+
                 if (player.ZoneBeach && liquidType == 0 && Main.rand.Next(9) == 0)
                 {
                     caughtType = mod.ItemType("SeaweedStar");
@@ -979,7 +1003,7 @@ namespace UnuBattleRods
                 if ((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(16) == 0 || (caughtType == ItemID.WoodenCrate && Main.rand.Next(8) == 0))
                 {
                     possibleCrate.AddRange(replaceWithEventCrate(fishingRod, liquidType));
-                    if(possibleCrate.Count > 0)
+                    if (possibleCrate.Count > 0)
                     {
                         caughtType = possibleCrate[Main.rand.Next(possibleCrate.Count)];
                         return;
@@ -996,7 +1020,7 @@ namespace UnuBattleRods
                     }
                 }
 
-                if(player.ZonePeaceCandle && ((maxCrate && Main.rand.Next(10) == 0) || Main.rand.Next(25) == 0))
+                if (player.ZonePeaceCandle && ((maxCrate && Main.rand.Next(10) == 0) || Main.rand.Next(25) == 0))
                 {
                     caughtType = ModContent.ItemType<CritterCrate>();
                     return;
@@ -1007,12 +1031,12 @@ namespace UnuBattleRods
                     caughtType = mod.ItemType("MimicCrate");
                     return;
                 }
-                if(Main.hardMode && (player.ZoneCorrupt || player.ZoneCrimson || player.ZoneHoly) && ((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(12) == 0))
+                if (Main.hardMode && (player.ZoneCorrupt || player.ZoneCrimson || player.ZoneHoly) && ((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(12) == 0))
                 {
                     caughtType = mod.ItemType("SoulCrate");
                     return;
                 }
-                if(((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(6) == 0) && FishWorld.graniteTiles > 75)
+                if (((maxCrate && Main.rand.Next(3) == 0) || Main.rand.Next(6) == 0) && FishWorld.graniteTiles > 75)
                 {
                     caughtType = mod.ItemType("GraniteCrate");
                     return;
@@ -1025,7 +1049,7 @@ namespace UnuBattleRods
                 }
                 if (maxCrate && Main.rand.Next(3) == 0)
                 {
-                    if(Main.rand.Next(30) == 0)
+                    if (Main.rand.Next(30) == 0)
                     {
                         caughtType = ItemID.GoldenCrate;
                         return;
@@ -1121,6 +1145,15 @@ namespace UnuBattleRods
                     }
                     caughtType = ItemID.WoodenCrate;
                     return;
+
+                }
+                if (fishSlicer && !ModContent.GetInstance<FishSteakRecipesConfig>().fishRecipesNotAuto.Contains(new Terraria.ModLoader.Config.ItemDefinition(caughtType)))
+                {
+                    if (ModContent.GetInstance<FishSteakRecipesConfig>().fishRecipes.ContainsKey(new Terraria.ModLoader.Config.ItemDefinition(caughtType)))
+                    {
+                        caughtType = ModContent.ItemType<FishSteaks>();
+                        fishedAmount = ModContent.GetInstance<FishSteakRecipesConfig>().fishRecipes[new Terraria.ModLoader.Config.ItemDefinition(caughtType)];
+                    }
                 }
             }
         }
@@ -1429,13 +1462,11 @@ namespace UnuBattleRods
 
         public static bool canReplaceFish(int fishFound)
         {
-            if (UnuBattleRods.allowFishedItems) {
-                if (UnuBattleRods.fishToReplace.Contains("all"))
+            if (ModContent.GetInstance<UnuServerConfig>().allowFishedItems) {
+                if(ModContent.GetInstance<FishToReplaceConfig>().replaceAllFish)
                     return true;
 
-                Item itm = new Item();
-                itm.SetDefaults(fishFound, true);
-                return UnuBattleRods.fishToReplace.Contains(UnuBattleRods.ItemToTag(itm));
+                return ModContent.GetInstance<FishToReplaceConfig>().fishToReplace.Contains(new Terraria.ModLoader.Config.ItemDefinition(fishFound));
             }
             return false;
         }
@@ -1577,15 +1608,11 @@ namespace UnuBattleRods
         {
             if(Main.netMode == NetmodeID.SinglePlayer)
             {
-                UnuBattleRods.loadConfig();
+               
             }
             else if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 ModPacket pk = mod.GetPacket();
-                pk.Write((byte)14);
-                pk.Send();
-
-                pk = mod.GetPacket();
                 pk.Write((byte)9);
                 pk.Send();
             }else if(Main.netMode == NetmodeID.Server)
@@ -1601,7 +1628,6 @@ namespace UnuBattleRods
                         }
                     }
                 }
-                UnuBattleRods.sendMessage14(player.whoAmI);
             }
         }
 

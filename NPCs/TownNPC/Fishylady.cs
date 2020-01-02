@@ -131,6 +131,17 @@ namespace UnuBattleRods.NPCs.TownNPC
             shop.item[nextSlot].shopCustomPrice = new int?(80);
             shop.item[nextSlot].shopSpecialCurrency = UnuBattleRods.fishSteaksCurrencyID;
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("FishSlicer"));
+            shop.item[nextSlot].shopCustomPrice = new int?(50);
+            shop.item[nextSlot].shopSpecialCurrency = UnuBattleRods.fishSteaksCurrencyID;
+            nextSlot++;
+            if (NPC.downedMoonlord)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("SmartBobbers"));
+                shop.item[nextSlot].shopCustomPrice = new int?(500);
+                shop.item[nextSlot].shopSpecialCurrency = UnuBattleRods.fishSteaksCurrencyID;
+                nextSlot++;
+            }
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<VacuumWire>());
             shop.item[nextSlot].shopCustomPrice = new int?(20);
             shop.item[nextSlot].shopSpecialCurrency = UnuBattleRods.fishSteaksCurrencyID;

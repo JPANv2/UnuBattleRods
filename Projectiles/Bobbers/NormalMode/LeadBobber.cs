@@ -37,8 +37,12 @@ namespace UnuBattleRods.Projectiles.Bobbers.NormalMode
         {
             return Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f), new Color(200, 200, 200, 100));
         }
-
         
+        public override bool PreAI()
+        {
+            Main.player[projectile.owner].GetModPlayer<FishPlayer>().sinkBobber = true;
+            return base.PreAI();
+        }
 
         public override void applyDamageAndDebuffs(NPC npc, Player player)
         {

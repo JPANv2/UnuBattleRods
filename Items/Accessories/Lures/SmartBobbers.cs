@@ -31,7 +31,7 @@ namespace UnuBattleRods.Items.Accessories.Lures
            base.SetDefaults();
            item.value = Item.sellPrice(0, 1, 0, 0);
            item.rare = 6;
-           maxHooking = -1;
+           maxHooking = 0;
         }
 
         public override void UpdateEquip(Player player)

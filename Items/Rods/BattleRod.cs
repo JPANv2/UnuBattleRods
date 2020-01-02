@@ -73,27 +73,41 @@ namespace UnuBattleRods.Items.Rods
             {
                 trueDamage = (damage / lures < 1 ? 1 : damage / lures);
             }
-            if (lures > 1)
-            {
-                if (p.aimBobber)
+            int proj = 0;
+            if (p.aimBobber)
                 {
-                    for (int i = 0; i < lures - 1; i++)
+                    for (int i = 0; i < lures-1; i++)
                     {
-                        Projectile.NewProjectile(position.X + Main.rand.Next(5), position.Y + Main.rand.Next(5), speedVector.X, speedVector.Y, type, trueDamage, knockBack, player.whoAmI);
+                        proj = Projectile.NewProjectile(position.X + Main.rand.Next(5), position.Y + Main.rand.Next(5), speedVector.X, speedVector.Y, type, trueDamage, knockBack, player.whoAmI);
+                        if (p.sinkBobber)
+                        {
+                            Main.projectile[proj].ignoreWater = true;
+                            Main.projectile[proj].wet = false;
+                        }
                     }
                 }
                 else
                 {
-                    for (int i = 1; i < lures; i++)
+                    for (int i = 0; i < lures -1; i++)
                     {
-                        Projectile.NewProjectile(position.X + Main.rand.Next(5), position.Y + Main.rand.Next(5), speedX + Main.rand.Next(lures) - lures / 2, speedY + Main.rand.Next(lures) - lures / 2, type, trueDamage, knockBack, player.whoAmI);
+                        proj = Projectile.NewProjectile(position.X + Main.rand.Next(5), position.Y + Main.rand.Next(5), speedX + Main.rand.Next(lures) - lures / 2, speedY + Main.rand.Next(lures) - lures / 2, type, trueDamage, knockBack, player.whoAmI);
+                        if (p.sinkBobber)
+                        {
+                            Main.projectile[proj].ignoreWater = true;
+                            Main.projectile[proj].wet = false;
+                        }
                     }                    
                 }
                 if (trueDamage * lures < damage)
                 {
                     damage = damage - (trueDamage * (lures - 1));
                 }
-            }
+                proj = Projectile.NewProjectile(position.X + Main.rand.Next(5), position.Y + Main.rand.Next(5), speedX + Main.rand.Next(lures) - lures / 2, speedY + Main.rand.Next(lures) - lures / 2, type, trueDamage, knockBack, player.whoAmI);
+                if (p.sinkBobber)
+                {
+                    Main.projectile[proj].ignoreWater = true;
+                    Main.projectile[proj].wet = false;
+                }
             int baitTotal = getNoOfBaits(p);
             int totalBuffs = getNoOfBuffs(p.player);
             int usedBaitCount = p.getNumberOfBaitDebuffs() + p.getNumberOfBaitBuffs();
@@ -122,7 +136,7 @@ namespace UnuBattleRods.Items.Rods
                             if (Main.netMode != 0)
                                 p.updateBaits(player.whoAmI);
                            
-                            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+                            return false;
                         }
                     }
                 }
@@ -137,7 +151,7 @@ namespace UnuBattleRods.Items.Rods
                         p.updateBaits(player.whoAmI);
                 }
             }
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return false;
         }
 
         public int getNoOfBuffs(Player player)

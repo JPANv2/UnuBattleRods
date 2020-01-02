@@ -89,9 +89,13 @@ namespace UnuBattleRods.Items.Crates
             {
                 possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("DBZMOD:RadiantFragment"));
             }
-            if (ModLoader.GetMod("SacredTools") != null && Main.rand.Next(8) == 0)
+            if (ModLoader.GetMod("SacredTools") != null)
             {
                 possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("SacredTools:FragmentNova"));
+            }
+            if (ModLoader.GetMod("ExpandedSentries") != null)
+            {
+                possibleFragments.Add(UnuBattleRods.getItemTypeFromTag("ExpandedSentries:EclipseFragment"));
             }
 
             player.QuickSpawnItem(possibleFragments[Main.rand.Next(possibleFragments.Count)] , Main.rand.Next(2, 21));

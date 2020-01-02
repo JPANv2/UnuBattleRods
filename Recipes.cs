@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
+using UnuBattleRods.Configs;
 
 namespace UnuBattleRods
 {
@@ -15,7 +16,7 @@ namespace UnuBattleRods
 
         public override bool RecipeAvailable()
         {
-            return !UnuBattleRods.harderLureRecipes && base.RecipeAvailable();
+            return !ModContent.GetInstance<UnuServerConfig>().harderLureRecipes && base.RecipeAvailable();
         }
     }
 
@@ -27,7 +28,7 @@ namespace UnuBattleRods
 
         public override bool RecipeAvailable()
         {
-            return UnuBattleRods.harderLureRecipes && base.RecipeAvailable();
+            return ModContent.GetInstance<UnuServerConfig>().harderLureRecipes && base.RecipeAvailable();
         }
     }
 }

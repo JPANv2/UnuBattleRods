@@ -1,6 +1,7 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
+using System.Collections.Generic;
 
 namespace UnuBattleRods.Items.Crates
 {
@@ -27,25 +28,22 @@ namespace UnuBattleRods.Items.Crates
 
             if(Main.rand.Next(20) == 0)
             {
+                List<int> possibleBrokens = new List<int>();
+                possibleBrokens.Add(ItemID.BrokenHeroSword);
                 if (UnuBattleRods.thoriumPresent)
                 {
-                    switch (Main.rand.Next(4))
-                    {
-                        case 0:
-                            player.QuickSpawnItem(ItemID.BrokenHeroSword, 1);
-                            break;
-                        case 1:
-                        case 2:
-                        case 3:
-                            player.QuickSpawnItem(UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroFragment"), 1);
-                            break;
-                    }
-                }else
-                {
-
-                    player.QuickSpawnItem(ItemID.BrokenHeroSword, 1);
+                    int bhf = UnuBattleRods.getItemTypeFromTag("ThoriumMod:BrokenHeroFragment");
+                    possibleBrokens.Add(bhf);
+                    possibleBrokens.Add(bhf);
+                    possibleBrokens.Add(bhf);
                 }
-
+                if (ModLoader.GetMod("ExpandedSentries") != null)
+                {
+                    int bhs = UnuBattleRods.getItemTypeFromTag("ExpandedSentries:BrokenSentryParts");
+                    possibleBrokens.Add(bhs);
+                    possibleBrokens.Add(bhs);
+                }
+                player.QuickSpawnItem(possibleBrokens[Main.rand.Next(possibleBrokens.Count)], 1);                
             }
             
             base.RightClick(player);
