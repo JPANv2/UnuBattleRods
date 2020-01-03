@@ -50,6 +50,10 @@ namespace UnuBattleRods.Configs
         [Tooltip("Items that the Sell Gate and Killing Gate will not replace with coins.")]
         public List<ItemDefinition> noSellItems = new List<ItemDefinition>();
 
+        [Label("Items that should always be sold")]
+        [Tooltip("Items that the Sell Gate and Killing Gate will replace with coins even if their max stack is not 1.\n\nWarning:Anything added here will take precedence to any other replacing, so if all fish from the replace option are here, no crates will appear.\nSame with Fish Steaks.")]
+        public List<ItemDefinition> forceSellItems = new List<ItemDefinition>();
+
         public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
         {
             return false;

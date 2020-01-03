@@ -954,19 +954,68 @@ namespace UnuBattleRods
         {
             if (junk)
                 return;
+            if (sellGate && !ModContent.GetInstance<UnuServerConfig>().noSellItems.Contains(new Terraria.ModLoader.Config.ItemDefinition(caughtType)))
+            {
+                Item itm = new Item();
+                itm.SetDefaults(caughtType, false);
+                if (itm.maxStack == 1 || ModContent.GetInstance<UnuServerConfig>().forceSellItems.Contains(new Terraria.ModLoader.Config.ItemDefinition(caughtType)))
+                {
+                    caughtType = ItemID.CopperCoin;
+                    if(itm.type == ItemID.BombFish)
+                    {
+                        int num9 = player.FishingLevel();
+                        int minValue = (num9 / 20 + 3) / 2;
+                        int num10 = (num9 / 10 + 6) / 2;
+                        if (Main.rand.Next(50) < num9)
+                        {
+                            num10++;
+                        }
+                        if (Main.rand.Next(100) < num9)
+                        {
+                            num10++;
+                        }
+                        if (Main.rand.Next(150) < num9)
+                        {
+                            num10++;
+                        }
+                        if (Main.rand.Next(200) < num9)
+                        {
+                            num10++;
+                        }
+                        int stack = Main.rand.Next(minValue, num10 + 1);
+                        fishedAmount = (itm.value*stack) / 5;
+                    }
+                    else if (itm.type == ItemID.FrostDaggerfish)
+                    {
+                        int num11 = player.FishingLevel();
+                        int minValue2 = (num11 / 4 + 15) / 2;
+                        int num12 = (num11 / 2 + 30) / 2;
+                        if (Main.rand.Next(50) < num11)
+                        {
+                            num12 += 4;
+                        }
+                        if (Main.rand.Next(100) < num11)
+                        {
+                            num12 += 4;
+                        }
+                        if (Main.rand.Next(150) < num11)
+                        {
+                            num12 += 4;
+                        }
+                        if (Main.rand.Next(200) < num11)
+                        {
+                            num12 += 4;
+                        }
+                        int stack2 = Main.rand.Next(minValue2, num12 + 1);
+                        fishedAmount = (itm.value * stack2) / 5;
+                    }
+                    fishedAmount = itm.value / 5;
+                    return;
+                }
+            }
             if (canReplaceFish(caughtType))
             {
-                if (sellGate && ModContent.GetInstance<UnuServerConfig>().noSellItems.Contains(new Terraria.ModLoader.Config.ItemDefinition(caughtType)))
-                {
-                    Item itm = new Item();
-                    itm.SetDefaults(caughtType, false);
-                    if (itm.maxStack == 1)
-                    {
-                        caughtType = ItemID.CopperCoin;
-                        fishedAmount = itm.value / 5;
-                        return;
-                    }
-                }
+                
 
                 if (player.position.Y >= Main.maxTilesY * 0.91f && liquidType == 1 && Main.rand.Next(6) == 0)
                 {
