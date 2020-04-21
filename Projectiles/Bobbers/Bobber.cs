@@ -294,7 +294,8 @@ namespace UnuBattleRods.Projectiles.Bobbers
         }
         public void doBaseAI()
         {
-            projectile.VanillaAI();
+            
+           // projectile.VanillaAI();
             /*if (Main.player[projectile.owner].GetModPlayer<FishPlayer>().sinkBobber)
             {
                 if (projectile.velocity.Y != 0f)
@@ -978,16 +979,6 @@ namespace UnuBattleRods.Projectiles.Bobbers
                 projectile.tileCollide = true;
                 timeUntilGrab = 60;
                 projectile.netUpdate = true;
-                if (Main.netMode != 0)
-                {
-                    ModPacket pk = mod.GetPacket();
-                    pk.Write((byte)0);
-                    pk.Write((short)-1);
-                    pk.Write((short)projectile.whoAmI);
-                    pk.Write(projectile.Center.X);
-                    pk.Write(projectile.Center.Y);
-                    pk.Send();
-                }
             }
             else
             {
@@ -1296,7 +1287,7 @@ namespace UnuBattleRods.Projectiles.Bobbers
 
         public override void Kill(int timeLeft)
         {
-            if(npcIndex >= 0 && Main.netMode != 0)
+            if (npcIndex >= 0 && Main.netMode != 0)
             {
                 breakFree();
                // NetMessage.SendData(27, -1, -1, null, projectile.whoAmI, 0f, 0f, 0f, 0, 0, 0);
