@@ -18,7 +18,7 @@ namespace UnuBattleRods
         public static int marbleTiles = 0;
         public static int graniteTiles = 0;
 
-        public static bool downedCooler = false;
+        public bool downedCooler = false;
 
         public override void PostUpdate()
         {
@@ -122,7 +122,9 @@ namespace UnuBattleRods
         {
             TagCompound ans = new TagCompound();
             if (downedCooler)
-                ans["downedCooler"] = downedCooler;
+                ans["downedCooler"] = (int)1;
+            else
+                ans["downedCooler"] = (int)0;
 
             return ans;
         }
@@ -130,7 +132,19 @@ namespace UnuBattleRods
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("downedCooler"))
-                downedCooler = (bool)tag["downedCooler"];
+            {
+                try
+                {
+                    if((int)(tag["downedCooler"]) == 1)
+                        downedCooler = true;
+                    else
+                        downedCooler = false;
+                }
+                catch(InvalidCastException ex)
+                {
+                    downedCooler = false;
+                }
+            }
             return;
         }
 

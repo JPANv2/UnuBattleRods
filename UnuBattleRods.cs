@@ -99,7 +99,7 @@ namespace UnuBattleRods
                 parameters[2] = ModContent.NPCType<CoolerBoss>();
                 parameters[3] = this;
                 parameters[4] = "Cooler";
-                parameters[5] = (Func<bool>)(() => FishWorld.downedCooler);
+                parameters[5] = (Func<bool>)(() => ModContent.GetInstance<FishWorld>().downedCooler);
                 parameters[6] = ModContent.ItemType<IceyWorm>();
                 parameters[7] = 0;
                 parameters[8] = new List<int>

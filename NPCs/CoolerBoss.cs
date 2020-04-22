@@ -165,7 +165,7 @@ namespace UnuBattleRods.NPCs
 
         public override void NPCLoot()
         {
-            FishWorld.downedCooler = true;
+            ModContent.GetInstance<FishWorld>().downedCooler = true;
             if (!Main.expertMode)
             {
                 Item.NewItem((int)base.npc.position.X, (int)base.npc.position.Y, base.npc.width, base.npc.height, ItemID.Hook, Main.rand.Next(1, 4), false, 0, false, false);
