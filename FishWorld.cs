@@ -130,7 +130,7 @@ namespace UnuBattleRods
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("downedCooler"))
-                downedCooler = true;
+                downedCooler = (bool)tag["downedCooler"];
             return;
         }
 
