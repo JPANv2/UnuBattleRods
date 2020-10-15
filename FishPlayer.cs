@@ -236,6 +236,10 @@ namespace UnuBattleRods
 
             fishSlicer = false;
             sellGate = false;
+            if(player.HeldItem.modItem != null && player.HeldItem.modItem is BattleRod)
+            {
+                player.HeldItem.autoReuse = false;
+            }
             base.ResetEffects();
         }
 

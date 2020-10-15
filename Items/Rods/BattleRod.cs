@@ -32,6 +32,7 @@ namespace UnuBattleRods.Items.Rods
             base.item.rare = 1;
             base.item.fishingPole = 5;
             base.item.value = Item.buyPrice(0,0,0,50);
+            base.item.autoReuse = false;
             
         }
 
