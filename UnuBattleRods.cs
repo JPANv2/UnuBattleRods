@@ -23,7 +23,7 @@ using UnuBattleRods.Projectiles.Bobbers;
 
 namespace UnuBattleRods
 {
-    public class UnuBattleRods : Mod
+    public partial class UnuBattleRods : Mod
     {
         public static string GithubUserName { get { return "jpanv2"; } }
         public static string GithubProjectName { get { return "UnuBattleRods"; } }
@@ -116,18 +116,13 @@ namespace UnuBattleRods
                 parameters[9] = "Place a [i:" + this.ItemType("IceyWorm") + "] alone in a chest. Warning: Difficulty increases in hardmode.";
                 parameters[10] = "The {0} defeated all players!";
 
-                /*OLD*/
-                /*
-               object[] parameters = new object[5];
-               parameters[0] = "AddBossWithInfo";
-               parameters[1] = "Cooler";
-               parameters[2] = 5.39f;
-               parameters[3] = new Func<bool>(() => FishWorld.downedCooler);
-               parameters[4] = "Place a [i:" + this.ItemType("IceyWorm") + "] alone in a chest. Warning: Difficulty increases in hardmode.";
-               */
+                
                 bosses.Call(parameters);
             }
             thoriumPresent = ModLoader.GetMod("ThoriumMod") != null;
+
+            AddPartSupport();
+
            
         }
         public override void PostAddRecipes()
